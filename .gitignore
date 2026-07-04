@@ -1,0 +1,6 @@
+.env
+.venv
+.idea
+*.pyc
+__pycache__
+.vercel

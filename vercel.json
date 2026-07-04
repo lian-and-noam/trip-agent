@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "api/execute.py", "use": "@vercel/python", "config": { "includeFiles": ["agent/**"] } },
+    { "src": "api/agent_info.py", "use": "@vercel/python" },
+    { "src": "api/team_info.py", "use": "@vercel/python" },
+    { "src": "api/model_architecture.py", "use": "@vercel/python", "config": { "includeFiles": ["architecture.png"] } },
+    { "src": "index.html", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "api/$1.py" },
+    { "src": "/", "dest": "index.html" }
+  ]
+}
