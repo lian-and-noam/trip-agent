@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Trip Planning Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300;400;500;600&display=block" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script id="tailwind-config">try{
+  tailwind.config = {
+    darkMode: "class",
+    theme: { extend: {
+      colors: {
+        primary: "#00658b", secondary: "#E2725B", surface: "#f8f9ff",
+        "surface-container": "#f0f4fd", "primary-container-tint": "#d9edf5",
+        "on-surface": "#171c22",
+        "on-surface-variant": "#40484e", outline: "#70787f", "outline-variant": "#bfc7cf"
+      },
+      borderRadius: { DEFAULT:"0.5rem", lg:"0.75rem", xl:"1rem", "2xl":"1.5rem", "3xl":"2rem" },
+      fontFamily: { sans: ["Plus Jakarta Sans","sans-serif"] }
+    } }
+  }
+}catch(_e){}</script>
+<style>
+  .no-scrollbar::-webkit-scrollbar { display:none; }
+  .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+  /* Markdown rendered inside agent bubbles */
+  .md { font-size:14px; line-height:1.6; }
+  .md h1,.md h2,.md h3 { font-weight:700; margin:.6em 0 .3em; line-height:1.25; }
+  .md h1 { font-size:1.15rem; } .md h2 { font-size:1.05rem; color:#00658b; } .md h3 { font-size:.95rem; }
+  .md p { margin:.4em 0; } .md ul,.md ol { margin:.4em 0; padding-left:1.2em; } .md li { margin:.15em 0; }
+  .md strong { font-weight:700; }
+  .md a { color:#00658b; text-decoration:underline; }
+  .md code { background:#eef2fb; padding:1px 5px; border-radius:5px; font-size:.85em; }
+  .md pre { background:#0f172a; color:#cbd5e1; padding:12px; border-radius:10px; overflow:auto; font-size:12px; }
+  .md pre code { background:none; padding:0; color:inherit; }
+  .md hr { border:0; border-top:1px solid #e2e8f0; margin:.7em 0; }
+  .tag-pill { border:1px solid transparent; transition:transform .12s ease; }
+  .tag-pill:hover { transform:translateY(-1px); }
+</style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden bg-surface font-sans text-on-surface">
+
+<!-- Header -->
+<header class="px-6 py-3 flex items-center justify-between shrink-0 shadow-md z-10 h-16 bg-gradient-to-r from-primary to-secondary">
+  <div class="flex items-center gap-3">
+    <div class="w-9 h-9 bg-white/20 backdrop-blur-md rounded-lg flex items-center justify-center text-white">
+      <span class="material-symbols-outlined">travel_explore</span>
+    </div>
+    <span class="text-white font-bold tracking-wide">Trip Planning Agent</span>
+  </div>
+  <button class="text-sm font-semibold px-5 py-2 border rounded-full transition-all border-white/70 text-white bg-white/10 hover:bg-white hover:text-secondary" onclick="resetChat()">
+    New Trip
+  </button>
+</header>
+
+<!-- Progress Tracker (driven by the profile the backend extracts) -->
+<nav class="bg-white border-b border-outline-variant px-6 py-2 shrink-0 overflow-x-auto">
+  <div class="max-w-3xl mx-auto flex items-center justify-between gap-4">
+    <div class="flex flex-col items-center gap-1 group" id="step-days">
+      <div class="w-10 h-10 rounded-full border-2 border-outline-variant flex items-center justify-center text-outline group-[.active]:bg-secondary group-[.active]:border-secondary group-[.active]:text-white group-[.done]:bg-primary group-[.done]:border-primary group-[.done]:text-white transition-colors">
+        <span class="material-symbols-outlined text-xl">calendar_today</span>
+      </div>
+      <span class="text-[10px] font-bold uppercase tracking-wider text-outline group-[.active]:text-secondary group-[.done]:text-primary">Days</span>
+    </div>
+    <div class="h-px bg-outline-variant flex-1 mb-4 opacity-50"></div>
+    <div class="flex flex-col items-center gap-1 group" id="step-dest">
+      <div class="w-10 h-10 rounded-full border-2 border-outline-variant flex items-center justify-center text-outline group-[.active]:bg-secondary group-[.active]:border-secondary group-[.active]:text-white group-[.done]:bg-primary group-[.done]:border-primary group-[.done]:text-white transition-colors">
+        <span class="material-symbols-outlined text-xl">map</span>
+      </div>
+      <span class="text-[10px] font-bold uppercase tracking-wider text-outline group-[.active]:text-secondary group-[.done]:text-primary">Dest</span>
+    </div>
+    <div class="h-px bg-outline-variant flex-1 mb-4 opacity-50"></div>
+    <div class="flex flex-col items-center gap-1 group" id="step-travelers">
+      <div class="w-10 h-10 rounded-full border-2 border-outline-variant flex items-center justify-center text-outline group-[.active]:bg-secondary group-[.active]:border-secondary group-[.active]:text-white group-[.done]:bg-primary group-[.done]:border-primary group-[.done]:text-white transition-colors">
+        <span class="material-symbols-outlined text-xl">group</span>
+      </div>
+      <span class="text-[10px] font-bold uppercase tracking-wider text-outline group-[.active]:text-secondary group-[.done]:text-primary">Travelers</span>
+    </div>
+    <div class="h-px bg-outline-variant flex-1 mb-4 opacity-50"></div>
+    <div class="flex flex-col items-center gap-1 group" id="step-interests">
+      <div class="w-10 h-10 rounded-full border-2 border-outline-variant flex items-center justify-center text-outline group-[.active]:bg-secondary group-[.active]:border-secondary group-[.active]:text-white group-[.done]:bg-primary group-[.done]:border-primary group-[.done]:text-white transition-colors">
+        <span class="material-symbols-outlined text-xl">favorite</span>
+      </div>
+      <span class="text-[10px] font-bold uppercase tracking-wider text-outline group-[.active]:text-secondary group-[.done]:text-primary">Interests</span>
+    </div>
+    <div class="h-px bg-outline-variant flex-1 mb-4 opacity-50"></div>
+    <div class="flex flex-col items-center gap-1 group" id="step-budget">
+      <div class="w-10 h-10 rounded-full border-2 border-outline-variant flex items-center justify-center text-outline group-[.active]:bg-secondary group-[.active]:border-secondary group-[.active]:text-white group-[.done]:bg-primary group-[.done]:border-primary group-[.done]:text-white transition-colors">
+        <span class="material-symbols-outlined text-xl">payments</span>
+      </div>
+      <span class="text-[10px] font-bold uppercase tracking-wider text-outline group-[.active]:text-secondary group-[.done]:text-primary">Budget</span>
+    </div>
+  </div>
+</nav>
+
+<!-- Main -->
+<main class="flex-1 flex flex-col md:flex-row overflow-hidden">
+  <!-- Chat Column -->
+  <section class="flex-1 flex flex-col min-w-0 bg-surface relative">
+    <div class="flex-1 overflow-y-auto p-4 space-y-4 flex flex-col scroll-smooth" id="chat"></div>
+
+    <!-- Input Area -->
+    <div class="p-3 md:p-4 border-t border-outline-variant shrink-0 bg-white/80 backdrop-blur-md">
+      <div class="max-w-3xl mx-auto space-y-2">
+        <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+          <span class="text-[10px] font-bold uppercase text-outline flex items-center pr-1">Quick Add:</span>
+          <button onclick="addChip('low')" class="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant hover:border-secondary transition-colors text-on-surface-variant">$ Low</button>
+          <button onclick="addChip('mid-range')" class="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant hover:border-secondary transition-colors text-on-surface-variant">$$ Mid-range</button>
+          <button onclick="addChip('luxury')" class="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant hover:border-secondary transition-colors text-on-surface-variant">$$$ Luxury</button>
+          <button onclick="addChip('couple')" class="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant hover:border-secondary transition-colors text-on-surface-variant">Couple</button>
+          <button onclick="addChip('family')" class="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant hover:border-secondary transition-colors text-on-surface-variant">Family</button>
+          <button onclick="addChip('solo')" class="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant hover:border-secondary transition-colors text-on-surface-variant">Solo</button>
+        </div>
+        <div class="relative group">
+          <textarea class="w-full bg-white border-2 border-outline-variant/30 rounded-2xl p-4 pr-16 focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all placeholder:text-outline/40 resize-none text-on-surface" id="prompt" rows="2" placeholder="e.g. 5 days in Lisbon for a couple, mid-range budget, we love food and viewpoints — must see Belém."></textarea>
+          <button class="absolute bottom-3 right-3 bg-primary text-white p-2.5 rounded-xl hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/20 transition-all" id="send" onclick="send()" aria-label="Run Agent" title="Run Agent">
+            <span class="material-symbols-outlined text-2xl">send</span>
+          </button>
+        </div>
+        <div class="flex justify-between items-center px-1">
+          <span class="text-[11px] text-outline font-medium" id="status"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Side Panel: execution trace (steps) -->
+  <aside class="w-full md:w-80 lg:w-96 border-l border-outline-variant flex flex-col shrink-0 bg-surface-container/50 overflow-hidden">
+    <div class="p-5 border-b border-outline-variant bg-white flex items-center justify-between shrink-0">
+      <h2 class="text-xs font-extrabold uppercase tracking-[0.2em] text-outline">Execution Trace</h2>
+      <span class="material-symbols-outlined text-outline/50 text-xl">insights</span>
+    </div>
+    <div class="flex-1 overflow-y-auto p-5" id="steps"></div>
+    <div class="p-4 border-t border-outline-variant bg-white">
+      <button class="w-full flex items-center justify-between px-3 py-2 text-xs font-bold text-outline uppercase tracking-wider hover:bg-surface-container rounded-lg transition-colors" onclick="toggleDevDetails()">
+        <span>Developer Details (module · prompt · response)</span>
+        <span class="material-symbols-outlined text-sm" id="devToggleIcon">expand_less</span>
+      </button>
+      <div id="devDetails" class="hidden mt-3 max-h-56 overflow-y-auto bg-slate-900 text-teal-300 p-3 rounded-lg text-[10px] font-mono leading-relaxed whitespace-pre-wrap"></div>
+    </div>
+  </aside>
+</main>
+
+<script>
+  const esc = s => String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const pretty = v => typeof v === 'string' ? v : JSON.stringify(v, null, 2);
+  const md = t => (window.marked ? marked.parse(t) : esc(t).replace(/\n/g,'<br>'));
+
+  // Stateless backend: the browser owns the conversation and replays the whole
+  // transcript in `prompt` on every call. history = [{role:'user'|'agent', text}]
+  let history = [];
+
+  const EMPTY_STATE = `
+    <div class="flex-1 flex flex-col items-center justify-center text-center">
+      <div class="max-w-3xl w-full">
+        <div class="relative rounded-3xl overflow-hidden shadow-2xl group mb-6">
+          <img alt="Travel Destinations Collage" class="w-full object-cover h-64" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6l-Z3e-Ts5pL1Q7vMpSyg1lEmRtHY-FDT6J5bRZ6rQGa4Kq9F8_KAUn8dSlgYxIKJ8T14uVKLvIMTbI9liipWykX0nCE58R5KN6kZN4tjmS5zXLZDcZosRLZjY7HeGAd61LrqMSwkE2E-924_X1Rt33MVcFvUSTznE4GLHwc1vx0-5dnoiW9ahTPUcsif1ce2mVKn9MXPMcjjGJLqz657txSpIfKUq_jJ0JCWBc5iSdWgUtIpCkImRA">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-end p-6">
+            <h2 class="text-white text-4xl font-bold self-end">Where are we traveling?</h2>
+          </div>
+        </div>
+        <div class="bg-white border border-outline-variant rounded-2xl p-4 text-left space-y-3">
+          <div class="flex items-center gap-3 flex-wrap">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-primary shrink-0">Required</span>
+            <div class="flex gap-1.5 flex-wrap">
+              <span class="tag-pill bg-primary-container-tint text-primary text-[11px] px-3 py-1 rounded-lg font-semibold">Days</span>
+              <span class="tag-pill bg-primary-container-tint text-primary text-[11px] px-3 py-1 rounded-lg font-semibold">Destination</span>
+              <span class="tag-pill bg-primary-container-tint text-primary text-[11px] px-3 py-1 rounded-lg font-semibold">Travelers</span>
+              <span class="tag-pill bg-primary-container-tint text-primary text-[11px] px-3 py-1 rounded-lg font-semibold">Interests</span>
+              <span class="tag-pill bg-primary-container-tint text-primary text-[11px] px-3 py-1 rounded-lg font-semibold">Budget</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 flex-wrap">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-outline shrink-0">Optional</span>
+            <div class="flex gap-1.5 flex-wrap">
+              <span class="tag-pill bg-surface-container text-on-surface-variant text-[11px] px-3 py-1 rounded-lg font-semibold">Dates / season</span>
+              <span class="tag-pill bg-surface-container text-on-surface-variant text-[11px] px-3 py-1 rounded-lg font-semibold">Departure city</span>
+              <span class="tag-pill bg-surface-container text-on-surface-variant text-[11px] px-3 py-1 rounded-lg font-semibold">Dietary</span>
+              <span class="tag-pill bg-surface-container text-on-surface-variant text-[11px] px-3 py-1 rounded-lg font-semibold">Walking / mobility</span>
+              <span class="tag-pill bg-surface-container text-on-surface-variant text-[11px] px-3 py-1 rounded-lg font-semibold">Accessibility</span>
+              <span class="tag-pill bg-surface-container text-on-surface-variant text-[11px] px-3 py-1 rounded-lg font-semibold">Must-sees / avoid</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  function addChip(val) {
+    const ta = document.getElementById('prompt');
+    const current = ta.value.trim();
+    ta.value = current ? `${current}, ${val}` : val;
+    ta.focus();
+    ta.setSelectionRange(ta.value.length, ta.value.length);
+  }
+
+  function toggleDevDetails() {
+    const el = document.getElementById('devDetails');
+    const icon = document.getElementById('devToggleIcon');
+    el.classList.toggle('hidden');
+    icon.textContent = el.classList.contains('hidden') ? 'expand_less' : 'expand_more';
+  }
+
+  // The backend prepends a "> ⚠️ …" blockquote when a plan is delivered with caveats.
+  function splitCaveats(text) {
+    if (!text || !text.startsWith('> ⚠️')) return { banner: '', body: text };
+    const lines = text.split('\n'); const banner = []; let i = 0;
+    for (; i < lines.length; i++) {
+      if (lines[i].startsWith('>')) banner.push(lines[i].replace(/^>\s?/, ''));
+      else break;
+    }
+    return { banner: banner.join('\n'), body: lines.slice(i).join('\n').replace(/^\n+/, '') };
+  }
+
+  function renderChat() {
+    const chat = document.getElementById('chat');
+    if (!history.length) { chat.innerHTML = EMPTY_STATE; return; }
+    chat.innerHTML = '';
+    history.forEach(m => {
+      const wrap = document.createElement('div');
+      wrap.className = 'flex gap-3 ' + (m.role === 'user' ? 'flex-row-reverse' : 'flex-row');
+      if (m.role === 'agent') {
+        const { banner, body } = splitCaveats(m.text || '');
+        wrap.innerHTML = `
+          <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 shadow-md">
+            <span class="material-symbols-outlined text-white text-lg">concierge</span>
+          </div>
+          <div class="max-w-[85%] space-y-1">
+            <span class="text-[10px] font-bold text-outline uppercase tracking-widest px-1">Concierge</span>
+            <div class="bg-white border border-outline-variant/30 rounded-xl rounded-tl-sm p-4 shadow-sm">
+              ${banner ? `<div class="mb-2 rounded-lg bg-amber-50 border border-amber-300 text-amber-800 text-xs p-2 whitespace-pre-wrap">${esc(banner)}</div>` : ''}
+              <div class="md">${md(body || '_(empty response)_')}</div>
+            </div>
+          </div>`;
+      } else {
+        wrap.innerHTML = `
+          <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center shrink-0 shadow-md">
+            <span class="material-symbols-outlined text-white text-lg">person</span>
+          </div>
+          <div class="max-w-[85%] space-y-1 text-right">
+            <span class="text-[10px] font-bold text-outline uppercase tracking-widest px-1">You</span>
+            <div class="bg-primary text-white rounded-xl rounded-tr-sm p-4 shadow-sm text-sm leading-relaxed text-left whitespace-pre-wrap">${esc(m.text)}</div>
+          </div>`;
+      }
+      chat.appendChild(wrap);
+    });
+    // Open the generated map links in a new tab.
+    chat.querySelectorAll('.md a').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  const MODULE_ICON = {
+    'Conversational Intake':'forum', 'Preference Profiler':'person_search',
+    'ReAct Planner':'route', 'Reflection Layer':'fact_check', 'Output Formatter':'description'
+  };
+
+  // Render the real steps: timeline (module names) + full module/prompt/response in dev panel.
+  function renderSteps(steps) {
+    const stepsEl = document.getElementById('steps');
+    const devEl = document.getElementById('devDetails');
+    if (!steps || !steps.length) {
+      stepsEl.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-center space-y-3 opacity-40">
+        <span class="material-symbols-outlined text-5xl">manage_search</span>
+        <p class="text-xs font-medium max-w-[160px]">The agent's steps for the latest turn will appear here.</p></div>`;
+      devEl.textContent = 'Waiting for execution data…';
+      return;
+    }
+    stepsEl.innerHTML = ''; devEl.innerHTML = '';
+    steps.forEach((s, i) => {
+      const last = i === steps.length - 1;
+      const card = document.createElement('div');
+      card.className = 'flex gap-3 relative';
+      card.innerHTML = `
+        <div class="flex flex-col items-center shrink-0">
+          <div class="w-8 h-8 rounded-full bg-white border-2 border-primary flex items-center justify-center text-primary z-10">
+            <span class="material-symbols-outlined text-lg">${MODULE_ICON[s.module] || 'settings'}</span>
+          </div>
+          ${last ? '' : '<div class="w-0.5 bg-outline-variant flex-1 my-1 min-h-[16px]"></div>'}
+        </div>
+        <div class="flex-1 pt-1 pb-4">
+          <h4 class="text-xs font-bold text-on-surface">${esc(s.module || 'Step')}</h4>
+          <p class="text-[11px] text-outline mt-0.5 font-medium">Step ${i + 1} of ${steps.length}</p>
+        </div>`;
+      stepsEl.appendChild(card);
+
+      const block = document.createElement('div');
+      block.className = 'mb-3 border-b border-white/10 pb-2';
+      block.innerHTML =
+        `<div class="text-orange-300 mb-1"># Step ${i + 1}: ${esc(s.module || '')}</div>` +
+        `<div class="text-slate-400">prompt:</div><div class="opacity-80 mb-1">${esc(pretty(s.prompt))}</div>` +
+        `<div class="text-slate-400">response:</div><div class="opacity-80">${esc(pretty(s.response))}</div>`;
+      devEl.appendChild(block);
+    });
+  }
+
+  // ---- Progress tracker: driven by the profile/missing fields the backend reports ----
+  const FIELD_TO_STEP = { days:'step-days', destination:'step-dest', group:'step-travelers',
+                          style:'step-interests', budget:'step-budget' };
+  const REQUIRED = ['days','destination','group','style','budget'];
+
+  function deriveProfileState(steps) {
+    let profile = null, missing = null;
+    (steps || []).forEach(s => {
+      const r = s.response || {};
+      if (s.module === 'Preference Profiler' && r && ('destination' in r || 'days' in r)) profile = r;
+      if (s.module === 'Conversational Intake') {
+        if (r.profile) profile = r.profile;
+        if (Array.isArray(r.missing)) missing = r.missing;
+      }
+    });
+    return { profile, missing };
+  }
+
+  function updateProgress(steps) {
+    const { profile, missing } = deriveProfileState(steps);
+    let firstUnfilled = null;
+    REQUIRED.forEach(f => {
+      let filled = false;
+      if (profile) {
+        const v = profile[f];
+        filled = f === 'days' ? Number(v) > 0 : (typeof v === 'string' ? v.trim().length > 0 : !!v);
+      } else if (missing) {
+        filled = !missing.includes(f);
+      }
+      const el = document.getElementById(FIELD_TO_STEP[f]);
+      el.classList.toggle('done', filled);
+      el.classList.remove('active');
+      if (!filled && !firstUnfilled) firstUnfilled = f;
+    });
+    if (firstUnfilled) document.getElementById(FIELD_TO_STEP[firstUnfilled]).classList.add('active');
+  }
+
+  function transcript() {
+    return history.map(m => (m.role === 'user' ? 'User: ' : 'Agent: ') + m.text).join('\n');
+  }
+
+  function resetChat() {
+    history = [];
+    renderChat();
+    renderSteps([]);
+    document.getElementById('status').textContent = '';
+    document.getElementById('prompt').value = '';
+    document.querySelectorAll('nav .group').forEach(g => g.classList.remove('active', 'done'));
+    document.getElementById('step-days').classList.add('active');
+  }
+
+  async function send() {
+    const ta = document.getElementById('prompt');
+    const text = ta.value.trim();
+    if (!text) return;
+    const btn = document.getElementById('send');
+    const st = document.getElementById('status');
+
+    history.push({ role: 'user', text });
+    renderChat();
+    ta.value = '';
+    btn.disabled = true;
+    st.innerHTML = `<span class="text-primary font-bold italic animate-pulse">Concierge is thinking…</span>`;
+
+    try {
+      const r = await fetch('/api/execute', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: transcript() }),   // entire history; backend stays stateless
+      });
+      const data = await r.json();
+      const steps = data.steps || [];
+      if (data.status !== 'ok') {
+        history.push({ role: 'agent', text: '**Error:** ' + (data.error || 'unknown error') });
+      } else {
+        history.push({ role: 'agent', text: data.response || '(empty response)' });
+      }
+      renderChat();
+      renderSteps(steps);
+      updateProgress(steps);
+      st.textContent = `Done — ${steps.length} step(s) this turn.`;
+    } catch (e) {
+      history.push({ role: 'agent', text: '**Request failed:** ' + e.message });
+      renderChat();
+      st.textContent = '';
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  // Enter sends; Shift+Enter inserts a newline.
+  document.getElementById('prompt').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  });
+
+  // Initialize
+  renderChat();
+  renderSteps([]);
+  document.getElementById('step-days').classList.add('active');
+</script>
+</body>
+</html>
