@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Lint (error-level only)
+        run: ruff check --select E9,F63,F7,F82 .
+
+      - name: Unit tests + agent evals
+        env:
+          # Tests mock the LLM boundary; these are dummy placeholders so nothing touches a real key.
+          LLMOD_API_KEY: test-key
+          LLMOD_BASE_URL: https://example.invalid/v1
+          LLMOD_MODEL: test-model
+        run: pytest
+
+# NOTE: Deployment is handled by Vercel's Git integration (Preview + Production),
+# so there is no deploy job here — CI only gates correctness before merge.
