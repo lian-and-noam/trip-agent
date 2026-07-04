@@ -1,0 +1,6 @@
+# Development/CI dependencies. Installs the runtime deps plus the test/lint tools.
+-r requirements.txt
+pytest>=8,<9
+ruff>=0.6
+# Only needed to regenerate architecture.png via scripts/make_architecture.py.
+matplotlib>=3.8
