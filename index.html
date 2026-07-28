@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Trip Planning Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300;400;500;600&display=block" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<script id="tailwind-config">try{
+  tailwind.config = {
+    darkMode: "class",
+    theme: { extend: {
+      colors: {
+        primary: "#00658b", secondary: "#E2725B", surface: "#f8f9ff",
+        "surface-container": "#f0f4fd", "primary-container-tint": "#d9edf5",
+        "on-surface": "#171c22",
+        "on-surface-variant": "#40484e", outline: "#70787f", "outline-variant": "#bfc7cf"
+      },
+      borderRadius: { DEFAULT:"0.5rem", lg:"0.75rem", xl:"1rem", "2xl":"1.5rem", "3xl":"2rem" },
+      fontFamily: { sans: ["Plus Jakarta Sans","sans-serif"] }
+    } }
+  }
+}catch(_e){}</script>
+<style>
+  .no-scrollbar::-webkit-scrollbar { display:none; }
+  .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+  /* Fallback for the one utility class we toggle from JS. Tailwind defines .hidden too, but
+     it arrives from a CDN — if that request fails, hidden elements would otherwise render. */
+  .hidden { display:none; }
+  /* Markdown rendered inside agent bubbles */
+  .md { font-size:14px; line-height:1.6; }
+  .md h1,.md h2,.md h3 { font-weight:700; margin:.6em 0 .3em; line-height:1.25; }
+  .md h1 { font-size:1.15rem; } .md h2 { font-size:1.05rem; color:#00658b; } .md h3 { font-size:.95rem; }
+  .md p { margin:.4em 0; }
+  .md ul, .md ol { margin:.4em 0; padding-left:1.3em; }
+  .md ul { list-style:disc outside; }
+  .md ol { list-style:decimal outside; }
+  .md li { margin:.15em 0; display:list-item; }
+  .md li::marker { color:#00658b; }
+  /* Itinerary items are one bullet each; a little air between them makes the times scannable. */
+  .md > ul > li { margin:.5em 0; }
+  .md strong { font-weight:700; }
+  .md a { color:#00658b; text-decoration:underline; }
+  /* A bare URL is one long unbreakable "word". Without this it overflows the bubble and
+     spills across the page — the formatter is told not to emit them, but this is the
+     backstop for when it does. */
+  .md, .md a, .md p, .md li { overflow-wrap:anywhere; word-break:break-word; }
+  .md code { background:#eef2fb; padding:1px 5px; border-radius:5px; font-size:.85em; }
+  .md pre { background:#0f172a; color:#cbd5e1; padding:12px; border-radius:10px; overflow:auto; font-size:12px; }
+  .md pre code { background:none; padding:0; color:inherit; }
+  .md hr { border:0; border-top:1px solid #e2e8f0; margin:.7em 0; }
+  .banner-list { list-style:disc outside; padding-left:1.25rem; margin:0; }
+  .banner-list li { display:list-item; }
+  /* Planning loader: a plane orbiting a dashed circle. Motion is pure CSS. */
+  /* The dial is sized and centred in plain CSS, not Tailwind utilities: the orbit radius
+     below has to match the ring radius exactly, and that equality should not depend on a
+     CDN stylesheet having loaded. */
+  /* The header carried z-10, which made it a stacking context and trapped the currency
+     dropdown beneath the execution-trace panel. Set in plain CSS so the fix does not
+     depend on the Tailwind CDN having loaded. */
+  header { position:relative; z-index:50; }
+  #curMenu { z-index:100; }
+  /* Large view: resizable by drag (native handle) and by the preset buttons. min/max keep
+     it usable — a dialog dragged to 40px wide cannot be recovered without reopening. */
+  #bigView { width:70vw; height:80vh; max-width:96vw; max-height:94vh;
+             min-width:320px; min-height:240px; resize:both; overflow:hidden; }
+  .plane-dial  { position:relative; width:48px; height:48px; }   /* ring radius = 24px */
+  .plane-dial > .orbit-ring,
+  .plane-dial > .plane-hub { position:absolute; inset:0; }
+  .plane-hub   { display:flex; align-items:center; justify-content:center; }
+  @keyframes orbit { from { transform: rotate(0deg) translateX(24px); }
+                     to   { transform: rotate(360deg) translateX(24px); } }
+  @keyframes trail { 0%,100% { opacity:.25; } 50% { opacity:.6; } }
+  .plane-orbit { animation: orbit 2.6s linear infinite; transform-origin: center; }
+  /* Material's "flight" glyph points north. Inside .plane-orbit the tangent of the (clockwise)
+     orbit is always +y in the rotated frame, so 180deg puts the nose along the direction of
+     travel rather than pointing out from the centre. */
+  .plane-nose  { display:block; transform: rotate(180deg); }
+  .orbit-ring  { animation: trail 2.6s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .plane-orbit, .orbit-ring { animation: none; } }
+  /* The label must sit on the SAME line as the first pill and stay there when the pills
+     wrap onto a second row. Pinned in plain CSS so it does not depend on the Tailwind CDN. */
+  .pill-row { display:flex; align-items:flex-start; gap:.75rem; }
+  .pill-row > .pill-label { flex:0 0 auto; padding-top:.25rem; }
+  .pill-row > .pill-set { display:flex; flex-wrap:nowrap; gap:.375rem; min-width:0;
+                          overflow-x:auto; scrollbar-width:none; }
+  .pill-row > .pill-set::-webkit-scrollbar { display:none; }
+  .pill-row .tag-pill { white-space:nowrap; flex:0 0 auto; }
+  .tag-pill { border:1px solid transparent; transition:transform .12s ease; }
+  .tag-pill:hover { transform:translateY(-1px); }
+</style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden bg-surface font-sans text-on-surface">
+
+<!-- Header -->
+<header class="px-6 py-3 flex items-center justify-between shrink-0 shadow-md z-50 h-16 bg-gradient-to-r from-primary to-secondary">
+  <div class="flex items-center gap-3">
+    <div class="w-9 h-9 bg-white/20 backdrop-blur-md rounded-lg flex items-center justify-center text-white">
+      <span class="material-symbols-outlined">travel_explore</span>
+    </div>
+    <span class="text-white font-bold tracking-wide">Trip Planning Agent</span>
+  </div>
+  <div class="flex items-center gap-3">
+    <!-- Currency lives in the header so it stays reachable after the intake bar retires. -->
+    <div class="relative">
+      <button class="flex items-center gap-1 text-sm font-semibold px-3 py-2 border rounded-full transition-all border-white/40 text-white bg-white/10 hover:bg-white/20"
+              onclick="toggleCurrencyMenu()" id="curToggle" aria-haspopup="true" aria-expanded="false" title="Change currency">
+        <span class="text-base font-bold leading-none" id="curSymbol">€</span>
+        <span id="curLabel">EUR</span>
+        <span class="material-symbols-outlined text-base">expand_more</span>
+      </button>
+      <div class="hidden absolute right-0 mt-2 w-60 bg-white rounded-xl shadow-2xl border border-outline-variant p-2 z-50" id="curMenu" style="z-index:100">
+        <div class="grid grid-cols-2 gap-1">
+          <button class="cur-btn flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-colors" data-cur="EUR" onclick="setCurrency('EUR')"><span>Euro</span><span class="text-base">€</span></button>
+          <button class="cur-btn flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-colors" data-cur="USD" onclick="setCurrency('USD')"><span>Dollar</span><span class="text-base">$</span></button>
+          <button class="cur-btn flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-colors" data-cur="ILS" onclick="setCurrency('ILS')"><span>Shekel</span><span class="text-base">₪</span></button>
+          <button class="cur-btn flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-colors" data-cur="GBP" onclick="setCurrency('GBP')"><span>Pound</span><span class="text-base">£</span></button>
+        </div>
+        <p class="text-[10px] text-outline leading-snug px-2 pt-2 mt-1 border-t border-outline-variant/50" id="rateNote">Prices as planned, in EUR.</p>
+      </div>
+    </div>
+    <button class="text-sm font-semibold px-5 py-2 border rounded-full transition-all border-white/70 text-white bg-white/10 hover:bg-white hover:text-secondary" onclick="resetChat()">
+      New Trip
+    </button>
+  </div>
+</header>
+
+<!-- Progress Tracker (driven by the profile the backend extracts) -->
+<nav class="bg-white border-b border-outline-variant px-6 py-2 shrink-0 overflow-x-auto" id="intakeProgress">
+  <div class="max-w-3xl mx-auto flex items-center justify-between gap-4">
+    <div class="flex flex-col items-center gap-1 group" id="step-days">
+      <div class="w-10 h-10 rounded-full border-2 border-outline-variant flex items-center justify-center text-outline group-[.active]:bg-secondary group-[.active]:border-secondary group-[.active]:text-white group-[.done]:bg-primary group-[.done]:border-primary group-[.done]:text-white transition-colors">
+        <span class="material-symbols-outlined text-xl">calendar_today</span>
+      </div>
+      <span class="text-[10px] font-bold uppercase tracking-wider text-outline group-[.active]:text-secondary group-[.done]:text-primary">Days</span>
+    </div>
+    <div class="h-px bg-outline-variant flex-1 mb-4 opacity-50"></div>
+    <div class="flex flex-col items-center gap-1 group" id="step-dest">
+      <div class="w-10 h-10 rounded-full border-2 border-outline-variant flex items-center justify-center text-outline group-[.active]:bg-secondary group-[.active]:border-secondary group-[.active]:text-white group-[.done]:bg-primary group-[.done]:border-primary group-[.done]:text-white transition-colors">
+        <span class="material-symbols-outlined text-xl">map</span>
+      </div>
+      <span class="text-[10px] font-bold uppercase tracking-wider text-outline group-[.active]:text-secondary group-[.done]:text-primary">Dest</span>
+    </div>
+    <div class="h-px bg-outline-variant flex-1 mb-4 opacity-50"></div>
+    <div class="flex flex-col items-center gap-1 group" id="step-travelers">
+      <div class="w-10 h-10 rounded-full border-2 border-outline-variant flex items-center justify-center text-outline group-[.active]:bg-secondary group-[.active]:border-secondary group-[.active]:text-white group-[.done]:bg-primary group-[.done]:border-primary group-[.done]:text-white transition-colors">
+        <span class="material-symbols-outlined text-xl">group</span>
+      </div>
+      <span class="text-[10px] font-bold uppercase tracking-wider text-outline group-[.active]:text-secondary group-[.done]:text-primary">Travelers</span>
+    </div>
+    <div class="h-px bg-outline-variant flex-1 mb-4 opacity-50"></div>
+    <div class="flex flex-col items-center gap-1 group" id="step-budget">
+      <div class="w-10 h-10 rounded-full border-2 border-outline-variant flex items-center justify-center text-outline group-[.active]:bg-secondary group-[.active]:border-secondary group-[.active]:text-white group-[.done]:bg-primary group-[.done]:border-primary group-[.done]:text-white transition-colors">
+        <span class="material-symbols-outlined text-xl">payments</span>
+      </div>
+      <span class="text-[10px] font-bold uppercase tracking-wider text-outline group-[.active]:text-secondary group-[.done]:text-primary">Budget</span>
+    </div>
+  </div>
+</nav>
+
+<!-- Main -->
+<main class="flex-1 flex flex-col md:flex-row overflow-hidden">
+  <!-- Chat Column -->
+  <section class="flex-1 flex flex-col min-w-0 bg-surface relative">
+    <div class="flex-1 overflow-y-auto p-4 space-y-4 flex flex-col scroll-smooth" id="chat"></div>
+
+
+    <!-- Input Area -->
+    <div class="p-3 md:p-4 border-t border-outline-variant shrink-0 bg-white/80 backdrop-blur-md">
+      <div class="max-w-3xl mx-auto space-y-2">
+        <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+          <span class="text-[10px] font-bold uppercase text-outline flex items-center pr-1">Quick Add:</span>
+          <button onclick="addChip('low')" class="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant hover:border-secondary transition-colors text-on-surface-variant">$ Low</button>
+          <button onclick="addChip('mid-range')" class="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant hover:border-secondary transition-colors text-on-surface-variant">$$ Mid-range</button>
+          <button onclick="addChip('luxury')" class="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant hover:border-secondary transition-colors text-on-surface-variant">$$$ Luxury</button>
+          <button onclick="addChip('couple')" class="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant hover:border-secondary transition-colors text-on-surface-variant">Couple</button>
+          <button onclick="addChip('family')" class="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant hover:border-secondary transition-colors text-on-surface-variant">Family</button>
+          <button onclick="addChip('solo')" class="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant hover:border-secondary transition-colors text-on-surface-variant">Solo</button>
+        </div>
+        <div class="relative group">
+          <textarea class="w-full bg-white border-2 border-outline-variant/30 rounded-2xl p-4 pr-16 focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all placeholder:text-outline/40 resize-none text-on-surface" id="prompt" rows="2" placeholder="e.g. 5 days in Lisbon for a couple, mid-range budget, we love food and viewpoints — must see Belém."></textarea>
+          <button class="absolute bottom-3 right-3 bg-primary text-white p-2.5 rounded-xl hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/20 transition-all" id="send" onclick="send()" aria-label="Run Agent" title="Run Agent">
+            <span class="material-symbols-outlined text-2xl">send</span>
+          </button>
+        </div>
+        <div class="flex justify-between items-center px-1">
+          <span class="text-[11px] text-outline font-medium" id="status"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Side Panel: execution trace (steps) -->
+  <aside class="w-full md:w-80 lg:w-96 border-l border-outline-variant flex flex-col shrink-0 bg-surface-container/50 overflow-hidden">
+    <div class="p-5 border-b border-outline-variant bg-white flex items-center justify-between shrink-0">
+      <h2 class="text-xs font-extrabold uppercase tracking-[0.2em] text-outline">Execution Trace</h2>
+      <span class="material-symbols-outlined text-outline/50 text-xl">insights</span>
+    </div>
+    <div class="flex-1 overflow-y-auto p-5" id="steps"></div>
+    <div class="p-4 border-t border-outline-variant bg-white">
+      <button class="w-full flex items-center justify-between px-3 py-2 text-xs font-bold text-outline uppercase tracking-wider hover:bg-surface-container rounded-lg transition-colors" onclick="toggleDevDetails()">
+        <span>Developer Details (module · prompt · response)</span>
+        <span class="material-symbols-outlined text-sm" id="devToggleIcon">expand_less</span>
+      </button>
+      <div id="devDetails" class="hidden mt-3 max-h-56 overflow-y-auto bg-slate-900 text-teal-300 p-3 rounded-lg text-[10px] font-mono leading-relaxed whitespace-pre-wrap"></div>
+    </div>
+  </aside>
+</main>
+
+<!-- Large view: same rendered Markdown, more room. -->
+<dialog id="bigView" class="backdrop:bg-black/50 rounded-2xl p-0 shadow-2xl">
+  <div class="flex flex-col h-full">
+    <div class="flex items-center justify-between px-5 py-3 border-b border-outline-variant bg-surface-container shrink-0">
+      <h3 class="text-sm font-bold text-on-surface" id="bigViewTitle"></h3>
+      <div class="flex items-center gap-1">
+        <button onclick="sizeBigView('sm')" class="text-outline hover:text-primary transition-colors p-1" title="Smaller" aria-label="Smaller">
+          <span class="material-symbols-outlined text-lg">close_fullscreen</span>
+        </button>
+        <button onclick="sizeBigView('lg')" class="text-outline hover:text-primary transition-colors p-1" title="Larger" aria-label="Larger">
+          <span class="material-symbols-outlined text-lg">open_in_full</span>
+        </button>
+        <button onclick="closeBigView()" class="text-outline hover:text-on-surface transition-colors p-1 ml-1" aria-label="Close">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+    </div>
+    <div class="flex-1 overflow-y-auto p-6 bg-white" id="bigViewBody"></div>
+  </div>
+</dialog>
+
+<script>
+  // Display name for the agent in the chat. Change this one string to rename it everywhere.
+  const AGENT_NAME = 'Atlas';
+
+  const esc = s => String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const pretty = v => typeof v === 'string' ? v : JSON.stringify(v, null, 2);
+  // Model output is untrusted: it is generated from user-controlled input, so a prompt
+  // injection can plant raw HTML. marked passes HTML through by design and the result goes
+  // into innerHTML, so it must be sanitized. Without DOMPurify we do NOT render markdown
+  // at all — escaping angle brackets is not enough, because [x](javascript:...) makes
+  // marked build a live anchor itself. Plain escaped text is uglier but safe.
+  const md = t => {
+    if (window.marked && window.DOMPurify) return DOMPurify.sanitize(marked.parse(t));
+    return esc(t).replace(/\n/g, '<br>');
+  };
+
+  // Stateless backend: the browser owns the conversation and replays the whole
+  // transcript in `prompt` on every call. history = [{role:'user'|'agent', text}]
+  let history = [];
+
+  const EMPTY_STATE = `
+    <div class="flex-1 flex flex-col items-center justify-center text-center">
+      <div class="max-w-4xl w-full">
+        <div class="relative rounded-3xl overflow-hidden shadow-2xl group mb-6">
+          <img alt="Travel Destinations Collage" class="w-full object-cover h-52" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6l-Z3e-Ts5pL1Q7vMpSyg1lEmRtHY-FDT6J5bRZ6rQGa4Kq9F8_KAUn8dSlgYxIKJ8T14uVKLvIMTbI9liipWykX0nCE58R5KN6kZN4tjmS5zXLZDcZosRLZjY7HeGAd61LrqMSwkE2E-924_X1Rt33MVcFvUSTznE4GLHwc1vx0-5dnoiW9ahTPUcsif1ce2mVKn9MXPMcjjGJLqz657txSpIfKUq_jJ0JCWBc5iSdWgUtIpCkImRA">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-end p-6">
+            <h2 class="text-white text-3xl font-bold self-end">Where are we traveling?</h2>
+          </div>
+        </div>
+        <div class="bg-white border border-outline-variant rounded-2xl p-4 text-left space-y-3">
+          <div class="pill-row">
+            <span class="pill-label text-[10px] font-bold uppercase tracking-widest text-primary">Required</span>
+            <div class="pill-set">
+              <span class="tag-pill bg-primary-container-tint text-primary text-[11px] px-3 py-1 rounded-lg font-semibold">Days</span>
+              <span class="tag-pill bg-primary-container-tint text-primary text-[11px] px-3 py-1 rounded-lg font-semibold">Destination</span>
+              <span class="tag-pill bg-primary-container-tint text-primary text-[11px] px-3 py-1 rounded-lg font-semibold">Travelers</span>
+              <span class="tag-pill bg-primary-container-tint text-primary text-[11px] px-3 py-1 rounded-lg font-semibold">Budget</span>
+            </div>
+          </div>
+          <div class="pill-row">
+            <span class="pill-label text-[10px] font-bold uppercase tracking-widest text-outline">Optional</span>
+            <div class="pill-set">
+              <span class="tag-pill bg-surface-container text-on-surface-variant text-[11px] px-3 py-1 rounded-lg font-semibold">Interests</span>
+              <span class="tag-pill bg-surface-container text-on-surface-variant text-[11px] px-3 py-1 rounded-lg font-semibold">Dates / season</span>
+              <span class="tag-pill bg-surface-container text-on-surface-variant text-[11px] px-3 py-1 rounded-lg font-semibold">Start point</span>
+              <span class="tag-pill bg-surface-container text-on-surface-variant text-[11px] px-3 py-1 rounded-lg font-semibold">End point</span>
+              <span class="tag-pill bg-surface-container text-on-surface-variant text-[11px] px-3 py-1 rounded-lg font-semibold">Dietary</span>
+              <span class="tag-pill bg-surface-container text-on-surface-variant text-[11px] px-3 py-1 rounded-lg font-semibold">Walking / mobility</span>
+              <span class="tag-pill bg-surface-container text-on-surface-variant text-[11px] px-3 py-1 rounded-lg font-semibold">Accessibility</span>
+              <span class="tag-pill bg-surface-container text-on-surface-variant text-[11px] px-3 py-1 rounded-lg font-semibold">Must-sees / avoid</span>
+            </div>
+          </div>
+          <p class="text-[11px] text-outline leading-relaxed pt-3 mt-3 border-t border-outline-variant/40">
+            <span class="font-semibold text-on-surface-variant">Once you have a plan, keep talking.</span>
+            Ask to swap a day, cut the budget or add a stop, and only the parts you mention are
+            rebuilt — the rest of the trip stays as it is. If a plan comes back unfinished, just
+            say <em>carry on</em>.
+          </p>
+        </div>
+      </div>
+    </div>`;
+
+  function addChip(val) {
+    const ta = document.getElementById('prompt');
+    const current = ta.value.trim();
+    ta.value = current ? `${current}, ${val}` : val;
+    ta.focus();
+    ta.setSelectionRange(ta.value.length, ta.value.length);
+  }
+
+  function toggleDevDetails() {
+    const el = document.getElementById('devDetails');
+    const icon = document.getElementById('devToggleIcon');
+    el.classList.toggle('hidden');
+    icon.textContent = el.classList.contains('hidden') ? 'expand_less' : 'expand_more';
+  }
+
+  // The backend prepends a "> ⚠️ …" blockquote when a plan is delivered with caveats.
+  // The backend prefixes the itinerary with blockquoted banners: a ⚠️ block of unverified
+  // defects and an ℹ️ block of travel advisories. They used to be flattened into one
+  // pre-wrapped amber blob — every line equally alarming, bullets rendered as literal
+  // dashes, and long sentences wrapping into a wall. Parsing them into two typed lists lets
+  // each render as real bullets in its own box.
+  function splitCaveats(text) {
+    if (!text || !text.startsWith('>')) return { warnings: [], notes: [], body: text };
+    const lines = text.split('\n');
+    const warnings = [], notes = [];
+    let bucket = null, i = 0;
+    for (; i < lines.length; i++) {
+      const line = lines[i];
+      if (!line.startsWith('>')) break;
+      const content = line.replace(/^>\s?/, '').trim();
+      if (!content) continue;
+      if (content.includes('⚠️')) { bucket = warnings; continue; }   // header line
+      if (content.includes('ℹ️')) { bucket = notes;    continue; }   // header line
+      const item = content.replace(/^[-*]\s*/, '').trim();
+      if (item && bucket) bucket.push(item);
+    }
+    return { warnings, notes, body: lines.slice(i).join('\n').replace(/^\n+/, '') };
+  }
+
+  // One banner box: a heading, then genuine <li> bullets.
+  function banner(kind, items) {
+    if (!items.length) return '';
+    const skin = kind === 'warn'
+      ? { box:'bg-amber-50 border-amber-300', head:'text-amber-900', text:'text-amber-800',
+          icon:'warning', title:'Delivered with caveats — not fully validated' }
+      : { box:'bg-sky-50 border-sky-300', head:'text-sky-900', text:'text-sky-800',
+          icon:'info', title:'Good to know before you go' };
+    return `
+      <div class="mb-2 rounded-lg border ${skin.box} p-3">
+        <div class="flex items-center gap-1.5 mb-1.5">
+          <span class="material-symbols-outlined text-base ${skin.head}">${skin.icon}</span>
+          <span class="text-[11px] font-bold uppercase tracking-wide ${skin.head}">${skin.title}</span>
+        </div>
+        <ul class="banner-list space-y-1 text-xs leading-relaxed ${skin.text}">
+          ${items.map(t => `<li>${esc(t)}</li>`).join('')}
+        </ul>
+      </div>`;
+  }
+
+  function renderChat() {
+    const chat = document.getElementById('chat');
+    if (!history.length) { chat.innerHTML = EMPTY_STATE; return; }
+    chat.innerHTML = '';
+    history.forEach((m, idx) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'flex gap-3 ' + (m.role === 'user' ? 'flex-row-reverse' : 'flex-row');
+      if (m.role === 'agent') {
+        const { warnings, notes, body } = splitCaveats(m.text || '');
+        wrap.innerHTML = `
+          <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 shadow-md">
+            <span class="material-symbols-outlined text-white text-lg">explore</span>
+          </div>
+          <div class="max-w-[85%] min-w-0 space-y-1">
+            <div class="flex items-center gap-2 px-1">
+              <span class="text-[10px] font-bold text-outline uppercase tracking-widest">${esc(AGENT_NAME)}</span>
+              <button class="expand-btn text-outline hover:text-primary transition-colors" data-idx="${idx}"
+                      title="Open in a larger view" aria-label="Open in a larger view">
+                <span class="material-symbols-outlined text-sm align-middle">open_in_full</span>
+              </button>
+            </div>
+            <div class="bg-white border border-outline-variant/30 rounded-xl rounded-tl-sm p-4 shadow-sm">
+              ${banner('warn', warnings)}${banner('note', notes)}
+              <div class="md">${md(body || '_(empty response)_')}</div>
+            </div>
+          </div>`;
+      } else {
+        wrap.innerHTML = `
+          <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center shrink-0 shadow-md">
+            <span class="material-symbols-outlined text-white text-lg">person</span>
+          </div>
+          <div class="max-w-[85%] space-y-1 text-right">
+            <span class="text-[10px] font-bold text-outline uppercase tracking-widest px-1">You</span>
+            <div class="bg-primary text-white rounded-xl rounded-tr-sm p-4 shadow-sm text-sm leading-relaxed text-left whitespace-pre-wrap">${esc(m.text)}</div>
+          </div>`;
+      }
+      chat.appendChild(wrap);
+    });
+    // Open the generated map links in a new tab.
+    chat.querySelectorAll('.md a').forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
+    // Bound here rather than via inline onclick: the index is data, not interpolated markup.
+    chat.querySelectorAll('.expand-btn').forEach(b => {
+      b.onclick = () => openBigView(Number(b.dataset.idx));
+    });
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  // ---- Currency ----------------------------------------------------------------------
+  // The agent always prices in EUR. Conversion happens here, in the browser, over the
+  // rendered text — never by the LLM, which would be both slow and bad at arithmetic.
+  // Rates come from the ECB reference set (frankfurter.app: free, no key, CORS-enabled),
+  // fetched once at load. The fallbacks below are only used if that fetch fails, so the
+  // button still works offline — approximately, and labelled as such.
+  const CURRENCIES = { EUR:'€', USD:'$', ILS:'₪', GBP:'£' };
+  // Fallbacks only — replaced at load by live ECB rates. Deliberately round numbers: they
+  // are meant to be obviously approximate, and the menu says so when they are in use.
+  let rates = { EUR: 1, USD: 1.08, ILS: 4.0, GBP: 0.85 };
+  let ratesDate = null;                                     // null => fallback in use
+  let currency = 'EUR';
+
+  async function loadRates() {
+    try {
+      const symbols = Object.keys(CURRENCIES).filter(c => c !== 'EUR').join(',');
+      const r = await fetch(`https://api.frankfurter.app/latest?from=EUR&to=${symbols}`);
+      if (!r.ok) throw new Error('rates ' + r.status);
+      const d = await r.json();
+      // Merge over the fallbacks rather than replacing them. Replacing meant a response
+      // missing one symbol left that rate undefined, and `rates[c] || 1` then converted it
+      // at 1:1 — €257 displayed unchanged as ₪257, which looks like a broken converter.
+      const fetched = {};
+      for (const [code, value] of Object.entries(d.rates || {})) {
+        if (CURRENCIES[code] && Number.isFinite(value) && value > 0) fetched[code] = value;
+      }
+      rates = { ...rates, ...fetched, EUR: 1 };
+      // Only claim live rates if every currency on offer actually came back.
+      const complete = Object.keys(CURRENCIES).every(c => c === 'EUR' || fetched[c]);
+      ratesDate = complete ? d.date : null;
+    } catch {
+      ratesDate = null;   // keep the fallbacks; the label will say they are approximate
+    }
+    updateRateLabel();
+  }
+
+  function updateRateLabel() {
+    const el = document.getElementById('rateNote');
+    if (!el) return;
+    if (currency === 'EUR') { el.textContent = 'Prices as planned, in EUR.'; return; }
+    el.textContent = ratesDate
+      ? `Converted from EUR at ECB rates of ${ratesDate}. Indicative only.`
+      : 'Converted from EUR at approximate stored rates — live rates unavailable.';
+  }
+
+  // Rewrites "€123" in place. Runs over text nodes only, so link hrefs and markup are never
+  // touched; the original EUR figure is kept on the node so repeated switches never compound.
+  function convertIn(root) {
+    if (!root) return;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(n => {
+      if (n.__eur === undefined) {
+        if (!/€\s?\d/.test(n.nodeValue)) return;
+        n.__eur = n.nodeValue;                     // remember the EUR original once
+      }
+      const sym = CURRENCIES[currency], rate = rates[currency] || 1;
+      n.nodeValue = n.__eur.replace(/€\s?(\d[\d,]*(?:\.\d+)?)/g, (_, num) => {
+        const v = parseFloat(num.replace(/,/g, ''));
+        if (!isFinite(v)) return _;
+        return sym + Math.round(v * rate).toLocaleString();
+      });
+    });
+  }
+
+  function applyCurrency() {
+    convertIn(document.getElementById('chat'));
+    convertIn(document.getElementById('bigViewBody'));
+  }
+
+  function setCurrency(code) {
+    currency = CURRENCIES[code] ? code : 'EUR';
+    document.querySelectorAll('.cur-btn').forEach(b => {
+      const on = b.dataset.cur === currency;
+      b.classList.toggle('bg-primary', on);
+      b.classList.toggle('text-white', on);
+      b.classList.toggle('text-on-surface-variant', !on);
+    });
+    document.getElementById('curLabel').textContent = currency;
+    document.getElementById('curSymbol').textContent = CURRENCIES[currency];
+    updateRateLabel();
+    applyCurrency();
+    closeCurrencyMenu();
+  }
+
+  function toggleCurrencyMenu() {
+    const menu = document.getElementById('curMenu');
+    const open = menu.classList.toggle('hidden') === false;
+    document.getElementById('curToggle').setAttribute('aria-expanded', String(open));
+  }
+
+  function closeCurrencyMenu() {
+    document.getElementById('curMenu').classList.add('hidden');
+    document.getElementById('curToggle').setAttribute('aria-expanded', 'false');
+  }
+
+  // Click-away and Escape close the menu, as a dropdown is expected to.
+  document.addEventListener('click', e => {
+    if (!e.target.closest('#curMenu') && !e.target.closest('#curToggle')) closeCurrencyMenu();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCurrencyMenu(); });
+
+  // ---- Large view --------------------------------------------------------------------
+  // A full itinerary is long and the chat column is narrow. This reopens the same rendered
+  // Markdown in a near-fullscreen dialog — same sanitiser, same banners, more room.
+  function openBigView(idx) {
+    const m = history[idx];
+    if (!m) return;
+    const { warnings, notes, body } = splitCaveats(m.text || '');
+    document.getElementById('bigViewTitle').textContent =
+      m.role === 'agent' ? `${AGENT_NAME}'s plan` : 'Your message';
+    document.getElementById('bigViewBody').innerHTML =
+      banner('warn', warnings) + banner('note', notes) + `<div class="md">${md(body || '')}</div>`;
+    document.querySelectorAll('#bigViewBody .md a')
+      .forEach(a => { a.target = '_blank'; a.rel = 'noopener'; });
+    applyCurrency();                       // keep the dialog in the chosen currency
+    applyBigViewSize();
+    document.getElementById('bigView').showModal();
+  }
+
+  function closeBigView() { document.getElementById('bigView').close(); }
+
+  // Preset sizes, for people who would rather click than drag the corner. The chosen size
+  // persists for the session so reopening does not reset it.
+  const BIG_VIEW_SIZES = [
+    { w: '50vw', h: '60vh' }, { w: '70vw', h: '80vh' }, { w: '94vw', h: '92vh' },
+  ];
+  let bigViewSize = 1;
+
+  function sizeBigView(dir) {
+    bigViewSize = Math.max(0, Math.min(BIG_VIEW_SIZES.length - 1,
+                                       bigViewSize + (dir === 'lg' ? 1 : -1)));
+    applyBigViewSize();
+  }
+
+  function applyBigViewSize() {
+    const { w, h } = BIG_VIEW_SIZES[bigViewSize];
+    const dlg = document.getElementById('bigView');
+    dlg.style.width = w;
+    dlg.style.height = h;
+  }
+
+  const MODULE_ICON = {
+    'Conversational Intake':'forum', 'ReAct Planner':'route', 'Plan Editor':'edit_note',
+    'Reflection Layer':'fact_check', 'Output Formatter':'description',
+    'Itinerary Q&A':'help'
+  };
+
+  // Render the real steps: timeline (module names) + full module/prompt/response in dev panel.
+  function renderSteps(steps) {
+    const stepsEl = document.getElementById('steps');
+    const devEl = document.getElementById('devDetails');
+    if (!steps || !steps.length) {
+      stepsEl.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-center space-y-3 opacity-40">
+        <span class="material-symbols-outlined text-5xl">manage_search</span>
+        <p class="text-xs font-medium max-w-[160px]">The agent's steps for the latest turn will appear here.</p></div>`;
+      devEl.textContent = 'Waiting for execution data…';
+      return;
+    }
+    stepsEl.innerHTML = ''; devEl.innerHTML = '';
+    steps.forEach((s, i) => {
+      const last = i === steps.length - 1;
+      const card = document.createElement('div');
+      card.className = 'flex gap-3 relative';
+      card.innerHTML = `
+        <div class="flex flex-col items-center shrink-0">
+          <div class="w-8 h-8 rounded-full bg-white border-2 border-primary flex items-center justify-center text-primary z-10">
+            <span class="material-symbols-outlined text-lg">${MODULE_ICON[s.module] || 'settings'}</span>
+          </div>
+          ${last ? '' : '<div class="w-0.5 bg-outline-variant flex-1 my-1 min-h-[16px]"></div>'}
+        </div>
+        <div class="flex-1 pt-1 pb-4">
+          <h4 class="text-xs font-bold text-on-surface">${esc(s.module || 'Step')}</h4>
+          <p class="text-[11px] text-outline mt-0.5 font-medium">Step ${i + 1} of ${steps.length}</p>
+        </div>`;
+      stepsEl.appendChild(card);
+
+      const block = document.createElement('div');
+      block.className = 'mb-3 border-b border-white/10 pb-2';
+      block.innerHTML =
+        `<div class="text-orange-300 mb-1"># Step ${i + 1}: ${esc(s.module || '')}</div>` +
+        `<div class="text-slate-400">prompt:</div><div class="opacity-80 mb-1">${esc(pretty(s.prompt))}</div>` +
+        `<div class="text-slate-400">response:</div><div class="opacity-80">${esc(pretty(s.response))}</div>`;
+      devEl.appendChild(block);
+    });
+  }
+
+  // ---- Progress tracker: driven by the profile/missing fields the backend reports ----
+  // Mirrors REQUIRED_FIELDS in agent/schemas.py. `style` is optional, so it has no circle:
+  // a permanently unfilled step reads as something the user still owes the agent.
+  const FIELD_TO_STEP = { days:'step-days', destination:'step-dest',
+                          group:'step-travelers', budget:'step-budget' };
+  const REQUIRED = ['days','destination','group','budget'];
+
+  // Conversational Intake is the only module that reports the profile — it is the call that
+  // actually extracts it, and every branch now traces it.
+  function deriveProfileState(steps) {
+    let profile = null, missing = null;
+    (steps || []).forEach(s => {
+      const r = s.response || {};
+      if (s.module === 'Conversational Intake') {
+        if (r.profile) profile = r.profile;
+        if (Array.isArray(r.missing)) missing = r.missing;
+      }
+    });
+    return { profile, missing };
+  }
+
+  // True once the agent has moved past intake — any planning/editing module ran this turn.
+  const PLANNING_MODULES = ['ReAct Planner', 'Plan Editor', 'Output Formatter', 'Itinerary Q&A'];
+  function planningStarted(steps) {
+    return (steps || []).some(s => PLANNING_MODULES.includes(s.module));
+  }
+
+  function updateProgress(steps) {
+    const { profile, missing } = deriveProfileState(steps);
+    // The tracker answers "what do you still need from me?". Once planning begins that
+    // question is settled, so the bar retires instead of sitting there permanently green.
+    if (planningStarted(steps)) {
+      document.getElementById('intakeProgress').classList.add('hidden');
+      return;
+    }
+    let firstUnfilled = null;
+    REQUIRED.forEach(f => {
+      let filled = false;
+      if (profile) {
+        const v = profile[f];
+        filled = f === 'days' ? Number(v) > 0 : (typeof v === 'string' ? v.trim().length > 0 : !!v);
+      } else if (missing) {
+        filled = !missing.includes(f);
+      }
+      const el = document.getElementById(FIELD_TO_STEP[f]);
+      el.classList.toggle('done', filled);
+      el.classList.remove('active');
+      if (!filled && !firstUnfilled) firstUnfilled = f;
+    });
+    if (firstUnfilled) document.getElementById(FIELD_TO_STEP[firstUnfilled]).classList.add('active');
+  }
+
+  // ---- Identity ---------------------------------------------------------------------
+  // Anonymous ids only. The brief forbids authentication guards, so there is no login and
+  // no user account: `device` identifies this BROWSER, `conversation` identifies this trip.
+  // The server uses `conversation` to look up the itinerary it is editing.
+  function uuid() {
+    if (crypto.randomUUID) return crypto.randomUUID();
+    return '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
+  }
+  function persistentId(key) {
+    let v = null;
+    try { v = localStorage.getItem(key); } catch { /* private mode */ }
+    if (!v) {
+      v = uuid();
+      try { localStorage.setItem(key, v); } catch { /* non-fatal: ids just stop persisting */ }
+    }
+    return v;
+  }
+  const deviceId = persistentId('trip.device');
+  let conversationId = persistentId('trip.conversation');
+
+  // ---- Transcript -------------------------------------------------------------------
+  // The itinerary lives server-side, keyed by conversationId, and reaches the agent as
+  // structured state — so it never travels through the prompt. What the transcript carries
+  // is the DIALOGUE: enough for intake to work out the stage and what the user is asking
+  // for. Collapsing a delivered itinerary to a one-line marker is safe *because* the agent
+  // still holds the real plan; doing this without server-side state would have destroyed
+  // the ability to revise. Short agent turns (a question, or the ~455-char profile
+  // confirmation) are kept verbatim — intake reads them to detect confirmation.
+  const AGENT_ECHO_LIMIT = 700;
+
+  function forTranscript(m) {
+    if (m.role === 'user') return 'User: ' + m.text;
+    const t = (m.text || '').trim();
+    return t.length <= AGENT_ECHO_LIMIT
+      ? 'Agent: ' + t
+      : 'Agent: [delivered an itinerary — the current plan is supplied separately]';
+  }
+
+  // Client-side error notices are shown in the chat but flagged `systemNote` and excluded
+  // here, so a transport failure never pollutes the prompt the model reads.
+  function transcript() {
+    return history.filter(m => !m.systemNote).map(forTranscript).join('\n');
+  }
+
+  function resetChat() {
+    history = [];
+    // A new trip is a new conversation: mint a fresh id so the server starts from a blank
+    // plan instead of revising the previous itinerary.
+    conversationId = uuid();
+    try { localStorage.setItem('trip.conversation', conversationId); } catch { /* ignore */ }
+    renderChat();
+    renderSteps([]);
+    document.getElementById('status').textContent = '';
+    document.getElementById('prompt').value = '';
+    document.querySelectorAll('nav .group').forEach(g => g.classList.remove('active', 'done'));
+    document.getElementById('intakeProgress').classList.remove('hidden');   // new trip, new intake
+    document.getElementById('step-days').classList.add('active');
+  }
+
+  // ---- Loader ------------------------------------------------------------------------
+  // Appended as the last row of the conversation, so it appears exactly where the reply
+  // will and scrolls with the thread instead of being pinned above the composer.
+  //
+  // /api/execute returns everything at the end, so this cannot show real progress. It
+  // therefore claims nothing about what the agent is doing — an earlier version cycled
+  // "Checking the weather…" through intake turns where no such thing was happening. The
+  // elapsed counter is the one honest signal (the function is capped at 300s).
+  let loaderTimer = null;
+
+  function startLoader() {
+    stopLoader();                                  // never leave two loaders in the thread
+    const chat = document.getElementById('chat');
+    const box = document.createElement('div');
+    box.id = 'flightLoader';
+    box.className = 'flex items-center gap-3 px-1 py-1';
+    box.innerHTML = `
+      <div class="plane-dial shrink-0">
+        <div class="orbit-ring absolute inset-0 rounded-full border-2 border-dashed border-primary/40"></div>
+        <div class="plane-hub">
+          <div class="plane-orbit">
+            <span class="material-symbols-outlined text-primary text-lg plane-nose">flight</span>
+          </div>
+        </div>
+      </div>
+      <div class="min-w-0">
+        <p class="text-sm font-bold text-primary truncate" id="loaderTitle">${esc(AGENT_NAME)} is working…</p>
+        <p class="text-[11px] text-outline font-medium" id="loaderSub">0s</p>
+      </div>`;
+    chat.appendChild(box);
+    chat.scrollTop = chat.scrollHeight;
+
+    const started = Date.now();
+    loaderTimer = setInterval(() => {
+      const sub = document.getElementById('loaderSub');
+      if (sub) sub.textContent = `${Math.round((Date.now() - started) / 1000)}s`;
+    }, 1000);
+  }
+
+  function stopLoader() {
+    clearInterval(loaderTimer);
+    loaderTimer = null;
+    const box = document.getElementById('flightLoader');
+    if (box) box.remove();
+  }
+
+  async function send() {
+    const ta = document.getElementById('prompt');
+    const text = ta.value.trim();
+    if (!text) return;
+    const btn = document.getElementById('send');
+    const st = document.getElementById('status');
+
+    history.push({ role: 'user', text });
+    renderChat();
+    ta.value = '';
+    btn.disabled = true;
+    st.textContent = '';
+    startLoader();
+
+    try {
+      const r = await fetch('/api/execute', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        // Dialogue only — the itinerary is looked up server-side from conversationId.
+        body: JSON.stringify({
+          prompt: transcript(),
+          conversation_id: conversationId,
+          device_id: deviceId,
+        }),
+      });
+      const raw = await r.text();
+      let data;
+      try {
+        data = JSON.parse(raw);
+      } catch {
+        // Non-JSON body: a platform timeout, a 502, or an error page. Surface the real
+        // status and body — it is the only diagnostic the browser gets.
+        const hint = r.status === 504
+          ? '\n\nThe function hit its time limit before the agent finished. '
+            + 'Check the Vercel logs for this request.'
+          : '';
+        // Fenced so marked renders it as escaped code, never as live HTML.
+        const body = (raw || '').trim().replace(/`/g, "'").slice(0, 2000)
+          || '(empty response body)';
+        history.push({
+          role: 'agent', systemNote: true,
+          text: `**Server returned a non-JSON response** — HTTP ${r.status}${hint}\n\n`
+              + '```\n' + body + '\n```',
+        });
+        renderChat();
+        renderSteps([]);
+        st.textContent = `HTTP ${r.status} — non-JSON response`;
+        return;
+      }
+      const steps = data.steps || [];
+      if (data.status !== 'ok') {
+        history.push({ role: 'agent', systemNote: true,
+                       text: '**Error:** ' + (data.error || 'unknown error') });
+      } else {
+        history.push({ role: 'agent', text: data.response || '(empty response)' });
+      }
+      renderChat();
+      renderSteps(steps);
+      updateProgress(steps);
+      st.textContent = `Done — ${steps.length} step(s) this turn.`;
+    } catch (e) {
+      history.push({ role: 'agent', systemNote: true,
+                     text: '**Request failed:** ' + e.message });
+      renderChat();
+      st.textContent = '';
+    } finally {
+      stopLoader();
+      btn.disabled = false;
+    }
+  }
+
+  // Enter sends; Shift+Enter inserts a newline.
+  document.getElementById('prompt').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  });
+
+  // Initialize
+  renderChat();
+  renderSteps([]);
+  document.getElementById('step-days').classList.add('active');
+  loadRates();   // non-blocking: the fallback rates work until (or unless) this lands
+</script>
+</body>
+</html>
