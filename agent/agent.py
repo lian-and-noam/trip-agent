@@ -246,14 +246,37 @@ def _safe_geocode(name):
 
 
 # ---------- Pipeline ----------
+class AgentError(RuntimeError):
+    """Wraps a failed turn together with the steps recorded before it failed, so the
+    partial trace is not lost with the exception."""
+
+    def __init__(self, message, steps):
+        super().__init__(message)
+        self.steps = steps
+
+
 def run_agent(user_prompt):
+    """Run one turn, preserving the trace on failure.
+
+    The step list is owned here rather than inside the turn, so when something raises
+    mid-run the steps taken so far travel out with the error. /api/execute returns them,
+    and the UI shows exactly how far the agent got and which module it stopped in."""
+    steps = []
+    try:
+        return _run_turn(user_prompt, steps)
+    except AgentError:
+        raise
+    except Exception as e:
+        raise AgentError(str(e), steps) from e
+
+
+def _run_turn(user_prompt, steps):
     """Run one turn. `user_prompt` is the entire conversation transcript (stateless).
     Returns {"response": <markdown>, "steps": [...]} for every branch."""
     run_id = obs.new_run_id()
     deadline = time.monotonic() + MAX_RUN_SECONDS
     conversation = user_prompt or ""
     obs.log("run_start", run_id=run_id, chars=len(conversation))
-    steps = []
 
     decision = _profile(conversation)
     missing = decision["missing"]

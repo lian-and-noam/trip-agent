@@ -5,6 +5,10 @@
   mode, so a single logical call is never billed twice.
 - `parse_json()` never raises: it returns a parsed value or None, using a balanced-brace
   scan rather than a greedy regex.
+
+LLMod fronts litellm. Reasoning models (gpt-5*, o-series) accept only temperature=1 and
+expect `max_completion_tokens` rather than `max_tokens`, so request parameters are built
+per-model instead of assumed.
 """
 import os
 import re
@@ -19,10 +23,16 @@ except Exception:
 
 MODEL = os.environ.get("LLMOD_MODEL", "NBUECSE-gpt-5-mini")
 
-# Per-call timeout and retry budget, kept small so several calls still fit inside
-# the Vercel function time limit even in a worst-case slow response.
-_TIMEOUT_S = 20
-_MAX_RETRIES = 1
+# Per-call timeout and retry budget. Reasoning models think before emitting any tokens,
+# so a planner call can legitimately run far longer than a chat-model call. Retries are
+# disabled: a timeout here means the model is slow, and retrying only doubles the wait
+# (worst case per call is now _TIMEOUT_S, keeping MAX_RUN_SECONDS under Vercel's limit).
+_TIMEOUT_S = 60
+_MAX_RETRIES = 0
+
+# Reasoning models spend part of the completion budget on hidden reasoning tokens, so the
+# visible answer needs headroom on top of the caller's request or `content` comes back empty.
+_REASONING_HEADROOM = 2000
 
 _client = None
 _json_mode_supported = None  # None until probed, then True/False
@@ -51,13 +61,33 @@ def _get_client():
     return _client
 
 
+def _is_reasoning_model(name):
+    """True for models that reject `temperature` and use `max_completion_tokens`."""
+    n = (name or "").lower()
+    return "gpt-5" in n or bool(re.search(r"(^|[-/])o[134]\b", n))
+
+
+def _completion_params(messages, temperature, max_tokens):
+    """Build create() kwargs appropriate to the configured model."""
+    params = {"model": MODEL, "messages": messages}
+    if _is_reasoning_model(MODEL):
+        params["max_completion_tokens"] = max_tokens + _REASONING_HEADROOM
+    else:
+        params["temperature"] = temperature
+        params["max_tokens"] = max_tokens
+    return params
+
+
 def _looks_like_unsupported_json_mode(err):
     """True when the error is a 400 rejecting `response_format` — the only case where
-    retrying without JSON mode is the right response."""
-    if getattr(err, "status_code", None) == 400 or err.__class__.__name__ == "BadRequestError":
-        return True
+    retrying without JSON mode is the right response. A 400 that names a different
+    parameter (temperature, token limits) must not disable JSON mode."""
     msg = str(err).lower()
-    return "response_format" in msg or "json_object" in msg
+    if "response_format" in msg or "json_object" in msg:
+        return True
+    if any(k in msg for k in ("temperature", "max_tokens", "max_completion_tokens")):
+        return False
+    return getattr(err, "status_code", None) == 400 or err.__class__.__name__ == "BadRequestError"
 
 
 def chat(messages, temperature=0.3, json_mode=False, max_tokens=1200):
@@ -69,7 +99,7 @@ def chat(messages, temperature=0.3, json_mode=False, max_tokens=1200):
     """
     global _json_mode_supported
     client = _get_client()
-    base = dict(model=MODEL, messages=messages, temperature=temperature, max_tokens=max_tokens)
+    base = _completion_params(messages, temperature, max_tokens)
 
     if json_mode and _json_mode_supported is not False:
         try:

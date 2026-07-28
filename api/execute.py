@@ -12,7 +12,7 @@ from http.server import BaseHTTPRequestHandler
 
 # Make the local `agent` package importable when Vercel runs this file (project root on sys.path).
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from agent.agent import run_agent      # noqa: E402
+from agent.agent import run_agent, AgentError   # noqa: E402
 from agent.llm import ConfigError      # noqa: E402
 from agent import obs                  # noqa: E402
 
@@ -49,6 +49,14 @@ class handler(BaseHTTPRequestHandler):
         except ConfigError as e:
             obs.log("execute_config_error", detail=str(e))
             self._envelope("error", "Server is not configured correctly (missing LLM credentials).")
+        except AgentError as e:
+            # The turn failed part-way: log the underlying cause and return the steps taken
+            # so far, so the trace panel shows where it stopped instead of going blank.
+            cause = e.__cause__ or e
+            obs.log("execute_error", error=type(cause).__name__, detail=str(cause),
+                    steps=len(e.steps))
+            self._envelope("error", "The agent failed to complete this request. Please try again.",
+                           steps=e.steps)
         except Exception as e:
             # Log the real detail server-side; return a generic, safe message to the client.
             obs.log("execute_error", error=type(e).__name__, detail=str(e))

@@ -365,7 +365,17 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt: transcript() }),   // entire history; backend stays stateless
       });
-      const data = await r.json();
+      const raw = await r.text();
+      let data;
+      try {
+          data = JSON.parse(raw);
+     } catch {
+       out.style.display = 'block';
+       respEl.className = 'card resp err';
+       respEl.textContent = `Server returned non-JSON (HTTP ${r.status}):\n\n${raw.slice(0, 2000)}`;
+       st.textContent = '';
+       return;
+     }
       const steps = data.steps || [];
       if (data.status !== 'ok') {
         history.push({ role: 'agent', text: '**Error:** ' + (data.error || 'unknown error') });
