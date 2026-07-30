@@ -1,6 +1,19 @@
+# Ignore every .env variant (.env, .env.local, .env.bak ...) but keep the template.
+# Plain `.env` does NOT match `.env.example` or `.env.bak`, which is how real credentials
+# end up committed.
 .env
+.env.*
+!.env.example
 .venv
 .idea
 *.pyc
 __pycache__
 .vercel
+
+# Test/lint caches
+.pytest_cache
+.ruff_cache
+
+# Recorded LLM responses used to develop without spending budget. Local only —
+# they can contain full prompts and model output.
+.cassettes

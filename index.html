@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300;400;500;600&display=block" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
 <script id="tailwind-config">try{
   tailwind.config = {
     darkMode: "class",
@@ -147,7 +148,15 @@
 <script>
   const esc = s => String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
   const pretty = v => typeof v === 'string' ? v : JSON.stringify(v, null, 2);
-  const md = t => (window.marked ? marked.parse(t) : esc(t).replace(/\n/g,'<br>'));
+  // Model output is untrusted: it is generated from user-controlled input, so a prompt
+  // injection can plant raw HTML. marked passes HTML through by design and the result goes
+  // into innerHTML, so it must be sanitized. Without DOMPurify we do NOT render markdown
+  // at all — escaping angle brackets is not enough, because [x](javascript:...) makes
+  // marked build a live anchor itself. Plain escaped text is uglier but safe.
+  const md = t => {
+    if (window.marked && window.DOMPurify) return DOMPurify.sanitize(marked.parse(t));
+    return esc(t).replace(/\n/g, '<br>');
+  };
 
   // Stateless backend: the browser owns the conversation and replays the whole
   // transcript in `prompt` on every call. history = [{role:'user'|'agent', text}]
@@ -252,8 +261,9 @@
   }
 
   const MODULE_ICON = {
-    'Conversational Intake':'forum', 'Preference Profiler':'person_search',
-    'ReAct Planner':'route', 'Reflection Layer':'fact_check', 'Output Formatter':'description'
+    'Conversational Intake':'forum', 'ReAct Planner':'route', 'Plan Editor':'edit_note',
+    'Reflection Layer':'fact_check', 'Output Formatter':'description',
+    'Itinerary Q&A':'help'
   };
 
   // Render the real steps: timeline (module names) + full module/prompt/response in dev panel.
@@ -300,11 +310,12 @@
                           style:'step-interests', budget:'step-budget' };
   const REQUIRED = ['days','destination','group','style','budget'];
 
+  // Conversational Intake is the only module that reports the profile — it is the call that
+  // actually extracts it, and every branch now traces it.
   function deriveProfileState(steps) {
     let profile = null, missing = null;
     (steps || []).forEach(s => {
       const r = s.response || {};
-      if (s.module === 'Preference Profiler' && r && ('destination' in r || 'days' in r)) profile = r;
       if (s.module === 'Conversational Intake') {
         if (r.profile) profile = r.profile;
         if (Array.isArray(r.missing)) missing = r.missing;
@@ -332,12 +343,57 @@
     if (firstUnfilled) document.getElementById(FIELD_TO_STEP[firstUnfilled]).classList.add('active');
   }
 
+  // ---- Identity ---------------------------------------------------------------------
+  // Anonymous ids only. The brief forbids authentication guards, so there is no login and
+  // no user account: `device` identifies this BROWSER, `conversation` identifies this trip.
+  // The server uses `conversation` to look up the itinerary it is editing.
+  function uuid() {
+    if (crypto.randomUUID) return crypto.randomUUID();
+    return '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
+  }
+  function persistentId(key) {
+    let v = null;
+    try { v = localStorage.getItem(key); } catch { /* private mode */ }
+    if (!v) {
+      v = uuid();
+      try { localStorage.setItem(key, v); } catch { /* non-fatal: ids just stop persisting */ }
+    }
+    return v;
+  }
+  const deviceId = persistentId('trip.device');
+  let conversationId = persistentId('trip.conversation');
+
+  // ---- Transcript -------------------------------------------------------------------
+  // The itinerary lives server-side, keyed by conversationId, and reaches the agent as
+  // structured state — so it never travels through the prompt. What the transcript carries
+  // is the DIALOGUE: enough for intake to work out the stage and what the user is asking
+  // for. Collapsing a delivered itinerary to a one-line marker is safe *because* the agent
+  // still holds the real plan; doing this without server-side state would have destroyed
+  // the ability to revise. Short agent turns (a question, or the ~455-char profile
+  // confirmation) are kept verbatim — intake reads them to detect confirmation.
+  const AGENT_ECHO_LIMIT = 700;
+
+  function forTranscript(m) {
+    if (m.role === 'user') return 'User: ' + m.text;
+    const t = (m.text || '').trim();
+    return t.length <= AGENT_ECHO_LIMIT
+      ? 'Agent: ' + t
+      : 'Agent: [delivered an itinerary — the current plan is supplied separately]';
+  }
+
+  // Client-side error notices are shown in the chat but flagged `systemNote` and excluded
+  // here, so a transport failure never pollutes the prompt the model reads.
   function transcript() {
-    return history.map(m => (m.role === 'user' ? 'User: ' : 'Agent: ') + m.text).join('\n');
+    return history.filter(m => !m.systemNote).map(forTranscript).join('\n');
   }
 
   function resetChat() {
     history = [];
+    // A new trip is a new conversation: mint a fresh id so the server starts from a blank
+    // plan instead of revising the previous itinerary.
+    conversationId = uuid();
+    try { localStorage.setItem('trip.conversation', conversationId); } catch { /* ignore */ }
     renderChat();
     renderSteps([]);
     document.getElementById('status').textContent = '';
@@ -363,22 +419,41 @@
       const r = await fetch('/api/execute', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: transcript() }),   // entire history; backend stays stateless
+        // Dialogue only — the itinerary is looked up server-side from conversationId.
+        body: JSON.stringify({
+          prompt: transcript(),
+          conversation_id: conversationId,
+          device_id: deviceId,
+        }),
       });
       const raw = await r.text();
       let data;
       try {
-          data = JSON.parse(raw);
-     } catch {
-       out.style.display = 'block';
-       respEl.className = 'card resp err';
-       respEl.textContent = `Server returned non-JSON (HTTP ${r.status}):\n\n${raw.slice(0, 2000)}`;
-       st.textContent = '';
-       return;
-     }
+        data = JSON.parse(raw);
+      } catch {
+        // Non-JSON body: a platform timeout, a 502, or an error page. Surface the real
+        // status and body — it is the only diagnostic the browser gets.
+        const hint = r.status === 504
+          ? '\n\nThe function hit its time limit before the agent finished. '
+            + 'Check the Vercel logs for this request.'
+          : '';
+        // Fenced so marked renders it as escaped code, never as live HTML.
+        const body = (raw || '').trim().replace(/`/g, "'").slice(0, 2000)
+          || '(empty response body)';
+        history.push({
+          role: 'agent', systemNote: true,
+          text: `**Server returned a non-JSON response** — HTTP ${r.status}${hint}\n\n`
+              + '```\n' + body + '\n```',
+        });
+        renderChat();
+        renderSteps([]);
+        st.textContent = `HTTP ${r.status} — non-JSON response`;
+        return;
+      }
       const steps = data.steps || [];
       if (data.status !== 'ok') {
-        history.push({ role: 'agent', text: '**Error:** ' + (data.error || 'unknown error') });
+        history.push({ role: 'agent', systemNote: true,
+                       text: '**Error:** ' + (data.error || 'unknown error') });
       } else {
         history.push({ role: 'agent', text: data.response || '(empty response)' });
       }
@@ -387,7 +462,8 @@
       updateProgress(steps);
       st.textContent = `Done — ${steps.length} step(s) this turn.`;
     } catch (e) {
-      history.push({ role: 'agent', text: '**Request failed:** ' + e.message });
+      history.push({ role: 'agent', systemNote: true,
+                     text: '**Request failed:** ' + e.message });
       renderChat();
       st.textContent = '';
     } finally {

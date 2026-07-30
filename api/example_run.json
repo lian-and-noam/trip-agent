@@ -1,0 +1,866 @@
+[
+  {
+    "prompt": "4 days in Rome, a couple, mid-range budget, we love culture and food — historical sites, Italian food and gelato.",
+    "full_response": "Here is your trip profile:\n\n```json\n{\n  \"destination\": \"Rome\",\n  \"days\": 4,\n  \"group\": \"couple\",\n  \"budget\": \"mid-range\",\n  \"style\": \"food, culture\",\n  \"priorities\": [\n    \"historical sites\",\n    \"Italian food\",\n    \"gelato\"\n  ]\n}\n```\n\nDoes this look correct? Type **'yes'** to start planning — or tell me what to change.",
+    "steps": [
+      {
+        "module": "Conversational Intake",
+        "prompt": {
+          "conversation": "User: 4 days in Rome, a couple, mid-range budget, we love culture and food — historical sites, Italian food and gelato."
+        },
+        "response": {
+          "stage": "confirm",
+          "profile": {
+            "days": 4,
+            "destination": "Rome",
+            "style": "food, culture",
+            "group": "couple",
+            "budget": "mid-range",
+            "when": "",
+            "origin": "",
+            "dietary": [],
+            "walking": "moderate",
+            "accessibility": false,
+            "priorities": [
+              "historical sites",
+              "Italian food",
+              "gelato"
+            ],
+            "avoid": [],
+            "assumptions": []
+          },
+          "reply": "Here is your trip profile:\n\n```json\n{\n  \"destination\": \"Rome\",\n  \"days\": 4,\n  \"group\": \"couple\",\n  \"budget\": \"mid-range\",\n  \"style\": \"food, culture\",\n  \"priorities\": [\n    \"historical sites\",\n    \"Italian food\",\n    \"gelato\"\n  ]\n}\n```\n\nDoes this look correct? Type **'yes'** to start planning — or tell me what to change."
+        }
+      }
+    ]
+  },
+  {
+    "prompt": "yes",
+    "full_response": "> ℹ️ **Good to know before you go** — not problems with the plan:\n> - Day 1 starts at 09:00 for 'settle at hotel' — arrival time is not provided. If the travellers arrive later in the day the whole Day 1 schedule will need to be shifted or shortened.\n> - Timed-entry tickets are strongly recommended (and often required) for: Colosseum + Forum + Palatine, Vatican Museums & Sistine Chapel, Galleria Borghese and many popular cooking classes. Book these well in advance.\n> - Weekly opening/closing patterns vary: some museums and attractions close one weekday (commonly Monday) or have reduced hours. Without exact travel dates this is advisory — check each attraction's weekly schedule before finalising.\n> - Security checks and queues at the Colosseum, Vatican, St. Peter's and other major sites can add 20–45+ minutes. Allow extra buffer between timed visits and subsequent items.\n> - St. Peter's Basilica (and other churches) enforces a modest dress code (shoulders/knees covered) and may have separate queues for dome access. Dome climb has a separate fee and can be closed for services.\n> - Many central restaurants (Trastevere, Jewish Ghetto, popular trattorie) are busy — evening reservations are recommended, especially in high season.\n> - Walking in Rome involves cobbles and uneven surfaces; couples should plan comfortable shoes and consider taxis or short tram rides for longer transfers or if mobility is a concern.\n> - Price estimates are per person and approximate. Ticket prices, menu prices and market/tour/class fees may change; availability can fluctuate in peak season.\n> - Some sites (e.g., Pantheon) have changed access rules in recent years (donation vs paid entry for certain visits) — double-check current entry policy before relying on 'free' status.\n> - Testaccio market opening patterns and cooking-class schedules vary; if choosing a market visit on Day 4, confirm market hours or pre-book a class to avoid disappointment.\n\n# Rome — 4-day food & culture itinerary (couple, mid-range)\n\nDay 1 — Arrival & historic-centre stroll (easy first day) — Total: €78 per person\n- 09:00 — [Settle at hotel + coffee](https://www.google.com/maps/search/?api=1&query=Settle+at+hotel+%2B+coffee+Rome) — Tip: Check in, drop bags and get oriented.  \n  Duration: 1h | Cost: €5\n- 10:30 — [Walk: Spanish Steps → Trevi Fountain](https://www.google.com/maps/search/?api=1&query=Walk%3A+Spanish+Steps+%E2%86%92+Trevi+Fountain+Rome) — Tip: Leisurely walk for photos and a little shopping.  \n  Duration: 1h | Cost: €0\n- 12:00 — [Gelato & light lunch near Pantheon](https://www.google.com/maps/search/?api=1&query=Gelato+%26+light+lunch+near+Pantheon+Rome) — Tip: Try a gelato by the Pantheon for an easy, tasty lunch.  \n  Duration: 1h15 | Cost: €20\n- 13:30 — [Pantheon & Piazza Navona](https://www.google.com/maps/search/?api=1&query=Pantheon+%26+Piazza+Navona+Rome) — Tip: Visit the Pantheon interior and enjoy the piazza atmosphere.  \n  Duration: 1h15 | Cost: €0\n- 15:00 — [Coffee / downtime at Campo de' Fiori](https://www.google.com/maps/search/?api=1&query=Coffee+%2F+downtime+at+Campo+de%27+Fiori+Rome) — Tip: People-watch and rest—good mid-afternoon pause.  \n  Duration: 1h | Cost: €8\n- 16:30 — [Walk to Trastevere (transfer)](https://www.google.com/maps/search/?api=1&query=Walk+to+Trastevere+%28transfer%29+Rome) — Tip: Short and pleasant transfer to an evening-food neighborhood.  \n  Duration: 25m | Cost: €0\n- 19:30 — [Dinner in Trastevere (traditional trattoria)](https://www.google.com/maps/search/?api=1&query=Dinner+in+Trastevere+%28traditional+trattoria%29+Rome) — Tip: Reserve ahead for popular trattorie.  \n  Duration: 2h | Cost: €45\n\nDay 2 — Ancient Rome: Colosseum, Forum & neighbourhood flavours — Total: €113 per person\n- 08:30 — [Book ahead: Colosseum + Roman Forum + Palatine Hill](https://www.google.com/maps/search/?api=1&query=Book+ahead%3A+Colosseum+%2B+Roman+Forum+%2B+Palatine+Hill+Rome) — Tip: Timed entry—arrive ~20 min early to pass security.  \n  Duration: 2h30 | Cost: €18\n- 11:30 — [Walk up to Capitoline Hill / viewpoint (short transfer)](https://www.google.com/maps/search/?api=1&query=Walk+up+to+Capitoline+Hill+%2F+viewpoint+%28short+transfer%29+Rome) — Tip: Great city views and photos after the Forum.  \n  Duration: 20m | Cost: €0\n- 12:00 — [Lunch in Monti (neighbourhood restaurants / enoteca)](https://www.google.com/maps/search/?api=1&query=Lunch+in+Monti+%28neighbourhood+restaurants+%2F+enoteca%29+Rome) — Tip: Monti has excellent mid-range trattorie and wine bars.  \n  Duration: 1h15 | Cost: €30\n- 13:45 — [Capitoline Museums or relaxed exploration of Roman Forum surrounds](https://www.google.com/maps/search/?api=1&query=Capitoline+Museums+or+relaxed+exploration+of+Roman+Forum+surrounds+Rome) — Tip: Choose museums or a slow café break depending on energy.  \n  Duration: 1h30 | Cost: €15\n- 16:15 — [Coffee & gelato break (downtime)](https://www.google.com/maps/search/?api=1&query=Coffee+%26+gelato+break+%28downtime%29+Rome) — Tip: Recharge with coffee + gelato after lots of walking.  \n  Duration: 45m | Cost: €8\n- 18:00 — [Transfer to Testaccio for evening (short taxi/tram)](https://www.google.com/maps/search/?api=1&query=Transfer+to+Testaccio+for+evening+%28short+taxi%2Ftram%29+Rome) — Tip: Short trip to a top food-focused neighborhood.  \n  Duration: 20m | Cost: €2\n- 19:00 — [Dinner / food market tasting in Testaccio](https://www.google.com/maps/search/?api=1&query=Dinner+%2F+food+market+tasting+in+Testaccio+Rome) — Tip: Sample local Roman dishes and market specialties.  \n  Duration: 2h | Cost: €40\n\nDay 3 — Vatican highlights & riverside strolls — Total: €132 per person\n- 09:00 — [Book ahead: Vatican Museums & Sistine Chapel](https://www.google.com/maps/search/?api=1&query=Book+ahead%3A+Vatican+Museums+%26+Sistine+Chapel+Rome) — Tip: Timed-entry essential to avoid long queues.  \n  Duration: 2h30 | Cost: €20\n- 12:30 — [St. Peter's Basilica (visit interior; optional dome climb)](https://www.google.com/maps/search/?api=1&query=St.+Peter%27s+Basilica+%28visit+interior%3B+optional+dome+climb%29+Rome) — Tip: Basilica is free; dome climb costs extra (~€8–10).  \n  Duration: 1h30 | Cost: €0\n- 14:30 — [Lunch in Prati (near the Vatican)](https://www.google.com/maps/search/?api=1&query=Lunch+in+Prati+%28near+the+Vatican%29+Rome) — Tip: Prati has many trattorie and good wine lists.  \n  Duration: 1h15 | Cost: €35\n- 16:00 — [Castel Sant'Angelo & Tiber riverside walk](https://www.google.com/maps/search/?api=1&query=Castel+Sant%27Angelo+%26+Tiber+riverside+walk+Rome) — Tip: Choose the castle visit or a relaxed riverside stroll.  \n  Duration: 1h30 | Cost: €12\n- 18:30 — [Aperitivo / early evening wine in Piazza Navona or riverside bar](https://www.google.com/maps/search/?api=1&query=Aperitivo+%2F+early+evening+wine+in+Piazza+Navona+or+riverside+bar+Rome) — Tip: Enjoy an aperitivo to unwind before dinner.  \n  Duration: 1h30 | Cost: €20\n- 20:30 — [Dinner in central Rome (choose a spot you reserved)](https://www.google.com/maps/search/?api=1&query=Dinner+in+central+Rome+%28choose+a+spot+you+reserved%29+Rome) — Tip: Book ahead for popular central restaurants.  \n  Duration: 2h | Cost: €45\n\nDay 4 — Borghese art, Villa Borghese park & a food finale — Total: €155 per person\n- 09:00 — [Book ahead: Galleria Borghese (timed entry)](https://www.google.com/maps/search/?api=1&query=Book+ahead%3A+Galleria+Borghese+%28timed+entry%29+Rome) — Tip: Timed slots required—arrive 10–15 min early.  \n  Duration: 1h30 | Cost: €20\n- 11:00 — [Villa Borghese park: relax, small boat rental or bike ride](https://www.google.com/maps/search/?api=1&query=Villa+Borghese+park%3A+relax%2C+small+boat+rental+or+bike+ride+Rome) — Tip: Great mellow time after the museum—rent a bike or a pedal boat.  \n  Duration: 1h30 | Cost: €10\n- 13:00 — [Lunch near the park](https://www.google.com/maps/search/?api=1&query=Lunch+near+the+park+Rome) — Tip: Keep it relaxed before the afternoon food activity.  \n  Duration: 1h15 | Cost: €30\n- 15:00 — [Testaccio food market visit or half-day cooking class](https://www.google.com/maps/search/?api=1&query=Testaccio+food+market+visit+or+half-day+cooking+class+Rome) — Tip: Book a cooking class in advance or explore market tastings.  \n  Duration: 2h30 | Cost: €50\n- 18:45 — [Return to hotel to freshen up (transfer)](https://www.google.com/maps/search/?api=1&query=Return+to+hotel+to+freshen+up+%28transfer%29+Rome) — Tip: Short rest before your farewell dinner.  \n  Duration: 30m | Cost: €0\n- 20:00 — [Farewell dinner in the Jewish Ghetto or Trastevere](https://www.google.com/maps/search/?api=1&query=Farewell+dinner+in+the+Jewish+Ghetto+or+Trastevere+Rome) — Tip: Try carciofi alla giudia if in season in the Ghetto.  \n  Duration: 2h | Cost: €45\n\nGrand total: €478 per person\n\nIf you’d like, I can:\n- Export this to PDF or printable format,\n- Add reservation links and recommended restaurants, or\n- Adjust timing or budget.",
+    "steps": [
+      {
+        "module": "Conversational Intake",
+        "prompt": {
+          "conversation": "User: 4 days in Rome, a couple, mid-range budget, we love culture and food — historical sites, Italian food and gelato.\nAgent: Here is your trip profile:\n\n```json\n{\n  \"destination\": \"Rome\",\n  \"days\": 4,\n  \"group\": \"couple\",\n  \"budget\": \"mid-range\",\n  \"style\": \"food, culture\",\n  \"priorities\": [\n    \"historical sites\",\n    \"Italian food\",\n    \"gelato\"\n  ]\n}\n```\n\nDoes this look correct? Type **'yes'** to start planning — or tell me what to change.\nUser: yes"
+        },
+        "response": {
+          "stage": "plan",
+          "profile": {
+            "days": 4,
+            "destination": "Rome",
+            "style": "food, culture",
+            "group": "couple",
+            "budget": "mid-range",
+            "when": "",
+            "origin": "",
+            "dietary": [],
+            "walking": "moderate",
+            "accessibility": false,
+            "priorities": [
+              "historical sites",
+              "Italian food",
+              "gelato"
+            ],
+            "avoid": [],
+            "assumptions": []
+          }
+        }
+      },
+      {
+        "module": "ReAct Planner",
+        "prompt": {
+          "thought": "First, gather distances and typical transfer times between key Rome sights and neighborhoods (Colosseum/Foro, Vatican, Pantheon/Piazza Navona, Trastevere, Termini), plus a few recommended food/gelato stops to plan realistic pacing and transfers.",
+          "tool": "maps_tool",
+          "tool_input": {
+            "center": "Rome city center",
+            "places": [
+              "Colosseum",
+              "Roman Forum",
+              "Palatine Hill",
+              "Vatican Museums",
+              "St. Peter's Basilica",
+              "Pantheon",
+              "Trevi Fountain",
+              "Piazza Navona",
+              "Campo de' Fiori",
+              "Trastevere (Piazza Santa Maria)",
+              "Galleria Borghese",
+              "Villa Borghese",
+              "Testaccio Market",
+              "Termini station",
+              "popular gelato near Pantheon",
+              "popular gelato near Trevi"
+            ]
+          }
+        },
+        "response": {
+          "observation": {
+            "ok": true,
+            "source": "mock",
+            "query": null,
+            "near": null,
+            "results": [
+              {
+                "name": "point of interest — central landmark",
+                "type": "attraction",
+                "open_hours": "09:00-17:00",
+                "est_visit_min": 90,
+                "walk_min_from_center": 8
+              },
+              {
+                "name": "point of interest — popular spot",
+                "type": "attraction",
+                "open_hours": "24h",
+                "est_visit_min": 60,
+                "walk_min_from_center": 15
+              },
+              {
+                "name": "point of interest — hidden gem",
+                "type": "attraction",
+                "open_hours": "10:00-18:00",
+                "est_visit_min": 75,
+                "walk_min_from_center": 22
+              }
+            ]
+          }
+        }
+      },
+      {
+        "module": "ReAct Planner",
+        "prompt": {
+          "thought": "Draft a balanced 4-day Rome itinerary emphasizing historical sites and food, with transfers, downtime and 'Book ahead:' notes for timed attractions. Provide per-item times/durations, per-person cost estimates, and an overall per-person budget estimate.",
+          "action": "finalize"
+        },
+        "response": {
+          "draft_plan": {
+            "days": [
+              {
+                "day": 1,
+                "title": "Arrival & historic-centre stroll (easy first day)",
+                "items": [
+                  {
+                    "time": "09:00",
+                    "name": "Settle at hotel + coffee",
+                    "duration_min": 60,
+                    "cost_eur": 5,
+                    "note": "Rest item: use this hour to check in (if possible), drop bags, orient yourself."
+                  },
+                  {
+                    "time": "10:30",
+                    "name": "Walk: Spanish Steps → Trevi Fountain",
+                    "duration_min": 60,
+                    "cost_eur": 0,
+                    "note": "Leisurely walk - allows photos and some shopping; absorbs transfer time between sights."
+                  },
+                  {
+                    "time": "12:00",
+                    "name": "Gelato & light lunch near Pantheon",
+                    "duration_min": 75,
+                    "cost_eur": 20,
+                    "note": "Try a gelato by the Pantheon; this is a relaxed lunch to match arrival energy."
+                  },
+                  {
+                    "time": "13:30",
+                    "name": "Pantheon & Piazza Navona",
+                    "duration_min": 75,
+                    "cost_eur": 0,
+                    "note": "Historic piazzas and Pantheon interior (opens ~09:00) — easy cultural stop."
+                  },
+                  {
+                    "time": "15:00",
+                    "name": "Coffee / downtime at Campo de' Fiori",
+                    "duration_min": 60,
+                    "cost_eur": 8,
+                    "note": "Rest and people-watch; good mid-afternoon break (queues/standing count as effort)."
+                  },
+                  {
+                    "time": "16:30",
+                    "name": "Walk to Trastevere (transfer)",
+                    "duration_min": 25,
+                    "cost_eur": 0,
+                    "note": "Walk or short tram/taxi — this transfer moves you to a great evening food neighborhood."
+                  },
+                  {
+                    "time": "19:30",
+                    "name": "Dinner in Trastevere (traditional trattoria)",
+                    "duration_min": 120,
+                    "cost_eur": 45,
+                    "note": "Relaxed evening meal — reserve if you have a particular popular trattoria in mind."
+                  }
+                ]
+              },
+              {
+                "day": 2,
+                "title": "Ancient Rome: Colosseum, Forum & neighbourhood flavours",
+                "items": [
+                  {
+                    "time": "08:30",
+                    "name": "Book ahead: Colosseum + Roman Forum + Palatine Hill",
+                    "duration_min": 150,
+                    "cost_eur": 18,
+                    "note": "Book ahead: timed entry recommended; arrive ~20 min early to pass security. Combined visit covers main ancient highlights."
+                  },
+                  {
+                    "time": "11:30",
+                    "name": "Walk up to Capitoline Hill / viewpoint (short transfer)",
+                    "duration_min": 20,
+                    "cost_eur": 0,
+                    "note": "Short walk from the Forum; enjoy city views and photos."
+                  },
+                  {
+                    "time": "12:00",
+                    "name": "Lunch in Monti (neighbourhood restaurants / enoteca)",
+                    "duration_min": 75,
+                    "cost_eur": 30,
+                    "note": "Monti is great for mid-range lunch options."
+                  },
+                  {
+                    "time": "13:45",
+                    "name": "Capitoline Museums or relaxed exploration of Roman Forum surrounds",
+                    "duration_min": 90,
+                    "cost_eur": 15,
+                    "note": "If museums interest you, they close mid/late afternoon — otherwise use this time to wander and rest in a café."
+                  },
+                  {
+                    "time": "16:15",
+                    "name": "Coffee & gelato break (downtime)",
+                    "duration_min": 45,
+                    "cost_eur": 8,
+                    "note": "Important downtime after several hours of standing/walking."
+                  },
+                  {
+                    "time": "18:00",
+                    "name": "Transfer to Testaccio for evening (short taxi/tram)",
+                    "duration_min": 20,
+                    "cost_eur": 2,
+                    "note": "Testaccio is a great food-focused neighbourhood for dinner."
+                  },
+                  {
+                    "time": "19:00",
+                    "name": "Dinner / food market tasting in Testaccio",
+                    "duration_min": 120,
+                    "cost_eur": 40,
+                    "note": "Try local Roman dishes — markets and trattorie here are excellent for food-focused travellers."
+                  }
+                ]
+              },
+              {
+                "day": 3,
+                "title": "Vatican highlights & riverside strolls",
+                "items": [
+                  {
+                    "time": "09:00",
+                    "name": "Book ahead: Vatican Museums & Sistine Chapel",
+                    "duration_min": 150,
+                    "cost_eur": 20,
+                    "note": "Book ahead: Vatican Museums are very popular and use timed-entry. Expect queues without booking."
+                  },
+                  {
+                    "time": "12:30",
+                    "name": "St. Peter's Basilica (visit interior; optional dome climb)",
+                    "duration_min": 90,
+                    "cost_eur": 0,
+                    "note": "Basilica itself is free to enter; dome climb has a separate fee (~€8–10) if you choose."
+                  },
+                  {
+                    "time": "14:30",
+                    "name": "Lunch in Prati (near the Vatican)",
+                    "duration_min": 75,
+                    "cost_eur": 35,
+                    "note": "Plenty of trattorie and enoteche in the Prati neighbourhood."
+                  },
+                  {
+                    "time": "16:00",
+                    "name": "Castel Sant'Angelo & Tiber riverside walk",
+                    "duration_min": 90,
+                    "cost_eur": 12,
+                    "note": "Castle visit or riverside stroll — relaxed pace with photo stops."
+                  },
+                  {
+                    "time": "18:30",
+                    "name": "Aperitivo / early evening wine in Piazza Navona or riverside bar",
+                    "duration_min": 90,
+                    "cost_eur": 20,
+                    "note": "Relaxed aperitivo before dinner; good downtime after a museum-heavy morning."
+                  },
+                  {
+                    "time": "20:30",
+                    "name": "Dinner in central Rome (choose a spot you reserved)",
+                    "duration_min": 120,
+                    "cost_eur": 45,
+                    "note": "If you have a specific popular restaurant in mind, Book ahead: many central restaurants are busy."
+                  }
+                ]
+              },
+              {
+                "day": 4,
+                "title": "Borghese art, Villa Borghese park & a food finale",
+                "items": [
+                  {
+                    "time": "09:00",
+                    "name": "Book ahead: Galleria Borghese (timed entry)",
+                    "duration_min": 90,
+                    "cost_eur": 20,
+                    "note": "Book ahead: entry is by timed slot and essential. Arrive 10–15 minutes early."
+                  },
+                  {
+                    "time": "11:00",
+                    "name": "Villa Borghese park: relax, small boat rental or bike ride",
+                    "duration_min": 90,
+                    "cost_eur": 10,
+                    "note": "Leisurely park time after the museum — rest and enjoy the greenery."
+                  },
+                  {
+                    "time": "13:00",
+                    "name": "Lunch near the park",
+                    "duration_min": 75,
+                    "cost_eur": 30,
+                    "note": "Casual lunch; keep it relaxed before the afternoon food activity."
+                  },
+                  {
+                    "time": "15:00",
+                    "name": "Testaccio food market visit or half-day cooking class",
+                    "duration_min": 150,
+                    "cost_eur": 50,
+                    "note": "Food priority: if you want a cooking class, Book ahead: classes fill fast. Alternatively explore Testaccio market for tastings."
+                  },
+                  {
+                    "time": "18:45",
+                    "name": "Return to hotel to freshen up (transfer)",
+                    "duration_min": 30,
+                    "cost_eur": 0,
+                    "note": "Short rest before the farewell dinner."
+                  },
+                  {
+                    "time": "20:00",
+                    "name": "Farewell dinner in the Jewish Ghetto or Trastevere",
+                    "duration_min": 120,
+                    "cost_eur": 45,
+                    "note": "Celebrate your last night with classic Roman dishes (carciofi alla giudia in the Ghetto is a highlight when in season)."
+                  }
+                ]
+              }
+            ],
+            "total_cost_eur": 478
+          }
+        }
+      },
+      {
+        "module": "Reflection Layer",
+        "prompt": {
+          "profile": {
+            "days": 4,
+            "destination": "Rome",
+            "style": "food, culture",
+            "group": "couple",
+            "budget": "mid-range",
+            "when": "",
+            "origin": "",
+            "dietary": [],
+            "walking": "moderate",
+            "accessibility": false,
+            "priorities": [
+              "historical sites",
+              "Italian food",
+              "gelato"
+            ],
+            "avoid": [],
+            "assumptions": []
+          },
+          "draft": {
+            "days": [
+              {
+                "day": 1,
+                "title": "Arrival & historic-centre stroll (easy first day)",
+                "items": [
+                  {
+                    "time": "09:00",
+                    "name": "Settle at hotel + coffee",
+                    "duration_min": 60,
+                    "cost_eur": 5,
+                    "note": "Rest item: use this hour to check in (if possible), drop bags, orient yourself."
+                  },
+                  {
+                    "time": "10:30",
+                    "name": "Walk: Spanish Steps → Trevi Fountain",
+                    "duration_min": 60,
+                    "cost_eur": 0,
+                    "note": "Leisurely walk - allows photos and some shopping; absorbs transfer time between sights."
+                  },
+                  {
+                    "time": "12:00",
+                    "name": "Gelato & light lunch near Pantheon",
+                    "duration_min": 75,
+                    "cost_eur": 20,
+                    "note": "Try a gelato by the Pantheon; this is a relaxed lunch to match arrival energy."
+                  },
+                  {
+                    "time": "13:30",
+                    "name": "Pantheon & Piazza Navona",
+                    "duration_min": 75,
+                    "cost_eur": 0,
+                    "note": "Historic piazzas and Pantheon interior (opens ~09:00) — easy cultural stop."
+                  },
+                  {
+                    "time": "15:00",
+                    "name": "Coffee / downtime at Campo de' Fiori",
+                    "duration_min": 60,
+                    "cost_eur": 8,
+                    "note": "Rest and people-watch; good mid-afternoon break (queues/standing count as effort)."
+                  },
+                  {
+                    "time": "16:30",
+                    "name": "Walk to Trastevere (transfer)",
+                    "duration_min": 25,
+                    "cost_eur": 0,
+                    "note": "Walk or short tram/taxi — this transfer moves you to a great evening food neighborhood."
+                  },
+                  {
+                    "time": "19:30",
+                    "name": "Dinner in Trastevere (traditional trattoria)",
+                    "duration_min": 120,
+                    "cost_eur": 45,
+                    "note": "Relaxed evening meal — reserve if you have a particular popular trattoria in mind."
+                  }
+                ]
+              },
+              {
+                "day": 2,
+                "title": "Ancient Rome: Colosseum, Forum & neighbourhood flavours",
+                "items": [
+                  {
+                    "time": "08:30",
+                    "name": "Book ahead: Colosseum + Roman Forum + Palatine Hill",
+                    "duration_min": 150,
+                    "cost_eur": 18,
+                    "note": "Book ahead: timed entry recommended; arrive ~20 min early to pass security. Combined visit covers main ancient highlights."
+                  },
+                  {
+                    "time": "11:30",
+                    "name": "Walk up to Capitoline Hill / viewpoint (short transfer)",
+                    "duration_min": 20,
+                    "cost_eur": 0,
+                    "note": "Short walk from the Forum; enjoy city views and photos."
+                  },
+                  {
+                    "time": "12:00",
+                    "name": "Lunch in Monti (neighbourhood restaurants / enoteca)",
+                    "duration_min": 75,
+                    "cost_eur": 30,
+                    "note": "Monti is great for mid-range lunch options."
+                  },
+                  {
+                    "time": "13:45",
+                    "name": "Capitoline Museums or relaxed exploration of Roman Forum surrounds",
+                    "duration_min": 90,
+                    "cost_eur": 15,
+                    "note": "If museums interest you, they close mid/late afternoon — otherwise use this time to wander and rest in a café."
+                  },
+                  {
+                    "time": "16:15",
+                    "name": "Coffee & gelato break (downtime)",
+                    "duration_min": 45,
+                    "cost_eur": 8,
+                    "note": "Important downtime after several hours of standing/walking."
+                  },
+                  {
+                    "time": "18:00",
+                    "name": "Transfer to Testaccio for evening (short taxi/tram)",
+                    "duration_min": 20,
+                    "cost_eur": 2,
+                    "note": "Testaccio is a great food-focused neighbourhood for dinner."
+                  },
+                  {
+                    "time": "19:00",
+                    "name": "Dinner / food market tasting in Testaccio",
+                    "duration_min": 120,
+                    "cost_eur": 40,
+                    "note": "Try local Roman dishes — markets and trattorie here are excellent for food-focused travellers."
+                  }
+                ]
+              },
+              {
+                "day": 3,
+                "title": "Vatican highlights & riverside strolls",
+                "items": [
+                  {
+                    "time": "09:00",
+                    "name": "Book ahead: Vatican Museums & Sistine Chapel",
+                    "duration_min": 150,
+                    "cost_eur": 20,
+                    "note": "Book ahead: Vatican Museums are very popular and use timed-entry. Expect queues without booking."
+                  },
+                  {
+                    "time": "12:30",
+                    "name": "St. Peter's Basilica (visit interior; optional dome climb)",
+                    "duration_min": 90,
+                    "cost_eur": 0,
+                    "note": "Basilica itself is free to enter; dome climb has a separate fee (~€8–10) if you choose."
+                  },
+                  {
+                    "time": "14:30",
+                    "name": "Lunch in Prati (near the Vatican)",
+                    "duration_min": 75,
+                    "cost_eur": 35,
+                    "note": "Plenty of trattorie and enoteche in the Prati neighbourhood."
+                  },
+                  {
+                    "time": "16:00",
+                    "name": "Castel Sant'Angelo & Tiber riverside walk",
+                    "duration_min": 90,
+                    "cost_eur": 12,
+                    "note": "Castle visit or riverside stroll — relaxed pace with photo stops."
+                  },
+                  {
+                    "time": "18:30",
+                    "name": "Aperitivo / early evening wine in Piazza Navona or riverside bar",
+                    "duration_min": 90,
+                    "cost_eur": 20,
+                    "note": "Relaxed aperitivo before dinner; good downtime after a museum-heavy morning."
+                  },
+                  {
+                    "time": "20:30",
+                    "name": "Dinner in central Rome (choose a spot you reserved)",
+                    "duration_min": 120,
+                    "cost_eur": 45,
+                    "note": "If you have a specific popular restaurant in mind, Book ahead: many central restaurants are busy."
+                  }
+                ]
+              },
+              {
+                "day": 4,
+                "title": "Borghese art, Villa Borghese park & a food finale",
+                "items": [
+                  {
+                    "time": "09:00",
+                    "name": "Book ahead: Galleria Borghese (timed entry)",
+                    "duration_min": 90,
+                    "cost_eur": 20,
+                    "note": "Book ahead: entry is by timed slot and essential. Arrive 10–15 minutes early."
+                  },
+                  {
+                    "time": "11:00",
+                    "name": "Villa Borghese park: relax, small boat rental or bike ride",
+                    "duration_min": 90,
+                    "cost_eur": 10,
+                    "note": "Leisurely park time after the museum — rest and enjoy the greenery."
+                  },
+                  {
+                    "time": "13:00",
+                    "name": "Lunch near the park",
+                    "duration_min": 75,
+                    "cost_eur": 30,
+                    "note": "Casual lunch; keep it relaxed before the afternoon food activity."
+                  },
+                  {
+                    "time": "15:00",
+                    "name": "Testaccio food market visit or half-day cooking class",
+                    "duration_min": 150,
+                    "cost_eur": 50,
+                    "note": "Food priority: if you want a cooking class, Book ahead: classes fill fast. Alternatively explore Testaccio market for tastings."
+                  },
+                  {
+                    "time": "18:45",
+                    "name": "Return to hotel to freshen up (transfer)",
+                    "duration_min": 30,
+                    "cost_eur": 0,
+                    "note": "Short rest before the farewell dinner."
+                  },
+                  {
+                    "time": "20:00",
+                    "name": "Farewell dinner in the Jewish Ghetto or Trastevere",
+                    "duration_min": 120,
+                    "cost_eur": 45,
+                    "note": "Celebrate your last night with classic Roman dishes (carciofi alla giudia in the Ghetto is a highlight when in season)."
+                  }
+                ]
+              }
+            ],
+            "total_cost_eur": 478
+          }
+        },
+        "response": {
+          "verdict": "PASS",
+          "must_fix": [],
+          "be_aware": [
+            "Day 1 starts at 09:00 for 'settle at hotel' — arrival time is not provided. If the travellers arrive later in the day the whole Day 1 schedule will need to be shifted or shortened.",
+            "Timed-entry tickets are strongly recommended (and often required) for: Colosseum + Forum + Palatine, Vatican Museums & Sistine Chapel, Galleria Borghese and many popular cooking classes. Book these well in advance.",
+            "Weekly opening/closing patterns vary: some museums and attractions close one weekday (commonly Monday) or have reduced hours. Without exact travel dates this is advisory — check each attraction's weekly schedule before finalising.",
+            "Security checks and queues at the Colosseum, Vatican, St. Peter's and other major sites can add 20–45+ minutes. Allow extra buffer between timed visits and subsequent items.",
+            "St. Peter's Basilica (and other churches) enforces a modest dress code (shoulders/knees covered) and may have separate queues for dome access. Dome climb has a separate fee and can be closed for services.",
+            "Many central restaurants (Trastevere, Jewish Ghetto, popular trattorie) are busy — evening reservations are recommended, especially in high season.",
+            "Walking in Rome involves cobbles and uneven surfaces; couples should plan comfortable shoes and consider taxis or short tram rides for longer transfers or if mobility is a concern.",
+            "Price estimates are per person and approximate. Ticket prices, menu prices and market/tour/class fees may change; availability can fluctuate in peak season.",
+            "Some sites (e.g., Pantheon) have changed access rules in recent years (donation vs paid entry for certain visits) — double-check current entry policy before relying on 'free' status.",
+            "Testaccio market opening patterns and cooking-class schedules vary; if choosing a market visit on Day 4, confirm market hours or pre-book a class to avoid disappointment."
+          ],
+          "issues": [
+            "Day 1 starts at 09:00 for 'settle at hotel' — arrival time is not provided. If the travellers arrive later in the day the whole Day 1 schedule will need to be shifted or shortened.",
+            "Timed-entry tickets are strongly recommended (and often required) for: Colosseum + Forum + Palatine, Vatican Museums & Sistine Chapel, Galleria Borghese and many popular cooking classes. Book these well in advance.",
+            "Weekly opening/closing patterns vary: some museums and attractions close one weekday (commonly Monday) or have reduced hours. Without exact travel dates this is advisory — check each attraction's weekly schedule before finalising.",
+            "Security checks and queues at the Colosseum, Vatican, St. Peter's and other major sites can add 20–45+ minutes. Allow extra buffer between timed visits and subsequent items.",
+            "St. Peter's Basilica (and other churches) enforces a modest dress code (shoulders/knees covered) and may have separate queues for dome access. Dome climb has a separate fee and can be closed for services.",
+            "Many central restaurants (Trastevere, Jewish Ghetto, popular trattorie) are busy — evening reservations are recommended, especially in high season.",
+            "Walking in Rome involves cobbles and uneven surfaces; couples should plan comfortable shoes and consider taxis or short tram rides for longer transfers or if mobility is a concern.",
+            "Price estimates are per person and approximate. Ticket prices, menu prices and market/tour/class fees may change; availability can fluctuate in peak season.",
+            "Some sites (e.g., Pantheon) have changed access rules in recent years (donation vs paid entry for certain visits) — double-check current entry policy before relying on 'free' status.",
+            "Testaccio market opening patterns and cooking-class schedules vary; if choosing a market visit on Day 4, confirm market hours or pre-book a class to avoid disappointment."
+          ],
+          "fixes": [
+            "Add an 'arrival window' note to Day 1: if arrival is midday/afternoon, convert Day 1 to a half-day with evening Trastevere dinner only (or move some Day 1 items to Day 4).",
+            "Explicitly flag the attractions that need booked timed slots in the itinerary (Colosseum, Vatican, Galleria Borghese, cooking class) and add a 'book by' recommendation (e.g., as soon as travel dates are fixed).",
+            "Insert short extra buffers (20–30 minutes) after each major timed-entry visit (Colosseum, Vatican, Borghese) to allow for security checks and transit.",
+            "Recommend making dinner reservations for Trastevere (Day 1), Testaccio (Day 2), central Rome (Day 3) and the farewell restaurant (Day 4) — include a note to ask the planner to suggest specific restaurants and booking windows.",
+            "Add a rainy-day backup: swap in indoor options (extra museum, food tour, enoteca tasting) in case of bad weather or unexpected closures.",
+            "If mobility is a concern, suggest replacing one longer walk/transfer (e.g., Campo de' Fiori → Trastevere) with a short taxi/tram and note expected taxi/tram times so travellers can decide in advance."
+          ]
+        }
+      },
+      {
+        "module": "Output Formatter",
+        "prompt": {
+          "plan": {
+            "days": [
+              {
+                "day": 1,
+                "title": "Arrival & historic-centre stroll (easy first day)",
+                "items": [
+                  {
+                    "time": "09:00",
+                    "name": "Settle at hotel + coffee",
+                    "duration_min": 60,
+                    "cost_eur": 5,
+                    "note": "Rest item: use this hour to check in (if possible), drop bags, orient yourself.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Settle+at+hotel+%2B+coffee+Rome"
+                  },
+                  {
+                    "time": "10:30",
+                    "name": "Walk: Spanish Steps → Trevi Fountain",
+                    "duration_min": 60,
+                    "cost_eur": 0,
+                    "note": "Leisurely walk - allows photos and some shopping; absorbs transfer time between sights.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Walk%3A+Spanish+Steps+%E2%86%92+Trevi+Fountain+Rome"
+                  },
+                  {
+                    "time": "12:00",
+                    "name": "Gelato & light lunch near Pantheon",
+                    "duration_min": 75,
+                    "cost_eur": 20,
+                    "note": "Try a gelato by the Pantheon; this is a relaxed lunch to match arrival energy.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Gelato+%26+light+lunch+near+Pantheon+Rome"
+                  },
+                  {
+                    "time": "13:30",
+                    "name": "Pantheon & Piazza Navona",
+                    "duration_min": 75,
+                    "cost_eur": 0,
+                    "note": "Historic piazzas and Pantheon interior (opens ~09:00) — easy cultural stop.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Pantheon+%26+Piazza+Navona+Rome"
+                  },
+                  {
+                    "time": "15:00",
+                    "name": "Coffee / downtime at Campo de' Fiori",
+                    "duration_min": 60,
+                    "cost_eur": 8,
+                    "note": "Rest and people-watch; good mid-afternoon break (queues/standing count as effort).",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Coffee+%2F+downtime+at+Campo+de%27+Fiori+Rome"
+                  },
+                  {
+                    "time": "16:30",
+                    "name": "Walk to Trastevere (transfer)",
+                    "duration_min": 25,
+                    "cost_eur": 0,
+                    "note": "Walk or short tram/taxi — this transfer moves you to a great evening food neighborhood.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Walk+to+Trastevere+%28transfer%29+Rome"
+                  },
+                  {
+                    "time": "19:30",
+                    "name": "Dinner in Trastevere (traditional trattoria)",
+                    "duration_min": 120,
+                    "cost_eur": 45,
+                    "note": "Relaxed evening meal — reserve if you have a particular popular trattoria in mind.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Dinner+in+Trastevere+%28traditional+trattoria%29+Rome"
+                  }
+                ]
+              },
+              {
+                "day": 2,
+                "title": "Ancient Rome: Colosseum, Forum & neighbourhood flavours",
+                "items": [
+                  {
+                    "time": "08:30",
+                    "name": "Book ahead: Colosseum + Roman Forum + Palatine Hill",
+                    "duration_min": 150,
+                    "cost_eur": 18,
+                    "note": "Book ahead: timed entry recommended; arrive ~20 min early to pass security. Combined visit covers main ancient highlights.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Book+ahead%3A+Colosseum+%2B+Roman+Forum+%2B+Palatine+Hill+Rome"
+                  },
+                  {
+                    "time": "11:30",
+                    "name": "Walk up to Capitoline Hill / viewpoint (short transfer)",
+                    "duration_min": 20,
+                    "cost_eur": 0,
+                    "note": "Short walk from the Forum; enjoy city views and photos.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Walk+up+to+Capitoline+Hill+%2F+viewpoint+%28short+transfer%29+Rome"
+                  },
+                  {
+                    "time": "12:00",
+                    "name": "Lunch in Monti (neighbourhood restaurants / enoteca)",
+                    "duration_min": 75,
+                    "cost_eur": 30,
+                    "note": "Monti is great for mid-range lunch options.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Lunch+in+Monti+%28neighbourhood+restaurants+%2F+enoteca%29+Rome"
+                  },
+                  {
+                    "time": "13:45",
+                    "name": "Capitoline Museums or relaxed exploration of Roman Forum surrounds",
+                    "duration_min": 90,
+                    "cost_eur": 15,
+                    "note": "If museums interest you, they close mid/late afternoon — otherwise use this time to wander and rest in a café.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Capitoline+Museums+or+relaxed+exploration+of+Roman+Forum+surrounds+Rome"
+                  },
+                  {
+                    "time": "16:15",
+                    "name": "Coffee & gelato break (downtime)",
+                    "duration_min": 45,
+                    "cost_eur": 8,
+                    "note": "Important downtime after several hours of standing/walking.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Coffee+%26+gelato+break+%28downtime%29+Rome"
+                  },
+                  {
+                    "time": "18:00",
+                    "name": "Transfer to Testaccio for evening (short taxi/tram)",
+                    "duration_min": 20,
+                    "cost_eur": 2,
+                    "note": "Testaccio is a great food-focused neighbourhood for dinner.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Transfer+to+Testaccio+for+evening+%28short+taxi%2Ftram%29+Rome"
+                  },
+                  {
+                    "time": "19:00",
+                    "name": "Dinner / food market tasting in Testaccio",
+                    "duration_min": 120,
+                    "cost_eur": 40,
+                    "note": "Try local Roman dishes — markets and trattorie here are excellent for food-focused travellers.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Dinner+%2F+food+market+tasting+in+Testaccio+Rome"
+                  }
+                ]
+              },
+              {
+                "day": 3,
+                "title": "Vatican highlights & riverside strolls",
+                "items": [
+                  {
+                    "time": "09:00",
+                    "name": "Book ahead: Vatican Museums & Sistine Chapel",
+                    "duration_min": 150,
+                    "cost_eur": 20,
+                    "note": "Book ahead: Vatican Museums are very popular and use timed-entry. Expect queues without booking.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Book+ahead%3A+Vatican+Museums+%26+Sistine+Chapel+Rome"
+                  },
+                  {
+                    "time": "12:30",
+                    "name": "St. Peter's Basilica (visit interior; optional dome climb)",
+                    "duration_min": 90,
+                    "cost_eur": 0,
+                    "note": "Basilica itself is free to enter; dome climb has a separate fee (~€8–10) if you choose.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=St.+Peter%27s+Basilica+%28visit+interior%3B+optional+dome+climb%29+Rome"
+                  },
+                  {
+                    "time": "14:30",
+                    "name": "Lunch in Prati (near the Vatican)",
+                    "duration_min": 75,
+                    "cost_eur": 35,
+                    "note": "Plenty of trattorie and enoteche in the Prati neighbourhood.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Lunch+in+Prati+%28near+the+Vatican%29+Rome"
+                  },
+                  {
+                    "time": "16:00",
+                    "name": "Castel Sant'Angelo & Tiber riverside walk",
+                    "duration_min": 90,
+                    "cost_eur": 12,
+                    "note": "Castle visit or riverside stroll — relaxed pace with photo stops.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Castel+Sant%27Angelo+%26+Tiber+riverside+walk+Rome"
+                  },
+                  {
+                    "time": "18:30",
+                    "name": "Aperitivo / early evening wine in Piazza Navona or riverside bar",
+                    "duration_min": 90,
+                    "cost_eur": 20,
+                    "note": "Relaxed aperitivo before dinner; good downtime after a museum-heavy morning.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Aperitivo+%2F+early+evening+wine+in+Piazza+Navona+or+riverside+bar+Rome"
+                  },
+                  {
+                    "time": "20:30",
+                    "name": "Dinner in central Rome (choose a spot you reserved)",
+                    "duration_min": 120,
+                    "cost_eur": 45,
+                    "note": "If you have a specific popular restaurant in mind, Book ahead: many central restaurants are busy.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Dinner+in+central+Rome+%28choose+a+spot+you+reserved%29+Rome"
+                  }
+                ]
+              },
+              {
+                "day": 4,
+                "title": "Borghese art, Villa Borghese park & a food finale",
+                "items": [
+                  {
+                    "time": "09:00",
+                    "name": "Book ahead: Galleria Borghese (timed entry)",
+                    "duration_min": 90,
+                    "cost_eur": 20,
+                    "note": "Book ahead: entry is by timed slot and essential. Arrive 10–15 minutes early.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Book+ahead%3A+Galleria+Borghese+%28timed+entry%29+Rome"
+                  },
+                  {
+                    "time": "11:00",
+                    "name": "Villa Borghese park: relax, small boat rental or bike ride",
+                    "duration_min": 90,
+                    "cost_eur": 10,
+                    "note": "Leisurely park time after the museum — rest and enjoy the greenery.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Villa+Borghese+park%3A+relax%2C+small+boat+rental+or+bike+ride+Rome"
+                  },
+                  {
+                    "time": "13:00",
+                    "name": "Lunch near the park",
+                    "duration_min": 75,
+                    "cost_eur": 30,
+                    "note": "Casual lunch; keep it relaxed before the afternoon food activity.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Lunch+near+the+park+Rome"
+                  },
+                  {
+                    "time": "15:00",
+                    "name": "Testaccio food market visit or half-day cooking class",
+                    "duration_min": 150,
+                    "cost_eur": 50,
+                    "note": "Food priority: if you want a cooking class, Book ahead: classes fill fast. Alternatively explore Testaccio market for tastings.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Testaccio+food+market+visit+or+half-day+cooking+class+Rome"
+                  },
+                  {
+                    "time": "18:45",
+                    "name": "Return to hotel to freshen up (transfer)",
+                    "duration_min": 30,
+                    "cost_eur": 0,
+                    "note": "Short rest before the farewell dinner.",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Return+to+hotel+to+freshen+up+%28transfer%29+Rome"
+                  },
+                  {
+                    "time": "20:00",
+                    "name": "Farewell dinner in the Jewish Ghetto or Trastevere",
+                    "duration_min": 120,
+                    "cost_eur": 45,
+                    "note": "Celebrate your last night with classic Roman dishes (carciofi alla giudia in the Ghetto is a highlight when in season).",
+                    "map_url": "https://www.google.com/maps/search/?api=1&query=Farewell+dinner+in+the+Jewish+Ghetto+or+Trastevere+Rome"
+                  }
+                ]
+              }
+            ],
+            "total_cost_eur": 478
+          }
+        },
+        "response": {
+          "itinerary_markdown": "# Rome — 4-day food & culture itinerary (couple, mid-range)\n\nDay 1 — Arrival & historic-centre stroll (easy first day) — Total: €78 per person\n- 09:00 — [Settle at hotel + coffee](https://www.google.com/maps/search/?api=1&query=Settle+at+hotel+%2B+coffee+Rome) — Tip: Check in, drop bags and get oriented.  \n  Duration: 1h | Cost: €5\n- 10:30 — [Walk: Spanish Steps → Trevi Fountain](https://www.google.com/maps/search/?api=1&query=Walk%3A+Spanish+Steps+%E2%86%92+Trevi+Fountain+Rome) — Tip: Leisurely walk for photos and a little shopping.  \n  Duration: 1h | Cost: €0\n- 12:00 — [Gelato & light lunch near Pantheon](https://www.google.com/maps/search/?api=1&query=Gelato+%26+light+lunch+near+Pantheon+Rome) — Tip: Try a gelato by the Pantheon for an easy, tasty lunch.  \n  Duration: 1h15 | Cost: €20\n- 13:30 — [Pantheon & Piazza Navona](https://www.google.com/maps/search/?api=1&query=Pantheon+%26+Piazza+Navona+Rome) — Tip: Visit the Pantheon interior and enjoy the piazza atmosphere.  \n  Duration: 1h15 | Cost: €0\n- 15:00 — [Coffee / downtime at Campo de' Fiori](https://www.google.com/maps/search/?api=1&query=Coffee+%2F+downtime+at+Campo+de%27+Fiori+Rome) — Tip: People-watch and rest—good mid-afternoon pause.  \n  Duration: 1h | Cost: €8\n- 16:30 — [Walk to Trastevere (transfer)](https://www.google.com/maps/search/?api=1&query=Walk+to+Trastevere+%28transfer%29+Rome) — Tip: Short and pleasant transfer to an evening-food neighborhood.  \n  Duration: 25m | Cost: €0\n- 19:30 — [Dinner in Trastevere (traditional trattoria)](https://www.google.com/maps/search/?api=1&query=Dinner+in+Trastevere+%28traditional+trattoria%29+Rome) — Tip: Reserve ahead for popular trattorie.  \n  Duration: 2h | Cost: €45\n\nDay 2 — Ancient Rome: Colosseum, Forum & neighbourhood flavours — Total: €113 per person\n- 08:30 — [Book ahead: Colosseum + Roman Forum + Palatine Hill](https://www.google.com/maps/search/?api=1&query=Book+ahead%3A+Colosseum+%2B+Roman+Forum+%2B+Palatine+Hill+Rome) — Tip: Timed entry—arrive ~20 min early to pass security.  \n  Duration: 2h30 | Cost: €18\n- 11:30 — [Walk up to Capitoline Hill / viewpoint (short transfer)](https://www.google.com/maps/search/?api=1&query=Walk+up+to+Capitoline+Hill+%2F+viewpoint+%28short+transfer%29+Rome) — Tip: Great city views and photos after the Forum.  \n  Duration: 20m | Cost: €0\n- 12:00 — [Lunch in Monti (neighbourhood restaurants / enoteca)](https://www.google.com/maps/search/?api=1&query=Lunch+in+Monti+%28neighbourhood+restaurants+%2F+enoteca%29+Rome) — Tip: Monti has excellent mid-range trattorie and wine bars.  \n  Duration: 1h15 | Cost: €30\n- 13:45 — [Capitoline Museums or relaxed exploration of Roman Forum surrounds](https://www.google.com/maps/search/?api=1&query=Capitoline+Museums+or+relaxed+exploration+of+Roman+Forum+surrounds+Rome) — Tip: Choose museums or a slow café break depending on energy.  \n  Duration: 1h30 | Cost: €15\n- 16:15 — [Coffee & gelato break (downtime)](https://www.google.com/maps/search/?api=1&query=Coffee+%26+gelato+break+%28downtime%29+Rome) — Tip: Recharge with coffee + gelato after lots of walking.  \n  Duration: 45m | Cost: €8\n- 18:00 — [Transfer to Testaccio for evening (short taxi/tram)](https://www.google.com/maps/search/?api=1&query=Transfer+to+Testaccio+for+evening+%28short+taxi%2Ftram%29+Rome) — Tip: Short trip to a top food-focused neighborhood.  \n  Duration: 20m | Cost: €2\n- 19:00 — [Dinner / food market tasting in Testaccio](https://www.google.com/maps/search/?api=1&query=Dinner+%2F+food+market+tasting+in+Testaccio+Rome) — Tip: Sample local Roman dishes and market specialties.  \n  Duration: 2h | Cost: €40\n\nDay 3 — Vatican highlights & riverside strolls — Total: €132 per person\n- 09:00 — [Book ahead: Vatican Museums & Sistine Chapel](https://www.google.com/maps/search/?api=1&query=Book+ahead%3A+Vatican+Museums+%26+Sistine+Chapel+Rome) — Tip: Timed-entry essential to avoid long queues.  \n  Duration: 2h30 | Cost: €20\n- 12:30 — [St. Peter's Basilica (visit interior; optional dome climb)](https://www.google.com/maps/search/?api=1&query=St.+Peter%27s+Basilica+%28visit+interior%3B+optional+dome+climb%29+Rome) — Tip: Basilica is free; dome climb costs extra (~€8–10).  \n  Duration: 1h30 | Cost: €0\n- 14:30 — [Lunch in Prati (near the Vatican)](https://www.google.com/maps/search/?api=1&query=Lunch+in+Prati+%28near+the+Vatican%29+Rome) — Tip: Prati has many trattorie and good wine lists.  \n  Duration: 1h15 | Cost: €35\n- 16:00 — [Castel Sant'Angelo & Tiber riverside walk](https://www.google.com/maps/search/?api=1&query=Castel+Sant%27Angelo+%26+Tiber+riverside+walk+Rome) — Tip: Choose the castle visit or a relaxed riverside stroll.  \n  Duration: 1h30 | Cost: €12\n- 18:30 — [Aperitivo / early evening wine in Piazza Navona or riverside bar](https://www.google.com/maps/search/?api=1&query=Aperitivo+%2F+early+evening+wine+in+Piazza+Navona+or+riverside+bar+Rome) — Tip: Enjoy an aperitivo to unwind before dinner.  \n  Duration: 1h30 | Cost: €20\n- 20:30 — [Dinner in central Rome (choose a spot you reserved)](https://www.google.com/maps/search/?api=1&query=Dinner+in+central+Rome+%28choose+a+spot+you+reserved%29+Rome) — Tip: Book ahead for popular central restaurants.  \n  Duration: 2h | Cost: €45\n\nDay 4 — Borghese art, Villa Borghese park & a food finale — Total: €155 per person\n- 09:00 — [Book ahead: Galleria Borghese (timed entry)](https://www.google.com/maps/search/?api=1&query=Book+ahead%3A+Galleria+Borghese+%28timed+entry%29+Rome) — Tip: Timed slots required—arrive 10–15 min early.  \n  Duration: 1h30 | Cost: €20\n- 11:00 — [Villa Borghese park: relax, small boat rental or bike ride](https://www.google.com/maps/search/?api=1&query=Villa+Borghese+park%3A+relax%2C+small+boat+rental+or+bike+ride+Rome) — Tip: Great mellow time after the museum—rent a bike or a pedal boat.  \n  Duration: 1h30 | Cost: €10\n- 13:00 — [Lunch near the park](https://www.google.com/maps/search/?api=1&query=Lunch+near+the+park+Rome) — Tip: Keep it relaxed before the afternoon food activity.  \n  Duration: 1h15 | Cost: €30\n- 15:00 — [Testaccio food market visit or half-day cooking class](https://www.google.com/maps/search/?api=1&query=Testaccio+food+market+visit+or+half-day+cooking+class+Rome) — Tip: Book a cooking class in advance or explore market tastings.  \n  Duration: 2h30 | Cost: €50\n- 18:45 — [Return to hotel to freshen up (transfer)](https://www.google.com/maps/search/?api=1&query=Return+to+hotel+to+freshen+up+%28transfer%29+Rome) — Tip: Short rest before your farewell dinner.  \n  Duration: 30m | Cost: €0\n- 20:00 — [Farewell dinner in the Jewish Ghetto or Trastevere](https://www.google.com/maps/search/?api=1&query=Farewell+dinner+in+the+Jewish+Ghetto+or+Trastevere+Rome) — Tip: Try carciofi alla giudia if in season in the Ghetto.  \n  Duration: 2h | Cost: €45\n\nGrand total: €478 per person\n\nIf you’d like, I can:\n- Export this to PDF or printable format,\n- Add reservation links and recommended restaurants, or\n- Adjust timing or budget."
+        }
+      }
+    ]
+  }
+]

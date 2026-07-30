@@ -27,7 +27,11 @@ def test_branch_C_confirmed_runs_planner(patched_agent, scripted_chat):
     out = patched_agent.module.run_agent(
         "User: 2 days in Kyoto, couple, mid-range, temples\nAgent: ...confirm?\nUser: yes")
     mods = [s["module"] for s in out["steps"]]
-    assert "Preference Profiler" in mods and "ReAct Planner" in mods and "Output Formatter" in mods
+    assert "ReAct Planner" in mods and "Output Formatter" in mods
+    # Steps describe LLM calls only. The intake call is traced under its own name, and the
+    # deterministic profiler — which makes no model call — is not a step at all.
+    assert mods[0] == "Conversational Intake"
+    assert "Preference Profiler" not in mods
 
 
 def test_intake_only_costs_one_llm_call(patched_agent):
@@ -48,9 +52,11 @@ def test_intake_only_costs_one_llm_call(patched_agent):
 def test_happy_path_shape(patched_agent, scripted_chat):
     patched_agent.install(scripted_chat())
     out = patched_agent.module.run_agent("2 days in Kyoto, mid-range, love temples")
-    assert set(out.keys()) == {"response", "steps"}
+    assert set(out.keys()) == {"response", "steps", "state", "branch", "usage", "ms"}
     assert isinstance(out["response"], str) and out["response"]
     assert isinstance(out["steps"], list) and out["steps"]
+    assert out["branch"] == "plan"
+    assert out["state"]["plan"]["days"]          # the plan is handed back for revision
 
 
 def test_step_schema_and_module_names(patched_agent, scripted_chat, diagram_modules):
@@ -66,7 +72,7 @@ def test_malformed_planner_never_crashes(patched_agent, scripted_chat):
     # Planner returns pure garbage on every turn -> pipeline must degrade, not raise.
     patched_agent.install(scripted_chat(planner_reply="this is not json at all"))
     out = patched_agent.module.run_agent("2 days in Kyoto")
-    assert set(out.keys()) == {"response", "steps"}
+    assert set(out.keys()) == {"response", "steps", "state", "branch", "usage", "ms"}
     assert "caveats" in out["response"].lower()   # degradation is surfaced to the user
 
 

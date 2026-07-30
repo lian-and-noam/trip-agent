@@ -5,6 +5,7 @@ its cold starts fast. Every function here is total: it never raises on bad input
 coerces or clamps toward a safe, schema-valid value. This is what lets the orchestrator
 turn a malformed model reply into a recoverable state instead of a 500.
 """
+import re
 
 # --- Deterministic bounds (independent of the LLM critic) ---------------------------
 DAYS_MIN, DAYS_MAX = 1, 30
@@ -35,13 +36,48 @@ def _as_str(x, default=""):
     return str(x)
 
 
-def _as_int(x, default):
+# Models write numbers the way people do — "€25", "40 EUR", "$1,200.50", "about 90 min".
+# Grab the first number-shaped run of characters, then normalise the separators.
+_NUMBER_RE = re.compile(r"-?\d[\d ,_]*(?:\.\d+)?")
+_DECIMAL_COMMA_RE = re.compile(r"-?\d+,\d{2}")
+
+
+def _to_number(x):
+    """Best-effort numeric extraction. Returns a float, or None when there is none."""
+    if isinstance(x, bool):          # bool is an int subclass; reject it explicitly
+        return None
+    if isinstance(x, (int, float)):
+        return float(x)
+    if not isinstance(x, str):
+        return None
+    m = _NUMBER_RE.search(x)
+    if not m:
+        return None
+    tok = m.group(0).replace(" ", "").replace("_", "")
+    if "." in tok:
+        tok = tok.replace(",", "")                 # 1,200.50 -> comma is a thousands mark
+    elif _DECIMAL_COMMA_RE.fullmatch(tok):
+        tok = tok.replace(",", ".")                # 12,90    -> European decimal comma
+    else:
+        tok = tok.replace(",", "")                 # 1,200    -> thousands mark
     try:
-        if isinstance(x, bool):  # bool is an int subclass; reject it explicitly
-            return default
-        return int(x)
-    except (TypeError, ValueError):
+        return float(tok)
+    except ValueError:
+        return None
+
+
+def _as_int(x, default):
+    """Coerce to int, rounding to nearest instead of truncating.
+
+    Tolerant of the currency and unit formats a model actually emits. The old `int(x)`
+    turned "€25" and "40 EUR" into `default`, silently zeroing item costs and letting an
+    over-budget trip slip past the deterministic budget guard, and it truncated 12.90 to 12
+    so every fractional cost lost its remainder.
+    """
+    n = _to_number(x)
+    if n is None:
         return default
+    return int(n + 0.5) if n >= 0 else int(n - 0.5)   # half away from zero
 
 
 def _as_list(x):
@@ -236,13 +272,29 @@ def minimal_plan(profile):
 # --- Verdict ------------------------------------------------------------------------
 def validate_verdict(obj):
     """Coerce the Reflection Layer output. An unknown or garbled verdict is treated as
-    FAIL, so an unreadable critic can never green-light a bad plan."""
+    FAIL, so an unreadable critic can never green-light a bad plan.
+
+    The critic separates concrete defects (`must_fix`) from advisory travel notes
+    (`be_aware`). Merging them made a competent plan look broken: nine equally-alarming
+    bullets read as "this itinerary is wrong" when most were "book ahead" and "churches
+    close for services". `issues` is retained as the union of both, for logging and for any
+    caller still expecting the old flat shape.
+    """
     o = as_obj(obj)
     verdict = _as_str(o.get("verdict")).strip().upper()
     if verdict not in ("PASS", "FAIL"):
         verdict = "FAIL"
+    must_fix = [_as_str(x) for x in _as_list(o.get("must_fix"))]
+    be_aware = [_as_str(x) for x in _as_list(o.get("be_aware"))]
+    if not must_fix and not be_aware:
+        # A critic that replied in the old flat shape still works: treat issues as defects.
+        must_fix = [_as_str(x) for x in _as_list(o.get("issues"))]
+    must_fix = [x for x in must_fix if x.strip()]
+    be_aware = [x for x in be_aware if x.strip()]
     return {
         "verdict": verdict,
-        "issues": [_as_str(x) for x in _as_list(o.get("issues"))],
+        "must_fix": must_fix,
+        "be_aware": be_aware,
+        "issues": must_fix + be_aware,
         "fixes": [_as_str(x) for x in _as_list(o.get("fixes"))],
     }

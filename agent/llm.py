@@ -13,7 +13,9 @@ per-model instead of assumed.
 import os
 import re
 import json
-from openai import OpenAI
+from openai import OpenAI, APITimeoutError
+
+from . import cassette, obs, usage
 
 try:
     from dotenv import load_dotenv
@@ -25,14 +27,29 @@ MODEL = os.environ.get("LLMOD_MODEL", "NBUECSE-gpt-5-mini")
 
 # Per-call timeout and retry budget. Reasoning models think before emitting any tokens,
 # so a planner call can legitimately run far longer than a chat-model call. Retries are
-# disabled: a timeout here means the model is slow, and retrying only doubles the wait
-# (worst case per call is now _TIMEOUT_S, keeping MAX_RUN_SECONDS under Vercel's limit).
-_TIMEOUT_S = 60
+# disabled: a timeout here means the model is slow, and retrying only doubles the wait.
+#
+# This value is the overshoot past agent.MAX_RUN_SECONDS: a call started one tick before
+# the deadline still runs this long. Keep MAX_RUN_SECONDS + _TIMEOUT_S below vercel.json's
+# maxDuration (180 + 110 = 290 < 300) so the handler always gets to write its response.
+#
+# 110, not 40: measured on a 7-day plan, the planner finalize takes 51-67s and the Output
+# Formatter 97s once it is actually emitting markdown instead of spending its whole budget
+# on reasoning. At 40 both were cut off mid-call; at 75 the formatter still was. The budget
+# split deliberately favours this per-call ceiling over MAX_RUN_SECONDS, because the
+# formatter runs last with ~140s of completed work behind it — losing it discards the turn.
+_TIMEOUT_S = int(os.environ.get("LLM_TIMEOUT_S", "110"))
 _MAX_RETRIES = 0
 
 # Reasoning models spend part of the completion budget on hidden reasoning tokens, so the
 # visible answer needs headroom on top of the caller's request or `content` comes back empty.
-_REASONING_HEADROOM = 2000
+#
+# 4000, not 2000: measured on a 7-day plan, the Output Formatter consumed its entire
+# 3400-token cap on reasoning and returned an EMPTY string — the user saw a caveats banner
+# with no itinerary under it. The Reflection Layer came within 291 tokens of the same.
+# Reasoning cost scales with input complexity, and 2000 was empirically too small for the
+# heavier modules. This is a ceiling, not a target.
+_REASONING_HEADROOM = 4000
 
 _client = None
 _json_mode_supported = None  # None until probed, then True/False
@@ -48,7 +65,9 @@ def _require_config():
     api_key = (os.environ.get("LLMOD_API_KEY") or "").strip()
     if not api_key:
         raise ConfigError("LLMOD_API_KEY is not set")
-    base_url = (os.environ.get("LLMOD_BASE_URL") or "https://api.llmod.ai").strip()
+    # The SDK appends /chat/completions, so the base URL must carry the /v1 segment.
+    # Without it the default pointed at https://api.llmod.ai/chat/completions.
+    base_url = (os.environ.get("LLMOD_BASE_URL") or "https://api.llmod.ai/v1").strip()
     return api_key, base_url
 
 
@@ -79,40 +98,97 @@ def _completion_params(messages, temperature, max_tokens):
 
 
 def _looks_like_unsupported_json_mode(err):
-    """True when the error is a 400 rejecting `response_format` — the only case where
-    retrying without JSON mode is the right response. A 400 that names a different
-    parameter (temperature, token limits) must not disable JSON mode."""
+    """True only when the endpoint explicitly rejected `response_format`.
+
+    Nothing else qualifies. The previous version treated *any* 400 as an unsupported JSON
+    mode, so a context-length error ("maximum context length is 8192 tokens") re-issued the
+    request without JSON mode — billing it twice and failing again — then latched
+    `_json_mode_supported` off for the lifetime of the warm instance, silently degrading
+    every later request it served. Everything else now propagates to the caller.
+    """
     msg = str(err).lower()
-    if "response_format" in msg or "json_object" in msg:
+    return "response_format" in msg or "json_object" in msg
+
+
+def is_timeout(err):
+    """True when a call failed because it ran out of time, not because it was rejected.
+
+    Lives here so the orchestrator never has to import SDK exception types. Also matches the
+    underlying httpx/socket timeouts the SDK wraps, by class name, since those can surface
+    directly when a connection is interrupted rather than cleanly wrapped.
+    """
+    if isinstance(err, APITimeoutError):
         return True
-    if any(k in msg for k in ("temperature", "max_tokens", "max_completion_tokens")):
-        return False
-    return getattr(err, "status_code", None) == 400 or err.__class__.__name__ == "BadRequestError"
+    return "timeout" in type(err).__name__.lower()
+
+
+def _unpack(completion):
+    """Pull (content, usage) out of a provider response without trusting its shape."""
+    try:
+        content = completion.choices[0].message.content or ""
+    except (AttributeError, IndexError, TypeError):
+        content = ""
+    u = getattr(completion, "usage", None)
+    return content, {"prompt_tokens": getattr(u, "prompt_tokens", 0) or 0,
+                     "completion_tokens": getattr(u, "completion_tokens", 0) or 0}
+
+
+def _meter(u, billed):
+    """Fold reported usage into the active run meter, if a run is being metered."""
+    m = usage.current()
+    if m is not None:
+        m.record(u.get("prompt_tokens"), u.get("completion_tokens"), billed=billed)
 
 
 def chat(messages, temperature=0.3, json_mode=False, max_tokens=1200):
     """Run one chat completion and return the content string ("" if none).
 
+    Every call is metered before it is made: `before_call()` raises BudgetExceeded rather
+    than spending past the per-run call ceiling or the cumulative budget. When a cassette
+    is active the response may be replayed from disk, which costs nothing but still
+    exercises the same guards so development matches production control flow.
+
     When `json_mode` is requested we ask for a strict JSON object. Only if the endpoint
-    rejects that parameter we fall back once and remember it, so the same request is
+    rejects that parameter do we fall back once and remember it, so the same request is
     not billed twice. Transient errors (auth, rate limit, timeout) propagate to the caller.
     """
     global _json_mode_supported
+
+    m = usage.current()
+    if m is not None:
+        m.before_call()
+
+    ck = (cassette.key_for(MODEL, messages, temperature, max_tokens, json_mode)
+          if cassette.enabled() else None)
+    if ck:
+        call_provider, recorded = cassette.should_call_provider(ck)
+        if not call_provider:
+            _meter(recorded.get("usage") or {}, billed=False)
+            obs.log("llm_replay", key=ck)
+            return recorded.get("content") or ""
+
     client = _get_client()
     base = _completion_params(messages, temperature, max_tokens)
 
+    completion = None
     if json_mode and _json_mode_supported is not False:
         try:
-            c = client.chat.completions.create(**base, response_format={"type": "json_object"})
+            completion = client.chat.completions.create(
+                **base, response_format={"type": "json_object"})
             _json_mode_supported = True
-            return c.choices[0].message.content or ""
         except Exception as e:
             if not _looks_like_unsupported_json_mode(e):
                 raise
             _json_mode_supported = False
 
-    c = client.chat.completions.create(**base)
-    return c.choices[0].message.content or ""
+    if completion is None:
+        completion = client.chat.completions.create(**base)
+
+    content, u = _unpack(completion)
+    _meter(u, billed=True)
+    if ck:
+        cassette.save(ck, content, u, request_preview=str(messages[0].get("content", ""))[:120])
+    return content
 
 
 def _first_json_object(text):

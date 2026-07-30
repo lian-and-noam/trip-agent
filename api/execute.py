@@ -1,29 +1,63 @@
 """POST /api/execute — main entry point.
 
-Body: {"prompt": "..."}  ->  {"status", "error", "response", "steps"}
+Body: {"prompt": "..."}                                  -> {"status", "error", "response", "steps"}
+      {"prompt": "...", "conversation_id": "...",        (optional, enables the revision path)
+       "device_id": "..."}
 
-The response always uses the same envelope (HTTP 200 for both ok and error) because the
-caller parses the JSON body. Internal error detail is logged, never returned to the client.
+The response envelope is fixed by the project brief and never gains fields. Conversation
+state travels the other way: the client owns an anonymous conversation id, the server looks
+up the stored profile/plan for it, and the agent edits that plan instead of re-reading a
+rendered itinerary out of the transcript. A request with only `prompt` behaves exactly as
+it always did, so the documented contract keeps working untouched.
+
+HTTP is always 200 for both ok and error because the caller parses the JSON body. Internal
+error detail is logged, never returned to the client.
 """
 import os
 import sys
 import json
+import uuid
 from http.server import BaseHTTPRequestHandler
 
 # Make the local `agent` package importable when Vercel runs this file (project root on sys.path).
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from agent.agent import run_agent, AgentError   # noqa: E402
-from agent.llm import ConfigError      # noqa: E402
-from agent import obs                  # noqa: E402
+from agent.llm import ConfigError               # noqa: E402
+from agent.usage import BudgetExceeded          # noqa: E402
+from agent import obs, store                    # noqa: E402
 
-# `prompt` carries the entire conversation transcript (stateless multi-turn intake),
-# so the caps are larger than a single message but still bounded.
+# `prompt` carries the conversation transcript. With the itinerary now held server-side it
+# no longer grows with every revision, but the cap stays as a backstop.
 MAX_BODY_BYTES = 64 * 1024   # reject oversized bodies before reading them into memory
 MAX_PROMPT_CHARS = 16000     # roughly 4k tokens of conversation history
 
 
+def _as_uuid(value):
+    """Return a canonical UUID string, or None.
+
+    Strict on purpose: these ids are interpolated into PostgREST filters, so anything that
+    is not a well-formed UUID is dropped rather than passed through.
+    """
+    if not isinstance(value, str) or len(value) > 64:
+        return None
+    try:
+        return str(uuid.UUID(value.strip()))
+    except (ValueError, AttributeError, TypeError):
+        return None
+
+
+def _title_for(profile):
+    """Short human label for the conversation list, e.g. '7 days in Kyoto'."""
+    p = profile if isinstance(profile, dict) else {}
+    dest, days = p.get("destination"), p.get("days")
+    if dest and days:
+        return f"{days} days in {dest}"[:120]
+    return (dest or "Trip")[:120]
+
+
 class handler(BaseHTTPRequestHandler):
     def do_POST(self):
+        conversation_id = None
         try:
             length = self._content_length()
             if length > MAX_BODY_BYTES:
@@ -43,9 +77,36 @@ class handler(BaseHTTPRequestHandler):
             if len(prompt) > MAX_PROMPT_CHARS:
                 return self._envelope("error", f"'prompt' too long (max {MAX_PROMPT_CHARS} characters).")
 
-            out = run_agent(prompt)
+            conversation_id = _as_uuid(payload.get("conversation_id"))
+            device_id = _as_uuid(payload.get("device_id"))
+
+            # Prior state is best-effort: if Supabase is unconfigured or slow, the agent
+            # simply plans fresh instead of revising. It never blocks the turn.
+            prior = None
+            if conversation_id:
+                row = store.get_conversation(conversation_id)
+                if row:
+                    prior = {"profile": row.get("profile"), "plan": row.get("plan")}
+
+            out = run_agent(prompt, state=prior)
+
+            state = out.get("state") or {}
+            if conversation_id:
+                store.save_conversation(conversation_id, device_id=device_id,
+                                        profile=state.get("profile"), plan=state.get("plan"),
+                                        title=_title_for(state.get("profile")))
+            store.record_run(out.get("usage", {}).get("run_id") or obs.new_run_id(),
+                             conversation_id=conversation_id, snapshot=out.get("usage"),
+                             ms=out.get("ms"), branch=out.get("branch"))
+
             self._envelope("ok", None, response=out["response"], steps=out["steps"])
 
+        except BudgetExceeded as e:
+            # A ceiling was hit rather than something breaking. Say so plainly: the user
+            # can retry, and the operator needs to know the budget guard fired.
+            obs.log("execute_budget_stop", detail=str(e))
+            self._envelope("error", "This request hit the agent's cost safety limit and was "
+                                    "stopped before completing. Try a shorter trip.")
         except ConfigError as e:
             obs.log("execute_config_error", detail=str(e))
             self._envelope("error", "Server is not configured correctly (missing LLM credentials).")
@@ -55,6 +116,9 @@ class handler(BaseHTTPRequestHandler):
             cause = e.__cause__ or e
             obs.log("execute_error", error=type(cause).__name__, detail=str(cause),
                     steps=len(e.steps))
+            # A failed turn still spent tokens — record them so the ledger stays honest.
+            store.record_run(obs.new_run_id(), conversation_id=conversation_id,
+                             snapshot=e.usage, ms=e.ms, branch="error")
             self._envelope("error", "The agent failed to complete this request. Please try again.",
                            steps=e.steps)
         except Exception as e:
