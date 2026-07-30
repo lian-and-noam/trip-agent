@@ -1,0 +1,235 @@
+[
+  {
+    "branch": "A - clarify",
+    "when": "Required details are missing. One intake call, no planning, so an incomplete request never spends planning tokens.",
+    "prompt": "5 days in Rome, we love culture and food",
+    "full_response": "A couple of things and I can start planning:\n\n- Who's travelling? (solo, couple, family, friends)\n- What budget? (low, mid-range, luxury — or an amount, e.g. €2000 total)",
+    "steps": [
+      {
+        "module": "Conversational Intake",
+        "prompt": {
+          "conversation": "User: 5 days in Rome, we love culture and food"
+        },
+        "response": {
+          "profile": {
+            "destination": "Rome",
+            "days": 5,
+            "style": "culture, food"
+          },
+          "missing": [
+            "group",
+            "budget"
+          ],
+          "confirmed": false
+        }
+      }
+    ]
+  },
+  {
+    "branch": "B - confirm",
+    "when": "Everything required is present but unconfirmed. The trip is read back for checking before any planning happens.",
+    "prompt": "a couple, mid-range, arriving 12/9 14:00 at Hotel Artemide, leaving 17/9 19:40 from Fiumicino, we walk a lot",
+    "full_response": "**Here's your trip so far**\n\n- **Destination:** Rome\n- **Days:** 5\n- **Travellers:** a couple\n- **Budget:** mid-range\n- **Interests:** culture, food\n- **Walking:** high\n- **Trip window:** 12/9 14:00 → 17/9 19:40\n- **Start point:** Hotel Artemide\n- **End point:** Fiumicino Airport\n\nDoes this look right? Reply **yes** to start planning — or tell me what to change.",
+    "steps": [
+      {
+        "module": "Conversational Intake",
+        "prompt": {
+          "conversation": "User: 5 days in Rome...\nAgent: ...\nUser: a couple, mid-range, arriving 12/9 14:00 at Hotel Artemide..."
+        },
+        "response": {
+          "profile": {
+            "destination": "Rome",
+            "days": 5,
+            "group": "a couple",
+            "budget": "mid-range",
+            "style": "culture, food",
+            "start_time": "12/9 14:00",
+            "end_time": "17/9 19:40",
+            "start_point": "Hotel Artemide",
+            "end_point": "Fiumicino Airport",
+            "walking": "high"
+          },
+          "missing": [],
+          "confirmed": false
+        }
+      }
+    ]
+  },
+  {
+    "branch": "C - plan",
+    "when": "The traveller confirms. The ReAct planner researches, the critic reviews, the formatter writes it up. This is the only branch that runs the full pipeline.",
+    "prompt": "yes",
+    "full_response": "# 5-day itinerary — Rome\n\n## Day 1 — Arrival & the old centre\n- **14:00** — [Hotel check-in](https://www.google.com/maps/search/?api=1&query=Hotel+Artemide+Rome)\n  - Drop bags and get your bearings.\n  - 45 min · €0 per person\n\n- **15:00** — [Walk to the Trevi Fountain](https://www.google.com/maps/dir/?api=1&origin=Hotel+Artemide+Rome&destination=Trevi+Fountain+Rome)\n  - About 15 min on foot.\n  - 15 min · €0 per person\n\n- **16:30** — [Pantheon](https://www.google.com/maps/search/?api=1&query=Pantheon+Rome)\n  - Free entry, small charge for a timed slot.\n  - 60 min · €5 per person\n\n- **19:30** — [Dinner in Monti](https://www.google.com/maps/search/?api=1&query=Monti+Rome)\n  - Roman trattorias, mid-range, options around Via dei Serpenti.\n  - 90 min · €26 per person\n\n\n_Day total: €31_\n\n**Total: €31 per person**",
+    "steps": [
+      {
+        "module": "Conversational Intake",
+        "prompt": {
+          "conversation": "...\nAgent: Does this look right?...\nUser: yes"
+        },
+        "response": {
+          "profile": {
+            "destination": "Rome",
+            "days": 5,
+            "group": "a couple",
+            "budget": "mid-range",
+            "style": "culture, food",
+            "start_time": "12/9 14:00",
+            "end_time": "17/9 19:40",
+            "start_point": "Hotel Artemide",
+            "end_point": "Fiumicino Airport",
+            "walking": "high"
+          },
+          "missing": [],
+          "confirmed": true,
+          "intent": "replace"
+        }
+      },
+      {
+        "module": "ReAct Planner",
+        "prompt": {
+          "thought": "Check what the Pantheon costs and when it opens.",
+          "tool": "maps_tool",
+          "tool_input": {
+            "query": "Pantheon",
+            "near": "Rome"
+          }
+        },
+        "response": {
+          "observation": {
+            "ok": true,
+            "source": "geoapify",
+            "results": [
+              {
+                "name": "Pantheon",
+                "lat": 41.8986,
+                "lon": 12.4769,
+                "open_hours": "Mo-Sa 09:00-19:00"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "module": "ReAct Planner",
+        "prompt": {
+          "thought": "I have what I need; write the itinerary.",
+          "done": true
+        },
+        "response": {
+          "draft_plan": {
+            "days": [
+              "...5 days..."
+            ],
+            "total_cost_eur": 31
+          }
+        }
+      },
+      {
+        "module": "Reflection Layer",
+        "prompt": {
+          "draft": "...",
+          "verified_defects": []
+        },
+        "response": {
+          "verdict": "PASS",
+          "must_fix": [],
+          "be_aware": [
+            "Book Colosseum tickets ahead — summer slots sell out."
+          ]
+        }
+      },
+      {
+        "module": "Output Formatter",
+        "prompt": {
+          "profile": {
+            "destination": "Rome",
+            "days": 5,
+            "group": "a couple",
+            "budget": "mid-range",
+            "style": "culture, food",
+            "start_time": "12/9 14:00",
+            "end_time": "17/9 19:40",
+            "start_point": "Hotel Artemide",
+            "end_point": "Fiumicino Airport",
+            "walking": "high"
+          },
+          "plan": "...with map links..."
+        },
+        "response": {
+          "markdown": "# 5-day itinerary — Rome ..."
+        }
+      }
+    ]
+  },
+  {
+    "branch": "E - revise",
+    "when": "A plan already exists. Only the named day is rebuilt, so an edit costs a fraction of a re-plan and the rest of the trip is untouched.",
+    "prompt": "make day 2 lighter and swap the afternoon for something indoors",
+    "full_response": "Updated day 2 — the afternoon is now the Capitoline Museums, and the walking is down from 7 km to about 3 km.\n\n## Day 2 — Ancient Rome, gentler\n- **09:30** — [Colosseum](https://www.google.com/maps/search/?api=1&query=Colosseum+Rome)\n  - Pre-booked timed entry.\n  - 120 min · €18 per person\n\n_Day total: €44_",
+    "steps": [
+      {
+        "module": "Conversational Intake",
+        "prompt": {
+          "conversation": "...",
+          "has_plan": true
+        },
+        "response": {
+          "intent": "revise",
+          "confirmed": true
+        }
+      },
+      {
+        "module": "Plan Editor",
+        "prompt": {
+          "day": 2,
+          "request": "lighter, indoor afternoon"
+        },
+        "response": {
+          "patch": {
+            "day": 2,
+            "items": [
+              "..."
+            ]
+          }
+        }
+      },
+      {
+        "module": "Output Formatter",
+        "prompt": {
+          "plan": "...patched day 2..."
+        },
+        "response": {
+          "markdown": "Updated day 2 — ..."
+        }
+      }
+    ]
+  },
+  {
+    "branch": "D - answer",
+    "when": "A question about the existing plan. Answered from the stored plan; nothing is re-planned and the itinerary does not change.",
+    "prompt": "what does day 3 cost?",
+    "full_response": "Day 3 comes to €58 per person: €22 for the Vatican Museums, €18 for lunch near Borgo Pio, €8 for transport and €10 for the evening walk and gelato. For two of you that is €116.",
+    "steps": [
+      {
+        "module": "Conversational Intake",
+        "prompt": {
+          "conversation": "...",
+          "has_plan": true
+        },
+        "response": {
+          "intent": "question"
+        }
+      },
+      {
+        "module": "Itinerary Q&A",
+        "prompt": {
+          "question": "what does day 3 cost?",
+          "plan": "...day 3..."
+        },
+        "response": {
+          "answer": "Day 3 comes to €58 per person..."
+        }
+      }
+    ]
+  }
+]
