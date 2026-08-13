@@ -37,10 +37,15 @@ OUT = os.path.join(ROOT, "api", "example_run.json")
 
 # The conversation to record. Each entry is what the user types next; the transcript is
 # assembled exactly as index.html assembles it.
+# Chosen to exercise every branch the router can take, in the order a traveller would hit
+# them: an incomplete request, the answer to it, confirmation, an edit, and a question.
 TURNS = [
-    "4 days in Rome, a couple, mid-range budget, we love culture and food — "
-    "historical sites, Italian food and gelato.",
-    "yes",
+    "5 days in Rome, we love culture and food",                       # A - clarify
+    "a couple, mid-range, arriving 12/9 14:00 at Hotel Artemide, "    # B - confirm
+    "leaving 17/9 19:40 from Fiumicino, we walk a lot",
+    "yes",                                                            # C - plan
+    "make day 2 lighter and swap the afternoon for something indoors",  # E - revise
+    "what does day 3 cost?",                                          # D - answer
 ]
 AGENT_ECHO_LIMIT = 700     # mirrors index.html
 

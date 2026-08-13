@@ -140,9 +140,31 @@ def validate_profile(obj):
         "style": _as_str(o.get("style")),
         "group": _as_str(o.get("group")),
         "budget": budget,
+        # A concrete amount if the traveller named one ("2000 euro"). The tier stays as a
+        # coarse style signal, but this is what the budget guard actually measures against —
+        # "mid-range" is a guess at their wallet, 2000 EUR is a fact about it.
+        "budget_amount_eur": max(0, _as_int(o.get("budget_amount_eur"), 0)),
+        # Whether that amount covers the whole party or one person. Costs are quoted per
+        # person throughout, so a party total has to be divided before it can be compared.
+        "budget_basis": ("total" if _as_str(o.get("budget_basis")).strip().lower() == "total"
+                         else "per person"),
         # Optional fields — enrich the plan when provided, harmless when empty.
         "when": _as_str(o.get("when")).strip(),           # travel dates or season
-        "origin": _as_str(o.get("origin")).strip(),       # departure city (used for flights)
+        # Where the trip physically begins and ends, and when. A traveller who says "from
+        # 17/8 15:00 at Prague Bank Hotel to a 20/8 18:30 flight" is stating hard anchors:
+        # day 1 cannot start at 09:00, and the last day has to end at the airport in time.
+        # Without these the planner has no anchor for day one or the journey home.
+        "start_point": _as_str(o.get("start_point")).strip(),   # hotel, station, address
+        "end_point": _as_str(o.get("end_point")).strip(),       # airport, station, hotel
+        "start_time": _as_str(o.get("start_time")).strip(),     # e.g. "17/8 15:00"
+        "end_time": _as_str(o.get("end_time")).strip(),         # e.g. "20/8 18:30"
+        "lodging": _as_str(o.get("lodging")).strip(),           # named hotel, if given
+        # Anything else concrete the traveller said that no typed field covers: "we have a
+        # rental car", "my sister joins on day 3", "no early mornings", "celebrating an
+        # anniversary". The typed fields can never anticipate all of it, and a detail the
+        # traveller bothered to state should reach the planner rather than being discarded
+        # for not fitting the schema.
+        "details": [_as_str(d).strip() for d in _as_list(o.get("details")) if _as_str(d).strip()],
         "dietary": [_as_str(d) for d in _as_list(o.get("dietary"))],
         "walking": _as_walking(o.get("walking")),         # light | moderate | high | unlimited
         "accessibility": bool(o.get("accessibility")),
@@ -161,10 +183,14 @@ def compact_profile(profile):
     """
     o = as_obj(profile)
     out = {k: o[k] for k in ("days", "destination", "style", "group", "budget") if k in o}
-    for k in ("when", "origin"):
+    if o.get("budget_amount_eur"):
+        out["budget_amount_eur"] = o["budget_amount_eur"]
+        out["budget_basis"] = o.get("budget_basis", "per person")
+    for k in ("when", "start_point", "end_point",
+              "start_time", "end_time", "lodging"):
         if o.get(k):
             out[k] = o[k]
-    for k in ("dietary", "priorities", "avoid"):
+    for k in ("dietary", "priorities", "avoid", "details"):
         if o.get(k):
             out[k] = o[k]
     if o.get("accessibility"):
@@ -175,13 +201,46 @@ def compact_profile(profile):
 
 
 def budget_ceiling_eur(profile):
-    """Deterministic total-cost ceiling for the trip: per-day tier ceiling x days."""
+    """Deterministic per-person total-cost ceiling for the trip.
+
+    A stated amount wins over the tier: if the traveller said "2000 euro" there is no reason
+    to measure them against a generic mid-range allowance. A party total is divided by the
+    group size first, because every cost in the plan is quoted per person.
+    """
+    stated = _as_int(profile.get("budget_amount_eur"), 0)
+    if stated > 0:
+        if profile.get("budget_basis") == "total":
+            stated = stated // max(1, group_size(profile))
+        return stated
     per_day = _PER_DAY_CEILING.get(profile.get("budget"), 260)
     return per_day * max(1, _as_int(profile.get("days"), 1))
 
 
+_GROUP_NUMBERS = {"solo": 1, "single": 1, "couple": 2, "pair": 2, "two": 2, "three": 3,
+                  "four": 4, "five": 5, "six": 6}
+
+
+def group_size(profile):
+    """Best-effort headcount from the free-text group field ("2 friends" -> 2).
+
+    Defaults to 1 rather than guessing high: dividing a party total by too large a number
+    would silently shrink the budget and make the plan poorer than the traveller asked for.
+    """
+    text = _as_str(profile.get("group")).lower()
+    m = re.search(r"\b(\d{1,2})\b", text)
+    if m:
+        return max(1, min(20, int(m.group(1))))
+    for word, n in _GROUP_NUMBERS.items():
+        if word in text:
+            return n
+    return 1
+
+
 # Fields the traveller must supply before planning begins (drives Conversational Intake).
-REQUIRED_FIELDS = ("destination", "days", "budget", "group", "style")
+# `style` (interests) is deliberately NOT required: it shapes the itinerary but blocking on
+# it cost an extra clarify turn on almost every conversation. It is still collected when
+# offered, and the confirmation card shows it as unspecified so it is easy to add.
+REQUIRED_FIELDS = ("destination", "days", "budget", "group")
 
 
 def missing_required(profile):
@@ -216,6 +275,70 @@ def classify_turn(obj):
 
 
 # --- Draft plan ---------------------------------------------------------------------
+# A "1 minute" museum visit is not a judgement call, it is a broken number — the model
+# occasionally emits duration in hours, or drops a digit. Floors are per kind of item, and
+# only ever raise: a genuinely quick stop is 15 minutes, not 1.
+_MIN_DURATION_MIN = 15
+_MIN_TRANSFER_MIN = 5
+_TRANSFER_WORDS = ("transfer", "walk", "tram", "metro", "train", "bus", "taxi", "drive",
+                   "ride", "transit", "depart", "arrival")
+
+
+def _sane_duration(value, name=""):
+    """Coerce duration to minutes, rejecting values too small to be real.
+
+    Legs can legitimately be short, so they get a lower floor than visits. Everything is
+    still capped at a day. Deterministic on purpose: asking the critic to notice "1 minute"
+    worked only sometimes, and a plan with a 1-minute castle visit is visibly broken.
+    """
+    minutes = _clamp(_as_int(value, 60), 0, 24 * 60)
+    low = (name or "").lower()
+    floor = _MIN_TRANSFER_MIN if any(w in low for w in _TRANSFER_WORDS) else _MIN_DURATION_MIN
+    return max(minutes, floor) if minutes < floor else minutes
+
+
+# Control characters and lone surrogates reach us when a model emits broken \u escapes:
+# "Na P\u000159\u0000edkop\u00011b" instead of "Na Příkopě". They render as boxes or
+# vanish, and they end up inside URLs. Stripped at validation so nothing downstream has to
+# cope with them.
+_BAD_CHARS = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f\ud800-\udfff]")
+
+
+# A model occasionally writes the text of an escape sequence instead of the character it
+# stands for, so "Václav" arrives as "Vu00e1clav" or "Ve1clav" and an en dash as "u2013".
+# Restricted to the ranges these mistakes actually land in — accented Latin and punctuation —
+# so ordinary text containing a "u" followed by digits is left alone.
+# Restricted to the ranges these mistakes land in — accented Latin and punctuation — and
+# never after a lowercase letter, so an ordinary word is not chopped into an escape.
+_LITERAL_ESCAPE = re.compile(r"(?<![a-z])u(00[a-fA-F][0-9a-fA-F]|20[0-3][0-9a-fA-F])")
+
+
+def _decode_literal_escapes(text):
+    def sub(m):
+        try:
+            return chr(int(m.group(1), 16))
+        except ValueError:
+            return m.group(0)
+    return _LITERAL_ESCAPE.sub(sub, text)
+
+
+def clean_text(value):
+    """A display-safe string: no control characters, no lone surrogates, tidy whitespace."""
+    return " ".join(_BAD_CHARS.sub("", _decode_literal_escapes(_as_str(value))).split())
+
+
+# A venue is fed to a map search, so it has to be an address-like name. Trailing notes such
+# as "Prague (flight)" or "the hotel (check-in)" describe the activity, and searching for
+# them lands nowhere useful.
+_VENUE_ASIDE = re.compile(r"\s*[\(\[][^\)\]]*[\)\]]\s*$")
+
+
+def clean_venue(value):
+    """A venue name fit for a map query: no parenthetical asides, no leading articles."""
+    v = _VENUE_ASIDE.sub("", clean_text(value)).strip(" ,-–—")
+    return re.sub(r"^(the|a)\s+", "", v, flags=re.I).strip()
+
+
 def validate_draft_plan(obj):
     """Coerce a draft plan into a clean, self-consistent structure, or return None.
 
@@ -232,14 +355,25 @@ def validate_draft_plan(obj):
             io = as_obj(it)
             items_out.append({
                 "time": _as_str(io.get("time")),
-                "name": _as_str(io.get("name")),
-                "duration_min": _clamp(_as_int(io.get("duration_min"), 60), 0, 24 * 60),
+                # Every user-visible string is cleaned: these end up in the itinerary text
+                # and inside generated map URLs, where a stray control character is a broken
+                # link rather than just an odd glyph.
+                "name": clean_text(io.get("name")),
+                # The searchable proper name of the place, kept apart from `name` (which is a
+                # human label like "Popular spot — stroll and photos"). Feeding that label to
+                # Maps produced a keyword search rather than a pin on anywhere in particular.
+                # Empty for items that are not a place at all.
+                "venue": clean_venue(io.get("venue")),
+                # For a leg, where it starts. The item then links to directions
+                # venue_from -> venue rather than to a pin on the destination.
+                "venue_from": clean_venue(io.get("venue_from")),
+                "duration_min": _sane_duration(io.get("duration_min"), io.get("name")),
                 "cost_eur": max(0, _as_int(io.get("cost_eur"), 0)),
-                "note": _as_str(io.get("note")),
+                "note": clean_text(io.get("note")),
             })
         days_out.append({
             "day": _as_int(d.get("day"), i + 1),
-            "title": _as_str(d.get("title")),
+            "title": clean_text(d.get("title")),
             "items": items_out,
         })
 
@@ -270,6 +404,32 @@ def minimal_plan(profile):
 
 
 # --- Verdict ------------------------------------------------------------------------
+# Advisories are the "good to know" list under an itinerary. Length and count are asked for
+# in the critic's prompt rather than enforced here: truncating mid-thought produced worse
+# text than a slightly long line, and a hard cap silently dropped real advice. What is left
+# here is only tidying — stripping filler that adds nothing at any length.
+_ADVISORY_PREAMBLE = re.compile(
+    r"^(?:please\s+)?(?:note|be\s+aware|advisory|reminder|tip)\s*[:\-–—]\s*", re.I)
+# The critic often appends its own excuse for not verifying something. That is about the
+# agent, not the trip, and the caveats banner already says the plan was not fully validated.
+_ADVISORY_HEDGE = re.compile(
+    r"\s*[\(\[][^\)\]]*(?:cannot|can't|could not|unable to|not)\s+"
+    r"(?:verify|confirm|check)[^\)\]]*[\)\]]\s*$", re.I)
+
+
+def _tidy_advisory(text):
+    """Tidy one line of traveller-facing advice. Never truncates.
+
+    Drops a leading "Note:"/"Be aware:" label and any trailing parenthetical about the
+    agent's own inability to verify something — that is about the agent, not the trip, and
+    the caveats banner already says the plan was not fully validated.
+    """
+    t = " ".join(_as_str(text).split())
+    t = _ADVISORY_HEDGE.sub("", t)
+    t = _ADVISORY_PREAMBLE.sub("", t).strip()
+    return t[:1].upper() + t[1:] if t else t
+
+
 def validate_verdict(obj):
     """Coerce the Reflection Layer output. An unknown or garbled verdict is treated as
     FAIL, so an unreadable critic can never green-light a bad plan.
@@ -287,10 +447,10 @@ def validate_verdict(obj):
     must_fix = [_as_str(x) for x in _as_list(o.get("must_fix"))]
     be_aware = [_as_str(x) for x in _as_list(o.get("be_aware"))]
     if not must_fix and not be_aware:
-        # A critic that replied in the old flat shape still works: treat issues as defects.
+        # A critic replying in the older flat shape still works: issues are defects.
         must_fix = [_as_str(x) for x in _as_list(o.get("issues"))]
-    must_fix = [x for x in must_fix if x.strip()]
-    be_aware = [x for x in be_aware if x.strip()]
+    must_fix = [t for t in (clean_text(x) for x in must_fix) if t]
+    be_aware = [t for t in (_tidy_advisory(clean_text(x)) for x in be_aware) if t]
     return {
         "verdict": verdict,
         "must_fix": must_fix,

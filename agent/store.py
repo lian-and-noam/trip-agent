@@ -13,7 +13,6 @@ Three tables (see db/schema.sql):
   conversations    the current profile + plan for a conversation. This is what makes the
                    revision path possible without replaying the itinerary through the
                    prompt, and what survives a browser refresh.
-  traveller_prefs  durable preferences keyed by an anonymous device id.
   runs             one row per /api/execute turn with token counts and cost, which is how
                    the $9 project budget is actually tracked rather than estimated.
 """
@@ -97,29 +96,6 @@ def save_conversation(conversation_id, device_id=None, profile=None, plan=None, 
 
 
 # ---- traveller preferences ---------------------------------------------------------
-def get_prefs(device_id):
-    """Durable preferences for an anonymous device, or None."""
-    if not device_id:
-        return None
-    rows = _request("GET", "traveller_prefs",
-                    params={"device_id": f"eq.{device_id}", "select": "prefs", "limit": 1})
-    if isinstance(rows, list) and rows:
-        p = rows[0].get("prefs")
-        return p if isinstance(p, dict) else None
-    return None
-
-
-def save_prefs(device_id, prefs):
-    """Upsert durable preferences. Only called with a validated, bounded dict."""
-    if not device_id or not isinstance(prefs, dict):
-        return False
-    out = _request("POST", "traveller_prefs",
-                   json={"device_id": device_id, "prefs": prefs},   # updated_at: see above
-                   extra_headers={"Prefer": "resolution=merge-duplicates,return=minimal"})
-    return out is not None
-
-
-# ---- run accounting ----------------------------------------------------------------
 def record_run(run_id, conversation_id=None, snapshot=None, ms=None, branch=None):
     """Persist one turn's token/cost accounting. This is the $9 budget ledger."""
     snap = snapshot or {}

@@ -111,8 +111,8 @@ arrow((X2 + BW, Y_EDIT + 0.72), (X4, Y_FMT + 0.72), color="#C2436A")
 # ---- Tools (full width, so nothing runs off the canvas) ----
 ax.text(0.4, 4.00, "Tools available to the ReAct Planner", fontsize=10,
         fontweight="bold", color=INK, ha="left")
-tools = ["maps_tool", "booking_tool", "flights_tool", "search_tool",
-         "reviews_tool", "weather_tool", "calendar_tool"]
+tools = ["maps_tool", "booking_tool", "flight_search_tool", "search_tool",
+         "reviews_tool", "weather_tool"]
 tgap, th = 0.13, 0.55
 tw = (15.2 - tgap * (len(tools) - 1)) / len(tools)
 for i, name in enumerate(tools):
@@ -156,7 +156,7 @@ ax.add_patch(FancyBboxPatch((8.0, 1.15), 3.6, 0.87,
                             linewidth=1.4, edgecolor="#3E9B53", facecolor="#EAF6EC"))
 ax.text(8.25, 1.79, "Tier 1 — Autonomous (read-only)", fontsize=8.4,
         fontweight="bold", color="#2C6E3B", ha="left")
-ax.text(8.25, 1.42, "maps · search · reviews · weather · flights_search",
+ax.text(8.25, 1.42, "maps · search · reviews · weather (real APIs) · flight_search (fictive)",
         fontsize=7.2, color=MUTED, ha="left")
 
 ax.add_patch(FancyBboxPatch((12.0, 1.15), 3.6, 0.87,

@@ -1,237 +1,168 @@
-# Trip Planning AI Agent
+# Atlas — an autonomous trip-planning agent
 
-An autonomous trip-planning agent. From a natural-language request it profiles the traveller
-through a short dialogue, plans an itinerary with a ReAct loop over travel tools,
-self-critiques the draft, and returns a costed, day-by-day plan — then lets you revise that
-plan without re-planning it from scratch.
+Atlas turns a sentence like *"5 days in Rome, a couple, mid-range, we love food"* into a
+costed, day-by-day itinerary with real map links — then keeps talking, so *"make day 2
+lighter"* edits the plan you already have instead of starting over.
 
-The agent is exposed over HTTP and comes with a minimal web UI for operating and inspecting it.
+**Live:** the Vercel URL in the submission · **UI:** the site root · **API:** `/api/*`
+
+---
 
 ## What it does
 
-Given a request such as *"7 days in Japan, a couple, mid-range budget, love food and culture,
-must see Kyoto temples and Mt Fuji"*, the agent:
+A traveller describes a trip in their own words. The agent works out what is still missing,
+asks for it in one message, reads the trip back for confirmation, then researches and writes
+an itinerary: times, durations, per-person costs, a map link for every place, and a short
+list of things worth knowing before going.
 
-1. Confirms it has the details it needs (asking follow-up questions if not).
-2. Builds a typed traveller profile and asks you to confirm it.
-3. Plans an itinerary, calling tools for live and structured data.
-4. Reviews the draft against the profile and re-plans if it finds problems.
-5. Returns a Markdown itinerary with times, durations, and per-day and total costs.
+Once a plan exists, the conversation continues. *"Swap the Tuesday afternoon for something
+indoors"* rebuilds that day only. *"What does day 3 cost?"* answers from the plan without
+touching it.
 
-Afterwards you can say *"make day 2 lighter"* and it edits that day — or ask *"what does day 3
-cost?"* and it just answers. Neither re-runs the planner.
+Two ideas shape the whole design:
 
-## Architecture
+**Only pay for the work the turn actually needs.** A single intake call reads the entire
+dialogue and decides which of five paths the turn takes. A clarifying question costs one LLM
+call; a full plan costs around nine. Nothing plans until the traveller has confirmed what is
+being planned.
 
-Six LLM modules, matching the diagram returned by `GET /api/model_architecture`:
+**Never present a guess as a fact.** Anything checkable is checked in code rather than left
+to a model's judgement — arithmetic, budgets, opening hours, travel times. Anything that
+cannot be verified is either labelled or left out. The agent will say hours are unconfirmed
+rather than assert opening times it never looked up.
 
-| Module | Role |
+---
+
+## How it works
+
+One **Conversational Intake** call classifies every turn and routes it:
+
+| Branch | When | Cost |
+|---|---|---|
+| **A · clarify** | required details missing | 1 call |
+| **B · confirm** | complete but unconfirmed | 1 call |
+| **C · plan** | confirmed — full pipeline | ~9 calls |
+| **D · answer** | a question about the plan | 2 calls |
+| **E · revise** | edit an existing plan | 3 calls |
+
+Required: destination, days, group, budget. Everything else — interests, dates, arrival and
+departure points, walking tolerance, dietary needs — is captured when mentioned and never
+demanded.
+
+On the planning branch:
+
+**ReAct Planner** — a Thought → Action → Observation loop over the travel tools. It looks
+things up only where the answer changes the plan, bounded by both a step count and a clock.
+
+**Deterministic audit** (`agent/audit.py`) — no model, no network. Checks the draft for
+overlapping items, days ending after midnight, activities scheduled outside opening hours the
+run actually retrieved, a first day starting before the traveller arrives, and a last day
+that misses the departure. It also raises implausibly cheap meal costs to realistic
+per-person floors, because language models systematically under-price restaurants.
+
+**Reflection Layer** — a critic model that receives those computed defects as established
+fact and adds its own judgement: is this day too packed, does it match the stated interests,
+what should the traveller know before going. Handing it the arithmetic means it spends its
+attention on the things only judgement can settle.
+
+**Output Formatter** — writes the final Markdown. Every URL it uses is built in code from
+place names, so no link can be invented.
+
+If the critic finds defects it cannot resolve, the plan is still delivered — with the
+unresolved issues stated at the top. A flawed itinerary you can see the flaws in is more
+useful than none.
+
+### Tools
+
+| Tool | Data |
 |---|---|
-| **Conversational Intake** | Reads the dialogue, extracts the typed profile, decides what is missing, and classifies intent. |
-| **ReAct Planner** | Thought → Action → Observation loop that calls tools and drafts the plan. |
-| **Plan Editor** | Applies a requested change to an existing itinerary, patching only the days involved. |
-| **Reflection Layer** | A critic that checks the draft (geography, time, budget, balance) and can trigger a re-plan. |
-| **Output Formatter** | Renders the validated plan as a friendly day-by-day itinerary. |
-| **Itinerary Q&A** | Answers a question about the delivered plan without changing it. |
+| `weather_tool` | Real — Open-Meteo, no key |
+| `maps_tool` | Real — Geoapify: address, coordinates, OpenStreetMap opening hours |
+| `search_tool`, `reviews_tool` | Real — Tavily: summarised web text with sources |
+| `flight_search_tool`, `booking_tool` | Fictive, labelled as such |
+| `booking_confirm_tool`, `flight_book_tool` | Tier 2 — gated, never fire autonomously |
 
-A seventh component, **Validation & Coercion** (`agent/schemas.py`), is deterministic Python —
-it makes no model call, so it appears on the diagram but never in the `steps` trace.
+Where a lookup returns nothing, the agent says so. `maps_tool` returns `open_hours: null`
+when OpenStreetMap has no hours recorded, and that is treated as *unknown*, never as closed.
+`reviews_tool` returns quoted text with source links and no star rating, because a
+manufactured number reads as verified in a way a quotation does not.
 
-### Branching, and what each branch costs
+Anything that cannot be sourced is deliberately vague rather than confidently wrong: meals
+name a neighbourhood ("dinner in Monti — Roman trattorias, options around Via dei Serpenti")
+rather than a specific restaurant that may have closed since the model last heard of it.
 
-One intake call routes every turn:
-
-| Branch | Condition | Behaviour | LLM calls |
-|---|---|---|---|
-| **A** | A required field is missing | Ask once for everything missing, stop | 1 |
-| **B** | Complete but unconfirmed | Show the typed profile, ask to confirm, stop | 1 |
-| **C** | Confirmed, no plan yet | Planner → Reflection → Formatter | ~9 |
-| **D** | Plan exists, user asks about it | Itinerary Q&A | 2 |
-| **E** | Plan exists, user wants a change | Plan Editor → Formatter | 3 |
-
-The expensive loop runs only in branch C. A follow-up edit costs roughly a third of a re-plan,
-which is the main lever for staying inside the project budget.
-
-**Changing a required field is not an edit.** If the destination, day count, group, budget, or
-style changes, the turn is routed back through confirmation rather than the Plan Editor — a
-different destination means a different trip, and the existing itinerary is kept until the
-replacement is confirmed. That override is deterministic and does not depend on the model
-classifying the intent correctly.
-
-### The revision path
-
-The itinerary is stored server-side as structured JSON, keyed by an anonymous
-`conversation_id`, and handed to the Plan Editor as state. Two consequences:
-
-- The rendered itinerary never travels through the prompt, so the transcript stays flat
-  instead of growing by ~9,000 characters per revision.
-- The Plan Editor returns **only the days it changes**. Days nobody asked about are merged
-  through byte-identical rather than re-emitted, which removes any chance of a 35-item plan
-  being silently truncated or reworded on the way back.
-
-### Tools available to the planner
-
-`weather_tool` returns **live** data (Open-Meteo, no API key). `maps_tool`, `search_tool`, and
-`reviews_tool` are structured mocks with a stable shape, ready to be swapped for a real API —
-they are not wired to any provider today. `flights_tool` and `booking_tool` are **fictive** and
-never make a real reservation or purchase. `calendar_tool` builds an `.ics` string. Two
-side-effecting tools (`booking_confirm_tool`, `flight_book_tool`) are **gated**: they require
-explicit approval and are never callable from the loop.
-
-## Project layout
-
-```
-api/team_info.py            GET  /api/team_info           student details
-api/agent_info.py           GET  /api/agent_info          agent meta + a worked example
-api/model_architecture.py   GET  /api/model_architecture  architecture diagram (PNG)
-api/execute.py              POST /api/execute             main entry point
-agent/agent.py              orchestrator, branching, and step tracing (module prompts live here)
-agent/llm.py                LLMod client (via the OpenAI SDK) and JSON parsing
-agent/tools.py              tool implementations and the deny-by-default dispatcher
-agent/schemas.py            validation/coercion of every LLM output
-agent/usage.py              token/cost metering and the budget ceilings
-agent/store.py              Supabase persistence (optional)
-agent/cassette.py           record/replay of LLM calls for cost-free development
-agent/obs.py                structured logging
-db/schema.sql               Supabase tables, RLS, and the spend function
-index.html                  web UI, served at /
-scripts/make_architecture.py  regenerates architecture.png
-tests/                      unit tests and contract evals
-```
+---
 
 ## API
 
-- `GET /` — web UI
-- `GET /api/team_info` — student names and emails
-- `GET /api/agent_info` — description, purpose, prompt template, and a worked example
-- `GET /api/model_architecture` — the architecture diagram as a PNG
-- `POST /api/execute` — body `{ "prompt": "..." }`
+`GET /api/team_info` · `GET /api/agent_info` · `GET /api/model_architecture` (PNG) ·
+`POST /api/execute`
 
-`/api/execute` always responds with the same envelope:
+### `POST /api/execute`
+
+```json
+{ "prompt": "5 days in Rome, a couple, mid-range, we love culture and food" }
+```
 
 ```json
 { "status": "ok", "error": null, "response": "…markdown itinerary…", "steps": [ … ] }
 ```
 
-On failure, `status` is `"error"`, `error` holds a human-readable message, and `response` is
-`null`. `steps` is an ordered list of every LLM call made, each `{ "module", "prompt", "response" }`,
-with module names matching the architecture diagram.
+`steps` lists every LLM call in order, each with the module name — matching the architecture
+diagram — plus its prompt and response.
 
-The request body accepts two **optional** extra fields, `conversation_id` and `device_id`
-(both UUIDs). They enable the revision path by telling the server which stored itinerary to
-edit. A request carrying only `prompt` behaves exactly as documented above — the response
-envelope never changes shape.
+**The backend is stateless, so the conversation lives in `prompt`.** Send the running
+transcript as `User:` / `Agent:` lines. To confirm a trip, include the turn where the agent
+asked, then the reply:
 
-## Configuration
-
-Copy the example env file and fill it in:
-
-```bash
-cp .env.example .env
+```json
+{ "prompt": "User: 5 days in Rome, a couple, mid-range, we love food\nAgent: **Here's your trip so far** … Does this look right? Reply yes…\nUser: yes" }
 ```
 
-`LLMOD_API_KEY` is the only required variable. Everything else has a working default; see the
-comments in `.env.example` for the budget guards, timing invariant, and Supabase settings.
+Editing or asking about an existing plan works the same way — but the plan itself is large,
+so it is passed by reference instead:
 
-### Supabase (optional)
-
-Persistence is an enhancement, never a dependency — unconfigured, slow, or erroring, the agent
-runs exactly as it did without it. To enable it, run `db/schema.sql` in the Supabase SQL editor
-and set `SUPABASE_URL` and `SUPABASE_SERVICE_KEY`.
-
-The browser never talks to Supabase; only the serverless function does. RLS is therefore
-enabled with no public policies, and the service-role key must stay server-side.
-
-Because the brief forbids authentication guards, there is no user account: `device_id` is a
-UUID in `localStorage` that identifies a **browser**, not a person, and it is forgeable. Store
-only low-sensitivity trip preferences against it.
-
-## Staying inside the budget
-
-The course allowance is **$9 total**, so cost is measured rather than estimated:
-
-- Every response's `usage` is recorded per call and attributed to the module that spent it.
-- `LLM_MAX_CALLS_PER_RUN` is a hard per-request ceiling that fires whether or not prices are
-  configured — it is what stops a runaway loop.
-- `LLM_BUDGET_USD` stops a run once cumulative spend passes a limit.
-- Each turn is written to the `runs` table. Current total:
-
-```sql
-select public.total_spend_usd();
-
--- spend by branch, to confirm revisions really are cheaper than re-planning
-select branch, count(*) turns, round(avg(llm_calls), 2) avg_calls, round(avg(cost_usd), 5) avg_usd
-from public.runs group by 1 order by avg_usd desc;
+```json
+{
+  "prompt": "User: 5 days in Rome…\nAgent: [delivered an itinerary]\nUser: make day 2 lighter",
+  "conversation_id": "8f14e45f-ceea-467a-9f8b-2c1d3e4a5b6c",
+  "device_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+}
 ```
 
-### Developing without spending
+`conversation_id` retrieves the stored profile and plan so a revision patches the existing
+itinerary rather than replanning the trip. `device_id` identifies an anonymous traveller
+across conversations. Both are optional: a request carrying only `prompt` works, it simply
+plans afresh each time.
 
-Record each distinct LLM request once, then replay it for free:
+Errors return the same envelope with `"status": "error"`, a human-readable `error`, and the
+steps completed before the failure.
 
-```bash
-LLM_CASSETTE_MODE=auto pytest        # records on first run, replays afterwards
-LLM_CASSETTE_MODE=replay pytest      # strict: a cache miss is an error, so CI cannot spend
-```
+`GET /api/agent_info` carries worked examples for all five branches — prompt, full response,
+and the step trace for each.
 
-The cache key covers the model, messages, temperature, token cap, and JSON mode, so editing a
-prompt correctly misses the cache and re-records only what changed. Never set this in production.
+---
 
-## Running locally
+## Built with
 
-```bash
-python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-vercel dev                                           # serves the UI at / and the API under /api/*
-```
+Python 3.12 on Vercel serverless · LLMod.ai (OpenAI-compatible) · Supabase for conversation
+state and a token-spend ledger · Open-Meteo, Geoapify and Tavily for live data · a plain
+HTML/JS front end with no build step.
 
-Then open `http://localhost:3000`, describe a trip, confirm the profile, and read the plan. The
-UI also shows the full step trace for the latest turn.
+`agent/` holds the pipeline: `agent.py` (routing and modules), `audit.py` (deterministic
+checks), `schemas.py` (validation and coercion), `tools.py`, `llm.py`, `store.py`,
+`usage.py`. `api/` holds the four endpoints. `tests/` holds 158 tests, including a browser
+suite for the UI.
 
-## Testing
+### Notes on the constraints
 
-```bash
-pip install -r requirements-dev.txt
-pytest
-```
+Vercel caps a serverless request at 300 seconds. Every model call is time-gated against a
+wall clock and truncated to the time remaining, so a slow call cannot overrun it; if the
+budget runs low the agent degrades to a deterministic renderer rather than failing.
 
-The tests mock the LLM boundary, so they are deterministic and make no network or LLM calls.
-They cover:
+Every run is metered against the project's token budget and stops before it can exceed it.
+Prompts carry a compacted profile rather than the raw conversation, and the plan is passed by
+reference on revision turns, so the context stays small.
 
-- **Intake branching** — that a turn only plans once the profile is confirmed, and that
-  clarify/confirm turns cost a single LLM call.
-- **The revision path** — that an edit patches only the days requested, that untouched days
-  come through identical, that a revision costs fewer calls than a re-plan, and that changing
-  a required field routes to re-confirmation instead of an edit.
-- **Contract shape** — that `/api/execute` returns exactly `{status, error, response, steps}`
-  and that each step is `{module, prompt, response}` with a valid module name.
-- **Budget guards** — that token counts come from the provider, that the per-run call ceiling
-  and spend ceiling both raise, and that cost attributes to the right module.
-- **Persistence** — that a missing, slow, or failing Supabase degrades silently, and that only
-  well-formed UUIDs ever reach a database filter.
-- **Crash-proofing** — that malformed model output degrades gracefully instead of raising.
-- **Tool safety** — that unknown and gated tools are refused and tool inputs are filtered.
-- **JSON parsing** — that the parser never raises and extracts balanced objects.
-
-## Deployment
-
-Deployed on Vercel. `vercel.json` sets `maxDuration` to 300s for `/api/execute`; the agent's own
-budget is lower so it can always finish and respond:
-
-```
-MAX_RUN_SECONDS + LLM_TIMEOUT_S < maxDuration      (200 + 40 = 240 < 300)
-```
-
-Every LLM call is gated on that deadline. If the budget runs out mid-turn the agent returns the
-plan it has, rendered deterministically, with a visible caveat — rather than being killed
-mid-flight by the platform.
-
-Python is pinned to 3.12 via `.python-version`, matching CI.
-
-## Regenerating the architecture diagram
-
-```bash
-pip install -r requirements-dev.txt
-python scripts/make_architecture.py   # rewrites architecture.png
-```
-
-Module names in the diagram, in the `steps` trace, and in `/api/agent_info` must stay in sync.
+Tier-2 tools — anything that would spend money — are gated in code and cannot be triggered by
+the model, whatever a prompt asks for. Outbound HTTP is restricted to an allow-list of hosts.

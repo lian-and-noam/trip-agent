@@ -63,14 +63,20 @@ def _default_scripted_chat(planner_reply=None, formatter_reply="# Itinerary\n- 0
 
 
 def _two_day_plan():
-    """A stored plan to revise, with two distinct days so a patch can be shown to be surgical."""
+    """A stored plan to revise, with two distinct days so a patch can be shown to be surgical.
+
+    Items carry every key validate_draft_plan emits (`venue`, `venue_from`): a fixture
+    missing one made every round-trip through validation look like a mutation.
+    """
     return {"days": [
         {"day": 1, "title": "Day 1", "items": [
-            {"time": "09:00", "name": "Fushimi Inari", "duration_min": 120,
-             "cost_eur": 0, "note": "go early"}]},
+            {"time": "09:00", "name": "Fushimi Inari", "venue": "Fushimi Inari Taisha",
+             "venue_from": "", "duration_min": 120, "cost_eur": 0, "note": "go early"}]},
         {"day": 2, "title": "Day 2", "items": [
-            {"time": "09:00", "name": "Museum", "duration_min": 90, "cost_eur": 12, "note": "x"},
-            {"time": "14:00", "name": "Market", "duration_min": 60, "cost_eur": 20, "note": "y"}]},
+            {"time": "09:00", "name": "Museum", "venue": "Kyoto National Museum",
+             "venue_from": "", "duration_min": 90, "cost_eur": 12, "note": "x"},
+            {"time": "14:00", "name": "Market", "venue": "Nishiki Market",
+             "venue_from": "", "duration_min": 60, "cost_eur": 20, "note": "y"}]},
     ], "total_cost_eur": 32}
 
 

@@ -28,7 +28,7 @@ INFO = {
         "An autonomous trip-planning agent. One Conversational Intake call reads the whole "
         "dialogue and routes the turn: it asks for anything missing, confirms a typed traveller "
         "profile, then plans an itinerary with a ReAct loop over travel tools (live weather, plus "
-        "structured maps/search/reviews mocks and fictive flights/booking), self-critiques the "
+        "structured maps/search/reviews mocks and fictive flight-search/booking), self-critiques the "
         "draft, and returns a costed day-by-day plan with real map links. Once a plan exists the "
         "agent can revise a specific day or answer a question about it without re-planning the "
         "trip.",
@@ -41,13 +41,15 @@ INFO = {
             "Plan a {days}-day trip to {destination} for a {group} who likes {style}. "
             "Budget: {budget}. Must-see: {priorities}. Avoid: {avoid}. "
             "Accessibility needs: {accessibility}.",
-        "required_fields": ["days", "destination", "group", "style", "budget"],
-        "optional_fields": ["when", "origin", "dietary", "walking", "accessibility",
+        "required_fields": ["days", "destination", "group", "budget"],
+        "optional_fields": ["style", "when", "start_point", "end_point", "start_time",
+                            "end_time", "lodging", "details", "budget_amount_eur",
+                            "budget_basis", "dietary", "walking", "accessibility",
                             "priorities", "avoid"],
         "notes":
             "The agent is conversational and the backend is stateless. Send the running "
             "transcript in `prompt` as 'User:' / 'Agent:' lines. Anything missing is asked for "
-            "in a single message; the agent then shows the typed profile and waits for "
+            "in a single message; the agent then shows the collected trip details and waits for "
             "confirmation before spending tokens on planning. After a plan exists, "
             "'make day 2 lighter' edits it and 'what does day 3 cost?' answers from it. "
             "Changing a required field is treated as a new trip and re-confirmed.",

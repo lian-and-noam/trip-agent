@@ -17,7 +17,6 @@ def test_disabled_when_unconfigured(monkeypatch):
     # Every entry point degrades quietly rather than raising.
     assert store.get_conversation("abc") is None
     assert store.save_conversation("abc", profile={}, plan={}) is False
-    assert store.get_prefs("dev") is None
     assert store.record_run("run1", snapshot={"calls": 3}) is False
     assert store.spend_to_date() is None
 
@@ -45,7 +44,6 @@ def test_timeout_degrades_to_none(monkeypatch):
         raise requests.exceptions.Timeout()
 
     monkeypatch.setattr(store.requests, "request", slow)
-    assert store.get_prefs("device") is None
 
 
 def test_conversation_round_trip_shape(monkeypatch):

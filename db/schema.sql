@@ -30,25 +30,7 @@ create index if not exists conversations_device_idx
   on public.conversations (device_id, updated_at desc);
 
 -- ===========================================================================
--- 2. traveller_prefs — durable preferences for an anonymous device.
---
--- NOTE: the course brief forbids authentication guards, so there is no user identity.
--- `device_id` is a UUID generated in localStorage. It identifies a BROWSER, not a person,
--- and it is forgeable. Store only low-sensitivity trip preferences here (dietary, walking
--- tolerance, things to avoid) — never anything personally identifying.
---
--- The accessors exist in agent/store.py but nothing in the pipeline writes here yet;
--- the table is created now so enabling it later needs no migration.
--- ===========================================================================
-create table if not exists public.traveller_prefs (
-  device_id   uuid primary key,
-  prefs       jsonb not null default '{}'::jsonb,
-  trips_count integer not null default 0,
-  updated_at  timestamptz not null default now()
-);
-
--- ===========================================================================
--- 3. runs — one row per /api/execute turn.
+-- 2. runs — one row per /api/execute turn.
 --
 -- Token counts come from the provider's own `usage` field, not from estimation. cost_usd
 -- stays 0 unless per-token rates are configured, which is fine: llm_calls and the token
@@ -74,7 +56,7 @@ create index if not exists runs_created_idx on public.runs (created_at desc);
 create index if not exists runs_conversation_idx on public.runs (conversation_id);
 
 -- ===========================================================================
--- 4. Keep updated_at current without the client having to send it.
+-- 3. Keep updated_at current without the client having to send it.
 --
 -- This matters: PostgREST would pass a client-supplied "now()" through as a string
 -- literal, and Postgres rejects 'now()' as timestamptz input. Letting the database own
@@ -96,13 +78,8 @@ create trigger conversations_touch
   before update on public.conversations
   for each row execute function public.touch_updated_at();
 
-drop trigger if exists traveller_prefs_touch on public.traveller_prefs;
-create trigger traveller_prefs_touch
-  before update on public.traveller_prefs
-  for each row execute function public.touch_updated_at();
-
 -- ===========================================================================
--- 5. Spend helper. Returns 0 until per-token rates are configured; the call and token
+-- 4. Spend helper. Returns 0 until per-token rates are configured; the call and token
 --    columns below are the more useful measure in the meantime.
 -- ===========================================================================
 create or replace function public.total_spend_usd()
@@ -114,14 +91,13 @@ as $$
 $$;
 
 -- ===========================================================================
--- 6. Deny by default. The service role bypasses these; anon/authenticated get nothing.
+-- 5. Deny by default. The service role bypasses these; anon/authenticated get nothing.
 -- ===========================================================================
 alter table public.conversations   enable row level security;
-alter table public.traveller_prefs enable row level security;
 alter table public.runs            enable row level security;
 
 -- ===========================================================================
--- 7. Grants for service_role.
+-- 6. Grants for service_role.
 --
 -- RLS and GRANTs are SEPARATE mechanisms. service_role bypasses RLS, but it still needs
 -- table-level privileges, and on newer Supabase projects those are not handed out
@@ -134,7 +110,6 @@ alter table public.runs            enable row level security;
 grant usage on schema public to service_role;
 
 grant select, insert, update, delete on public.conversations   to service_role;
-grant select, insert, update, delete on public.traveller_prefs to service_role;
 grant select, insert, update, delete on public.runs            to service_role;
 
 -- runs.id is bigserial, so INSERT also needs the sequence.

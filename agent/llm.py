@@ -11,6 +11,7 @@ expect `max_completion_tokens` rather than `max_tokens`, so request parameters a
 per-model instead of assumed.
 """
 import os
+import time
 import re
 import json
 from openai import OpenAI, APITimeoutError
@@ -40,6 +41,23 @@ MODEL = os.environ.get("LLMOD_MODEL", "NBUECSE-gpt-5-mini")
 # formatter runs last with ~140s of completed work behind it — losing it discards the turn.
 _TIMEOUT_S = int(os.environ.get("LLM_TIMEOUT_S", "110"))
 _MAX_RETRIES = 0
+
+# Absolute wall-clock limit for the whole request, set once per run by the agent. Without it
+# each call needs a pessimistic fixed timeout and the run must reserve that much headroom
+# against the platform's limit. With a wall, a call takes whatever time is actually left.
+_WALL = [None]
+
+
+def set_wall(monotonic_deadline):
+    """Set the hard stop for this request. Calls are truncated to fit inside it."""
+    _WALL[0] = monotonic_deadline
+
+
+def _call_timeout():
+    """Per-call timeout: the configured ceiling, or whatever time is left, whichever is less."""
+    if _WALL[0] is None:
+        return _TIMEOUT_S
+    return max(5, min(_TIMEOUT_S, int(_WALL[0] - time.monotonic())))
 
 # Reasoning models spend part of the completion budget on hidden reasoning tokens, so the
 # visible answer needs headroom on top of the caller's request or `content` comes back empty.
@@ -72,11 +90,17 @@ def _require_config():
 
 
 def _get_client():
+    """The shared client. Its timeout is deliberately NOT set here.
+
+    The client is cached and outlives a single request on a warm container, so a timeout
+    fixed at construction is whichever value the first request happened to compute — and it
+    never shrinks as a later run approaches its deadline. The result is a wall clock that
+    nothing enforces. The timeout is passed per call instead; see chat().
+    """
     global _client
     if _client is None:
         api_key, base_url = _require_config()
-        _client = OpenAI(api_key=api_key, base_url=base_url,
-                         timeout=_TIMEOUT_S, max_retries=_MAX_RETRIES)
+        _client = OpenAI(api_key=api_key, base_url=base_url, max_retries=_MAX_RETRIES)
     return _client
 
 
@@ -169,6 +193,9 @@ def chat(messages, temperature=0.3, json_mode=False, max_tokens=1200):
 
     client = _get_client()
     base = _completion_params(messages, temperature, max_tokens)
+    # Evaluated per call, so it shrinks as the run nears its deadline and a late call cannot
+    # run past the wall.
+    base["timeout"] = _call_timeout()
 
     completion = None
     if json_mode and _json_mode_supported is not False:
