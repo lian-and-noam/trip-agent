@@ -275,3 +275,29 @@ def test_a_genuine_late_night_is_still_reported():
         {"time": "21:00", "name": "Rooftop bar", "venue": "Trastevere", "duration_min": 300},
     ]}]}
     assert [p for p in audit.check_schedule(plan) if "next morning" in p or "very late" in p]
+
+
+def test_a_meal_far_above_the_tier_is_put_to_the_critic():
+    """From a real run: an 80 EUR dinner and a 40 EUR lunch on a mid-range trip, which the
+    guards let through. check_costs only looked for meals priced at zero, and the budget
+    ceiling is per-trip (mid-range = 260/day), so a single luxury-priced meal fired nothing.
+    """
+    plan = {"days": [{"day": 2, "title": "D2", "items": [
+        {"time": "19:30", "name": "Dinner", "venue": "Trastevere",
+         "duration_min": 90, "cost_eur": 80, "note": "Mid-range dinner ~EUR80 per person."}]}],
+        "total_cost_eur": 80}
+    found = audit.check_costs(plan, {"budget": "mid-range"})
+    assert any("well above mid-range" in f for f in found), found
+
+    # The same price is unremarkable at the tier that would explain it.
+    assert audit.check_costs(plan, {"budget": "luxury"}) == []
+    # And with no profile the check cannot run, so it must stay silent rather than guess.
+    assert audit.check_costs(plan) == []
+
+
+def test_a_sensible_meal_price_is_not_questioned():
+    plan = {"days": [{"day": 1, "title": "D1", "items": [
+        {"time": "19:30", "name": "Dinner", "venue": "Monti",
+         "duration_min": 90, "cost_eur": 28, "note": "Mid-range trattoria."}]}],
+        "total_cost_eur": 28}
+    assert audit.check_costs(plan, {"budget": "mid-range"}) == []

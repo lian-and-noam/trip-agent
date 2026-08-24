@@ -1,36 +1,36 @@
 [
   {
-    "prompt": "User: Plan a 3-day trip to Rome for 2 friends who like nature. Budget: mid-range. Travelling 3/9 15:00 to 5/9 21:30, starting and ending at Fiumicino Airport. Staying at Hotel 55 Fifty-Five, Via Nazionale. Each day should run roughly 09:00 to 22:00. Must-see: Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica. Avoid: indoor museums. Also: we walk a lot, we want a shopping stop at noon on one day.\nAgent: **Here's your trip so far**\n\n- **Destination:** Rome, Italy\n- **Days:** 3\n- **Travellers:** 2 friends\n- **Budget:** mid-range\n- **Interests:** nature\n- **Walking:** high\n- **Must-see:** Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica\n- **Avoid:** indoor museums\n- **Trip window:** 3/9 15:00 → 5/9 21:30\n- **Start point:** Leonardo da Vinci–Fiumicino Airport (FCO)\n- **End point:** Leonardo da Vinci–Fiumicino Airport (FCO)\n- **Staying at:** Hotel 55 Fifty-Five, Via Nazionale\n- **Also noted:** Each day 09:00–22:00; Shopping stop at noon on one day\n\nDoes this look right? Reply **yes** to start planning — or tell me what to change.\nUser: yes",
+    "prompt": "User: Plan a 3-day trip to Rome for 2 friends who like nature. Budget: mid-range. Travelling 3/9 15:00 to 5/9 21:30, starting and ending at Fiumicino Airport. Staying at Hotel 55 Fifty-Five, Via Nazionale. Each day should run roughly 09:00 to 22:00. Must-see: Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica. Avoid: indoor museums. Also: we walk a lot, we want a shopping stop at noon on one day.\nAgent: **Here's your trip so far**\n\n- **Destination:** Rome\n- **Days:** 3\n- **Travellers:** 2 friends\n- **Budget:** mid-range\n- **Interests:** nature\n- **Walking:** high\n- **Must-see:** Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica\n- **Avoid:** indoor museums\n- **Trip window:** 3/9 15:00 → 5/9 21:30\n- **Start point:** Leonardo da Vinci–Fiumicino Airport\n- **End point:** Leonardo da Vinci–Fiumicino Airport\n- **Staying at:** Hotel 55 Fifty-Five, Via Nazionale\n- **Also noted:** Each day roughly 09:00 to 22:00; Shopping stop at noon on one day\n\nDoes this look right? Reply **yes** to start planning — or tell me what to change.\nUser: yes",
     "request": {
-      "prompt": "User: Plan a 3-day trip to Rome for 2 friends who like nature. Budget: mid-range. Travelling 3/9 15:00 to 5/9 21:30, starting and ending at Fiumicino Airport. Staying at Hotel 55 Fifty-Five, Via Nazionale. Each day should run roughly 09:00 to 22:00. Must-see: Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica. Avoid: indoor museums. Also: we walk a lot, we want a shopping stop at noon on one day.\nAgent: **Here's your trip so far**\n\n- **Destination:** Rome, Italy\n- **Days:** 3\n- **Travellers:** 2 friends\n- **Budget:** mid-range\n- **Interests:** nature\n- **Walking:** high\n- **Must-see:** Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica\n- **Avoid:** indoor museums\n- **Trip window:** 3/9 15:00 → 5/9 21:30\n- **Start point:** Leonardo da Vinci–Fiumicino Airport (FCO)\n- **End point:** Leonardo da Vinci–Fiumicino Airport (FCO)\n- **Staying at:** Hotel 55 Fifty-Five, Via Nazionale\n- **Also noted:** Each day 09:00–22:00; Shopping stop at noon on one day\n\nDoes this look right? Reply **yes** to start planning — or tell me what to change.\nUser: yes",
-      "conversation_id": "57e7c7c1-c297-4d0e-9a5f-2929a915e6be",
-      "device_id": "c70e9c8c-5474-4a88-8e93-36eb805fceb8"
+      "prompt": "User: Plan a 3-day trip to Rome for 2 friends who like nature. Budget: mid-range. Travelling 3/9 15:00 to 5/9 21:30, starting and ending at Fiumicino Airport. Staying at Hotel 55 Fifty-Five, Via Nazionale. Each day should run roughly 09:00 to 22:00. Must-see: Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica. Avoid: indoor museums. Also: we walk a lot, we want a shopping stop at noon on one day.\nAgent: **Here's your trip so far**\n\n- **Destination:** Rome\n- **Days:** 3\n- **Travellers:** 2 friends\n- **Budget:** mid-range\n- **Interests:** nature\n- **Walking:** high\n- **Must-see:** Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica\n- **Avoid:** indoor museums\n- **Trip window:** 3/9 15:00 → 5/9 21:30\n- **Start point:** Leonardo da Vinci–Fiumicino Airport\n- **End point:** Leonardo da Vinci–Fiumicino Airport\n- **Staying at:** Hotel 55 Fifty-Five, Via Nazionale\n- **Also noted:** Each day roughly 09:00 to 22:00; Shopping stop at noon on one day\n\nDoes this look right? Reply **yes** to start planning — or tell me what to change.\nUser: yes",
+      "conversation_id": "8fedddab-1a8b-40ed-888b-4ab9490b0c91",
+      "device_id": "1747c57a-a69f-445c-b3a8-1ec6242d868a"
     },
-    "full_response": "> ⚠️ **Delivered with caveats** — this plan was not fully validated:\n> - The reviewer could not complete its check, so this itinerary has not been validated. Times, opening hours and costs are worth confirming yourself.\n\n> ℹ️ **Good to know before you go**:\n> - Book Colosseum timed-entry tickets in advance — popular slots sell out quickly.\n> - Check Pantheon opening/entry policy on your dates — hours and small fees vary.\n> - Dress modestly for St Peter's Basilica (shoulders/knees covered) — enforced at entry.\n> - Allow extra time for security queues at St Peter's/Vatican, especially mornings.\n> - Confirm Leonardo Express schedule and buy tickets early during peak travel times.\n\n# 3-day itinerary — Rome, Italy\n\n## Day 1 — Arrival and evening in central Rome (parks + Trevi)\n- **15:30** — [Transfer: FCO → Hotel](https://www.google.com/maps/dir/?api=1&origin=Leonardo+da+Vinci%E2%80%93Fiumicino+Airport+Rome%2C+Italy&destination=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome%2C+Italy)\n  - Leonardo Express train to Roma Termini (~32 min) + short walk to hotel; €14 per person single fare. Termini is a ~8–12 min walk to the hotel.\n  - 40 min · €14 per person\n\n- **16:15** — [Check in / settle at hotel](https://www.google.com/maps/search/?api=1&query=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome%2C+Italy)\n  - Lodging cost is included once separately (see total). Confirm check-in time with your booking.\n  - 30 min · €0 per person\n\n- **17:00** — [Walk and relax in Villa Borghese](https://www.google.com/maps/search/?api=1&query=Villa+Borghese+Rome%2C+Italy)\n  - Large central park for easy nature strolling and views over Rome; free.\n  - 90 min · €0 per person\n\n- **18:30** — [Walk to Trevi Fountain](https://www.google.com/maps/dir/?api=1&origin=Villa+Borghese+Rome%2C+Italy&destination=Trevi+Fountain+Rome%2C+Italy)\n  - Outdoor visit to the fountain; open public space. Great at sunset/early evening when lit.\n  - 30 min · €0 per person\n\n- **19:00** — [Dinner (mid-range trattoria)](https://www.google.com/maps/search/?api=1&query=Trevi+%2F+Pantheon+neighbourhood+Rome%2C+Italy)\n  - ~€30 mid-range per person for a sit-down dinner (local guide price). Choose a trattoria near the fountain; can be busy — reservation recommended.\n  - 90 min · €30 per person\n\n- **20:30** — [Evening stroll: Spanish Steps & return](https://www.google.com/maps/search/?api=1&query=Spanish+Steps+Rome%2C+Italy)\n  - Walk back to hotel via the Spanish Steps; relaxed walking pace. All outdoor.\n  - 60 min · €0 per person\n\n\n_Day total: €44_\n\n## Day 2 — Colosseum, shopping, Pantheon and Trastevere evening\n- **09:00** — [Breakfast / coffee](https://www.google.com/maps/search/?api=1&query=Via+Nazionale+%2F+Hotel+area+Rome%2C+Italy)\n  - Coffee and light pastry; used local price guidance (coffee €1; add pastry).\n  - 30 min · €3 per person\n\n- **09:30** — [Walk to Colosseum](https://www.google.com/maps/dir/?api=1&origin=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome%2C+Italy&destination=Colosseum+Rome%2C+Italy)\n  - A pleasant ~25–35 minute walk depending on route; you’re walking-savvy so chosen on-foot transfer.\n  - 30 min · €0 per person\n\n- **10:00** — [Colosseum visit (ancient Rome outdoors & limited interiors)](https://www.google.com/maps/search/?api=1&query=Colosseum+Rome%2C+Italy)\n  - Entrances/museum tickets typically ~€18–22; I used €20 per person. Book a timed entry in advance to avoid long queues.\n  - 120 min · €20 per person\n\n- **12:20** — Shopping stop + lunch at noon\n  - Shopping on Rome's main high street (clothes/souvenirs) and casual lunch ~€15 per person. Shopping expenses not included in this plan.\n  - 80 min · €15 per person\n\n- **14:00** — [Walk to Pantheon](https://www.google.com/maps/dir/?api=1&origin=Via+del+Corso+Rome%2C+Italy&destination=Pantheon+Rome%2C+Italy)\n  - Short walk through historic centre.\n  - 15 min · €0 per person\n\n- **14:15** — [Pantheon visit](https://www.google.com/maps/search/?api=1&query=Pantheon+Rome%2C+Italy)\n  - Interior sometimes charges a small entry fee (~€5–6); I used €6 per person.\n  - 30 min · €6 per person\n\n- **15:00** — [Riverside / Piazza Navona stroll](https://www.google.com/maps/search/?api=1&query=Piazza+Navona+%2F+Tiber+riverside+Rome%2C+Italy)\n  - Outdoor wandering and baroque squares — nature/light urban-scape time.\n  - 120 min · €0 per person\n\n- **17:00** — [Coffee / gelato break](https://www.google.com/maps/search/?api=1&query=Historic+centre+Rome%2C+Italy)\n  - Afternoon refreshment (~€3).\n  - 30 min · €3 per person\n\n- **17:30** — [Walk to Trastevere](https://www.google.com/maps/dir/?api=1&origin=Piazza+Navona+Rome%2C+Italy&destination=Trastevere+Rome%2C+Italy)\n  - Walk across the river to Trastevere — one of Rome’s most atmospheric neighbourhoods.\n  - 30 min · €0 per person\n\n- **18:00** — [Explore Trastevere and dinner](https://www.google.com/maps/search/?api=1&query=Trastevere+Rome%2C+Italy)\n  - Evening in Trastevere with dinner at a mid-range trattoria (~€30 per person). Plenty of outdoor piazzas and riverside walking.\n  - 180 min · €30 per person\n\n- **21:30** — [Walk back to hotel](https://www.google.com/maps/search/?api=1&query=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome%2C+Italy)\n  - Return by foot (or short taxi if preferred; taxi not included).\n  - 30 min · €0 per person\n\n\n_Day total: €77_\n\n## Day 3 — Vatican area, panoramic Janiculum and park time — depart for FCO\n- **09:00** — [Breakfast / coffee](https://www.google.com/maps/search/?api=1&query=Via+Nazionale+%2F+Hotel+area+Rome%2C+Italy)\n  - Light breakfast/coffee near the hotel.\n  - 30 min · €3 per person\n\n- **09:30** — [Walk to St Peter's area](https://www.google.com/maps/dir/?api=1&origin=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome%2C+Italy&destination=St+Peter%27s+Basilica+Rome%2C+Italy)\n  - Walking route to the Vatican; expect security queues.\n  - 45 min · €0 per person\n\n- **10:15** — [Visit St Peter's Basilica (interior & square)](https://www.google.com/maps/search/?api=1&query=St+Peter%27s+Basilica+Rome%2C+Italy)\n  - Includes Dome ascent (€10 per person). Entry to the basilica itself is free but security checks and queues apply; this item prices the optional Dome climb.\n  - 75 min · €10 per person\n\n- **11:45** — [Walk / climb to Gianicolo (Janiculum Hill) for views and green space](https://www.google.com/maps/search/?api=1&query=Gianicolo+Rome%2C+Italy)\n  - Excellent panoramic views and leafy walking — a nature-focused stop.\n  - 75 min · €0 per person\n\n- **13:00** — [Lunch near Janiculum / Trastevere](https://www.google.com/maps/search/?api=1&query=Trastevere+neighbourhood+Rome%2C+Italy)\n  - Casual lunch ~€15 per person.\n  - 60 min · €15 per person\n\n- **14:30** — [Afternoon park: Villa Doria Pamphilj (large green space)](https://www.google.com/maps/search/?api=1&query=Villa+Doria+Pamphilj+Rome%2C+Italy)\n  - One of Rome's largest parks — peaceful nature walking away from main tourist hubs.\n  - 120 min · €0 per person\n\n- **16:30** — [Return to hotel / pack (taxi recommended)](https://www.google.com/maps/search/?api=1&query=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome%2C+Italy)\n  - Recommend a taxi from the park back to the hotel (~€12–€18; I used €15). This item includes the taxi ride and ~20–30 min to shower/pack/check out.\n  - 50 min · €15 per person\n\n- **18:00** — Transfer: Hotel → FCO (leave city with 2–3h buffer)\n  - Walk to Roma Termini + Leonardo Express train to FCO (~32 min) + buffer; €14 per person single fare. This aims to get you to the airport ~19:00 (≈2.5 h before your 21:30 end_time). Nothing scheduled after arrival per request.\n  - 60 min · €14 per person\n\n\n_Day total: €57_\n\n**Total: €178 per person**",
+    "full_response": "> ℹ️ **Good to know before you go**:\n> - Book Colosseum timed-entry tickets well in advance — popular slots sell out quickly.\n> - Buy Leonardo Express tickets ahead of travel to guarantee seats and schedules.\n> - St Peter's Basilica has security queues and a strict dress code; dome access costs extra.\n> - Pantheon interior access can be closed for services or have a small fee.\n> - Reserve dinners in Trastevere and Monti on weekends — places fill up early.\n\n# 3-day itinerary — Rome\n\n## Day 1 — Arrival; Colosseum evening visit\n- **15:30** — [Leonardo Express (FCO–Termini)](https://www.google.com/maps/search/?api=1&query=Termini+station+Rome)\n  - Official train one-way €14 (2026). Trains ~32–35 min. Alternative: taxi flat €55 to historic centre.\n  - 35 min · €14 per person\n\n- **16:10** — [Walk to Hotel 55 Fifty-Five](https://www.google.com/maps/dir/?api=1&origin=Termini+station+Rome&destination=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome)\n  - High-walking pace; ~10–15 min on foot from Termini.\n  - 15 min · €0 per person\n\n- **16:30** — [Hotel check-in & luggage drop](https://www.google.com/maps/search/?api=1&query=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome)\n  - Lodging costed once for the stay (estimate per person for 2 nights at a mid-range hotel).\n  - 30 min · €160 per person\n\n- **17:00** — [Walk to Colosseum](https://www.google.com/maps/dir/?api=1&origin=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome&destination=Colosseum+Rome)\n  - Walk ~20–25 min at a brisk pace. Alternative: taxi ~10–15 min (€10–15).\n  - 25 min · €0 per person\n\n- **17:30** — [Colosseum](https://www.google.com/maps/search/?api=1&query=Colosseum+Rome)\n  - Timed-entry ticket Colosseum + Roman Forum + Palatine ~€18. Open until ~19:15 in early Sep; book a timed slot in advance.\n  - 90 min · €18 per person\n\n- **19:30** — [Dinner](https://www.google.com/maps/search/?api=1&query=Monti+neighbourhood+Rome)\n  - Mid-range dinner ~€80 per person.\n  - 90 min · €80 per person\n\n\n_Day total: €272_\n\n## Day 2 — Historic centre, shopping at noon, Villa Borghese and Trastevere in evening\n- **09:00** — [Trevi Fountain](https://www.google.com/maps/search/?api=1&query=Trevi+Fountain+Rome)\n  - Outdoor visit to the fountain and square — free.\n  - 30 min · €0 per person\n\n- **09:45** — [Pantheon](https://www.google.com/maps/search/?api=1&query=Pantheon+Rome)\n  - Visiting the square is free; interior may have a small entry fee (~€5). Priced as an approximate interior fee — check current policy.\n  - 45 min · €5 per person\n\n- **12:00** — Shopping stop\n  - Shopping at noon as requested — browsing is free; purchases extra.\n  - 90 min · €0 per person\n\n- **13:30** — [Lunch](https://www.google.com/maps/search/?api=1&query=Via+del+Corso+%2F+Centro+Rome)\n  - Mid-range lunch ~€40 per person.\n  - 60 min · €40 per person\n\n- **15:00** — [Villa Borghese gardens (park walk)](https://www.google.com/maps/search/?api=1&query=Villa+Borghese+Rome)\n  - Large park and gardens — nature-style time; free. Optional bike/boat rental extra.\n  - 90 min · €0 per person\n\n- **17:30** — [Public transport to Trastevere](https://www.google.com/maps/search/?api=1&query=Trastevere+Rome)\n  - Priced as a single public-transport ticket €1.50 per person. Alternative: scenic walk across the Tiber (~30–45 min) or taxi (~€10–15).\n  - 25 min · €2 per person\n\n- **19:30** — [Dinner](https://www.google.com/maps/search/?api=1&query=Trastevere+Rome)\n  - Mid-range dinner ~€80 per person; lively area for evening strolls.\n  - 90 min · €80 per person\n\n\n_Day total: €127_\n\n## Day 3 — Vatican / St Peter's, riverside walk, return to airport\n- **08:25** — [Walk to St Peter's Basilica](https://www.google.com/maps/dir/?api=1&origin=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome&destination=St+Peter%27s+Basilica+Rome)\n  - Walk ~25–35 min to arrive by 09:00; leaves earlier than 09:00 so you can reach the basilica for opening. Alternative: bus/taxi ~15–20 min.\n  - 35 min · €0 per person\n\n- **09:00** — [St Peter's Basilica](https://www.google.com/maps/search/?api=1&query=St+Peter%27s+Basilica+Rome)\n  - Entry to the basilica is typically free; expect security queue and dress code. Dome climb or guided tours cost extra — check and pre-book if desired.\n  - 120 min · €0 per person\n\n- **12:30** — [Lunch](https://www.google.com/maps/search/?api=1&query=Prati+neighbourhood+Rome)\n  - Mid-range lunch ~€40 per person.\n  - 60 min · €40 per person\n\n- **14:30** — [Tiber riverside & Isola Tiberina walk](https://www.google.com/maps/search/?api=1&query=Tiber+River+Rome)\n  - Pleasant riverside nature walk; free.\n  - 60 min · €0 per person\n\n- **15:30** — [Walk back to Hotel 55 Fifty-Five](https://www.google.com/maps/search/?api=1&query=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome)\n  - Return to the hotel to collect luggage; walking time depends on exact spot along the Tiber.\n  - 20 min · €0 per person\n\n- **15:50** — [Collect bags at hotel](https://www.google.com/maps/search/?api=1&query=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome)\n  - Collect luggage and prepare for airport transfer. Moved earlier so you have time to reach Termini comfortably.\n  - 20 min · €0 per person\n\n- **16:10** — [Walk to Termini station](https://www.google.com/maps/dir/?api=1&origin=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome&destination=Termini+station+Rome)\n  - Walk ~10–15 min to Termini. Alternative: short taxi ~€6–10 or bus (single ticket €1.50).\n  - 15 min · €0 per person\n\n- **16:40** — [Leonardo Express (Termini–FCO)](https://www.google.com/maps/search/?api=1&query=Leonardo+da+Vinci%E2%80%93Fiumicino+Airport+Rome)\n  - Official train one-way €14 (2026). Departing Termini ~16:40 to arrive ~17:15 — gives ~4h before your 21:30 end time. Book tickets in advance; taxi to FCO (~€55) is an alternative.\n  - 35 min · €14 per person\n\n- **17:15** — [Arrive at airport — end of plan](https://www.google.com/maps/search/?api=1&query=Leonardo+da+Vinci%E2%80%93Fiumicino+Airport+Rome)\n  - Plan ends on arrival at FCO with a comfortable buffer before your 21:30 departure; nothing scheduled after this per request.\n  - 15 min · €0 per person\n\n\n_Day total: €54_\n\n**Total: €453 per person**",
     "steps": [
       {
         "module": "Conversational Intake",
         "prompt": {
-          "conversation": "User: Plan a 3-day trip to Rome for 2 friends who like nature. Budget: mid-range. Travelling 3/9 15:00 to 5/9 21:30, starting and ending at Fiumicino Airport. Staying at Hotel 55 Fifty-Five, Via Nazionale. Each day should run roughly 09:00 to 22:00. Must-see: Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica. Avoid: indoor museums. Also: we walk a lot, we want a shopping stop at noon on one day.\nAgent: **Here's your trip so far**\n\n- **Destination:** Rome, Italy\n- **Days:** 3\n- **Travellers:** 2 friends\n- **Budget:** mid-range\n- **Interests:** nature\n- **Walking:** high\n- **Must-see:** Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica\n- **Avoid:** indoor museums\n- **Trip window:** 3/9 15:00 → 5/9 21:30\n- **Start point:** Leonardo da Vinci–Fiumicino Airport (FCO)\n- **End point:** Leonardo da Vinci–Fiumicino Airport (FCO)\n- **Staying at:** Hotel 55 Fifty-Five, Via Nazionale\n- **Also noted:** Each day 09:00–22:00; Shopping stop at noon on one day\n\nDoes this look right? Reply **yes** to start planning — or tell me what to change.\nUser: yes"
+          "conversation": "User: Plan a 3-day trip to Rome for 2 friends who like nature. Budget: mid-range. Travelling 3/9 15:00 to 5/9 21:30, starting and ending at Fiumicino Airport. Staying at Hotel 55 Fifty-Five, Via Nazionale. Each day should run roughly 09:00 to 22:00. Must-see: Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica. Avoid: indoor museums. Also: we walk a lot, we want a shopping stop at noon on one day.\nAgent: **Here's your trip so far**\n\n- **Destination:** Rome\n- **Days:** 3\n- **Travellers:** 2 friends\n- **Budget:** mid-range\n- **Interests:** nature\n- **Walking:** high\n- **Must-see:** Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica\n- **Avoid:** indoor museums\n- **Trip window:** 3/9 15:00 → 5/9 21:30\n- **Start point:** Leonardo da Vinci–Fiumicino Airport\n- **End point:** Leonardo da Vinci–Fiumicino Airport\n- **Staying at:** Hotel 55 Fifty-Five, Via Nazionale\n- **Also noted:** Each day roughly 09:00 to 22:00; Shopping stop at noon on one day\n\nDoes this look right? Reply **yes** to start planning — or tell me what to change.\nUser: yes"
         },
         "response": {
           "stage": "plan",
           "profile": {
             "days": 3,
-            "destination": "Rome, Italy",
+            "destination": "Rome",
             "style": "nature",
             "group": "2 friends",
             "budget": "mid-range",
             "budget_amount_eur": 0,
             "budget_basis": "per person",
             "when": "3/9 15:00 to 5/9 21:30",
-            "start_point": "Leonardo da Vinci–Fiumicino Airport (FCO)",
-            "end_point": "Leonardo da Vinci–Fiumicino Airport (FCO)",
+            "start_point": "Leonardo da Vinci–Fiumicino Airport",
+            "end_point": "Leonardo da Vinci–Fiumicino Airport",
             "start_time": "3/9 15:00",
             "end_time": "5/9 21:30",
             "lodging": "Hotel 55 Fifty-Five, Via Nazionale",
             "details": [
-              "Each day 09:00–22:00",
+              "Each day roughly 09:00 to 22:00",
               "Shopping stop at noon on one day"
             ],
             "dietary": [],
@@ -53,33 +53,52 @@
       {
         "module": "ReAct Planner",
         "prompt": {
-          "thought": "Check exact address, coordinates and hours (if any) for the lodging first so I can base daily travel on it.",
+          "thought": "I need opening hours and address for the Colosseum to schedule timed entry and travel time on day 1. I'll look it up now.",
           "tool": "maps_tool",
           "tool_input": {
-            "query": "Hotel 55 Fifty-Five Via Nazionale Rome"
+            "query": "Colosseum, Rome (Colosseo) address opening hours"
           }
         },
         "response": {
           "observation": {
             "ok": true,
             "source": "geoapify",
-            "query": "Hotel 55 Fifty-Five Via Nazionale Rome",
-            "near": "Rome, Italy",
+            "query": "Colosseum, Rome (Colosseo) address opening hours",
+            "results": [],
+            "note": "No place found for \"Colosseum, Rome (Colosseo) address opening hours\"."
+          }
+        }
+      },
+      {
+        "module": "ReAct Planner",
+        "prompt": {
+          "thought": "Try a simpler place name to get the Colosseum entry (avoid extra words).",
+          "tool": "maps_tool",
+          "tool_input": {
+            "query": "Colosseum Rome"
+          }
+        },
+        "response": {
+          "observation": {
+            "ok": true,
+            "source": "geoapify",
+            "query": "Colosseum Rome",
+            "near": "Rome",
             "results": [
               {
-                "name": "National Institute of Statistics",
-                "address": "National Institute of Statistics, Via Cesare Balbo, 39, 00184 Rome RM, Italy",
-                "lat": 41.8975239,
-                "lon": 12.4943894,
-                "category": "",
-                "open_hours": null,
-                "website": "https://www.istat.it/"
+                "name": "Colosseum",
+                "address": "Colosseum, Piazza del Colosseo, 00184 Rome RM, Italy",
+                "lat": 41.8902572,
+                "lon": 12.4923841,
+                "category": "tourism.attraction",
+                "open_hours": "Mar 30-Sep 30: 08:30-19:15; Oct 01-Oct 25: 08:30-18:30; Oct 26-Feb 28: 08:30-16:30; Jan 01 off; Dec 25 off",
+                "website": "https://colosseo.it/"
               },
               {
-                "name": "National Institute of Statistics",
-                "address": "National Institute of Statistics, Via Cesare Balbo, 16, 00184 Rome RM, Italy",
-                "lat": 41.8988892,
-                "lon": 12.4953625,
+                "name": "Colosseum",
+                "address": "Colosseum, 00184 Rome RM, Italy",
+                "lat": 41.8909421,
+                "lon": 12.491903,
                 "category": "",
                 "open_hours": null,
                 "website": null
@@ -92,180 +111,33 @@
       {
         "module": "ReAct Planner",
         "prompt": {
-          "thought": "Search again for the exact hotel name and address on Via Nazionale (alternate spellings).",
+          "thought": "Look up Hotel 55 Fifty-Five address and opening/hours info to use as base for each day and for travel calculations.",
           "tool": "maps_tool",
           "tool_input": {
-            "query": "Hotel 55 Fifty Five Via Nazionale Rome \"Hotel 55 Fifty-Five\" \"55 Fifty-Five\""
+            "query": "Hotel 55 Fifty-Five Via Nazionale Rome address"
           }
         },
         "response": {
           "observation": {
             "ok": true,
             "source": "geoapify",
-            "query": "Hotel 55 Fifty Five Via Nazionale Rome \"Hotel 55 Fifty-Five\" \"55 Fifty-Five\"",
-            "near": "Rome, Italy",
-            "results": [
-              {
-                "name": "Juventus Store",
-                "address": "Juventus Store, Via Nazionale, 55, 00184 Rome RM, Italy",
-                "lat": 41.899691,
-                "lon": 12.491897,
-                "category": "commercial.outdoor_and_sport",
-                "open_hours": "Mo-Su 10:30-19:00",
-                "website": "https://www.juventus.com/it/club/juventus-store/roma"
-              },
-              {
-                "name": "Via Nazionale, 55",
-                "address": "Via Nazionale, 55, 00184 Rome RM, Italy",
-                "lat": 41.8997087,
-                "lon": 12.4918743,
-                "category": "",
-                "open_hours": null,
-                "website": null
-              }
-            ],
-            "note": "open_hours is null where OpenStreetMap has no hours recorded — treat that as unknown, not as closed."
-          }
-        }
-      },
-      {
-        "module": "ReAct Planner",
-        "prompt": {
-          "thought": "Look up Colosseum (Colosseo) address and opening hours.",
-          "tool": "maps_tool",
-          "tool_input": {
-            "query": "Colosseum Rome opening hours Colosseo"
-          }
-        },
-        "response": {
-          "observation": {
-            "ok": true,
-            "source": "geoapify",
-            "query": "Colosseum Rome opening hours Colosseo",
-            "near": "Rome, Italy",
-            "results": [
-              {
-                "name": "Cosmopolita Rome Colosseum",
-                "address": "Cosmopolita Rome Colosseum, Trevi, Rome, Italy",
-                "lat": 41.8968,
-                "lon": 12.4839,
-                "category": "",
-                "open_hours": null,
-                "website": null
-              },
-              {
-                "name": "Hilton Garden Inn Rome Colosseum",
-                "address": "Hilton Garden Inn Rome Colosseum, Via Emanuele Filiberto, 173, 00185 Rome RM, Italy",
-                "lat": 41.8899752,
-                "lon": 12.506672,
-                "category": "accommodation.hotel",
-                "open_hours": null,
-                "website": null
-              }
-            ],
-            "note": "open_hours is null where OpenStreetMap has no hours recorded — treat that as unknown, not as closed."
-          }
-        }
-      },
-      {
-        "module": "ReAct Planner",
-        "prompt": {
-          "thought": "Look up Pantheon opening hours and location.",
-          "tool": "maps_tool",
-          "tool_input": {
-            "query": "Pantheon Rome opening hours Pantheon Piazza della Rotonda"
-          }
-        },
-        "response": {
-          "observation": {
-            "ok": true,
-            "source": "geoapify",
-            "query": "Pantheon Rome opening hours Pantheon Piazza della Rotonda",
-            "near": "Rome, Italy",
-            "results": [
-              {
-                "name": "Piazza della Rotonda",
-                "address": "Piazza della Rotonda, 00186 Rome RM, Italy",
-                "lat": 41.89929,
-                "lon": 12.4768694,
-                "category": "",
-                "open_hours": null,
-                "website": null
-              },
-              {
-                "name": "Piazza della Rotonda",
-                "address": "Piazza della Rotonda, 00124 Rome RM, Italy",
-                "lat": 41.899093,
-                "lon": 12.477107,
-                "category": "",
-                "open_hours": null,
-                "website": null
-              }
-            ],
-            "note": "open_hours is null where OpenStreetMap has no hours recorded — treat that as unknown, not as closed."
-          }
-        }
-      },
-      {
-        "module": "ReAct Planner",
-        "prompt": {
-          "thought": "Look up St. Peter's Basilica details (address, coordinates, opening hours) to plan timing for an outdoor/indoor visit.",
-          "tool": "maps_tool",
-          "tool_input": {
-            "query": "St. Peter's Basilica opening hours Basilica di San Pietro Roma"
-          }
-        },
-        "response": {
-          "observation": {
-            "ok": true,
-            "source": "geoapify",
-            "query": "St. Peter's Basilica opening hours Basilica di San Pietro Roma",
-            "near": "Rome, Italy",
+            "query": "Hotel 55 Fifty-Five Via Nazionale Rome address",
+            "near": "Rome",
             "results": [
               {
                 "name": "Rome",
-                "address": "Rome, LAZ, Italy",
-                "lat": 41.8933203,
-                "lon": 12.4829321,
-                "category": "administrative",
+                "address": "Rome, GA, United States of America",
+                "lat": 34.260612,
+                "lon": -85.172951,
+                "category": "",
                 "open_hours": null,
-                "website": "https://www.comune.roma.it/"
-              }
-            ],
-            "note": "open_hours is null where OpenStreetMap has no hours recorded — treat that as unknown, not as closed."
-          }
-        }
-      },
-      {
-        "module": "ReAct Planner",
-        "prompt": {
-          "thought": "Look up Trevi Fountain (fontana di Trevi) location and any recorded hours.",
-          "tool": "maps_tool",
-          "tool_input": {
-            "query": "Trevi Fountain Rome Fontana di Trevi opening hours"
-          }
-        },
-        "response": {
-          "observation": {
-            "ok": true,
-            "source": "geoapify",
-            "query": "Trevi Fountain Rome Fontana di Trevi opening hours",
-            "near": "Rome, Italy",
-            "results": [
-              {
-                "name": "Rome",
-                "address": "Rome, LAZ, Italy",
-                "lat": 41.8933203,
-                "lon": 12.4829321,
-                "category": "administrative",
-                "open_hours": null,
-                "website": "https://www.comune.roma.it/"
+                "website": null
               },
               {
-                "name": "Trevi Fountain",
-                "address": "Trevi Fountain, Trevi, Rome, Italy",
-                "lat": 41.90093,
-                "lon": 12.48335,
+                "name": "Rome",
+                "address": "Rome, NY, United States of America",
+                "lat": 43.222652,
+                "lon": -75.490916,
                 "category": "",
                 "open_hours": null,
                 "website": null
@@ -278,7 +150,85 @@
       {
         "module": "ReAct Planner",
         "prompt": {
-          "thought": "Prepared a 3-day walking-focused Rome plan (nature emphasis) that starts at FCO 15:00 on 3/9 and reaches FCO with a 2–3h buffer on 5/9. Costs use the provided local-price guidance and reasonable mid-range hotel pricing; notes flag timed-entry sites and hours unknown where map data returned null.",
+          "thought": "Search variants to find the lodging record (needed as day's base and for travel times).",
+          "tool": "maps_tool",
+          "tool_input": {
+            "query": "Hotel 55 Fifty-Five Rome Via Nazionale 55 Fifty-Five Hotel"
+          }
+        },
+        "response": {
+          "observation": {
+            "ok": true,
+            "source": "geoapify",
+            "query": "Hotel 55 Fifty-Five Rome Via Nazionale 55 Fifty-Five Hotel",
+            "results": [],
+            "note": "No place found for \"Hotel 55 Fifty-Five Rome Via Nazionale 55 Fifty-Five Hotel\"."
+          }
+        }
+      },
+      {
+        "module": "ReAct Planner",
+        "prompt": {
+          "thought": "Check opening hours and address for St Peter's Basilica (timed entry and to plan Day 2 morning).",
+          "tool": "maps_tool",
+          "tool_input": {
+            "query": "St. Peter's Basilica address opening hours"
+          }
+        },
+        "response": {
+          "observation": {
+            "ok": true,
+            "source": "geoapify",
+            "query": "St. Peter's Basilica address opening hours",
+            "results": [],
+            "note": "No place found for \"St. Peter's Basilica address opening hours\"."
+          }
+        }
+      },
+      {
+        "module": "ReAct Planner",
+        "prompt": {
+          "thought": "Find current transfer options and prices from Fiumicino Airport (Leonardo da Vinci) to central Rome (Termini) so I can cost arrival on 3/9 and departure on 5/9. Use web search to get Leonardo Express and taxi/other prices.",
+          "tool": "search_tool",
+          "tool_input": {
+            "query": "Leonardo Express price 2026 Fiumicino to Termini price taxi Fiumicino to Rome 2026 cost"
+          }
+        },
+        "response": {
+          "observation": {
+            "ok": true,
+            "source": "tavily",
+            "query": "Leonardo Express price 2026 Fiumicino to Termini price taxi Fiumicino to Rome 2026 cost",
+            "answer": "The Leonardo Express costs €14 for a one-way trip from Fiumicino to Termini in 2026. Official taxis charge a flat €55 rate to any destination within the Aurelian Walls. The taxi fare includes luggage and all supplements.",
+            "snippets": [
+              {
+                "title": "Leonardo Express: €14, 32 Min FCO–Termini (2026) | BlueKeys",
+                "url": "https://bluekeys.it/blog/fiumicino-rome-transfer-leonardo-express-train",
+                "content": "Licensed Rome taxis (white cars) apply an official fixed fare of €55 from Fiumicino to any destination within the Aurelian Walls — which covers the historic centre, Termini, Monti, Trastevere and the Vatican area. The fare includes luggage and all supplements, for up to the vehicle’s licensed capacity. Other official fixed fares from FCO: Ostiense station €50, Tiburtina station €60, Ciampino Airpo"
+              },
+              {
+                "title": "Leonardo Express 2026 — Tickets, Times & Tips FCO to Rome",
+                "url": "https://www.rome-spirit.com/guides/leonardo-express-guide",
+                "content": "| Option | Price | Time | Convenience |\n ---  --- |\n| Leonardo Express | €14 | 32 min | Termini only; then onward needed |\n| FL1 regional train | €8 | 45–55 min | Multiple stops; useful if staying near Trastevere |\n| Shuttle bus | €6–7 | 50–70 min | Termini only; slower |\n| Official taxi | €55 flat | 45–70 min | Door-to-door; best for groups of 3–4 |\n\nFor the complete airport transfer comparison, "
+              },
+              {
+                "title": "Rome Airport to City Centre [2026]: All Transfer Options",
+                "url": "https://untolditaly.com/rome-airport-transfers",
+                "content": "### How do I get from Fiumicino airport to Rome city center?\n\nThe four main options are the Leonardo Express train (€14, 32 minutes to Termini), an airport shuttle bus (€7, around an hour), an official taxi (€55 flat rate to within the Aurelian Walls), or a pre-booked private transfer (from €60). Your best choice depends on group size, luggage, and where you are staying.\n\n### How much is a taxi fr"
+              },
+              {
+                "title": "Leonardo Express Timetable Tickets 2026",
+                "url": "https://www.rome-airport.info/leonardo-express.html",
+                "content": "The only route of the Leonardo Express is between the main international airport (Rome Fiumicino “Leonardo da Vinci”) and the central train station in Rome, Roma Termini.\n\n✅ How much does Leonardo Express cost?\n\nA one-way fare on the Leonardo Express costs €14. Children under 4 years of age travel for free, and children between the ages of 4 and 12 travel for free with every one fare-paying adult."
+              }
+            ]
+          }
+        }
+      },
+      {
+        "module": "ReAct Planner",
+        "prompt": {
+          "thought": "Returning the draft 3-day itinerary now, with timings, travel, costs per person and notes (lodging used as base; Colosseum timed entry recommended).",
           "action": "finalize"
         },
         "response": {
@@ -286,249 +236,186 @@
             "days": [
               {
                 "day": 1,
-                "title": "Arrival and evening in central Rome (parks + Trevi)",
+                "title": "Arrival; Colosseum evening visit",
                 "items": [
                   {
                     "time": "15:30",
-                    "name": "Transfer: FCO → Hotel",
-                    "venue": "Hotel 55 Fifty-Five, Via Nazionale",
+                    "name": "Leonardo Express (FCO–Termini)",
+                    "venue": "Termini station",
                     "venue_from": "Leonardo da Vinci–Fiumicino Airport",
-                    "duration_min": 40,
-                    "note": "Leonardo Express train to Roma Termini (~32 min) + short walk to hotel; €14 per person single fare. Termini is a ~8–12 min walk to the hotel.",
+                    "duration_min": 35,
+                    "note": "Official train one-way €14 (2026). Trains ~32–35 min. Alternative: taxi flat €55 to historic centre.",
                     "cost_eur": 14
                   },
                   {
-                    "time": "16:15",
-                    "name": "Check in / settle at hotel",
+                    "time": "16:10",
+                    "name": "Walk to Hotel 55 Fifty-Five",
+                    "venue": "Hotel 55 Fifty-Five, Via Nazionale",
+                    "venue_from": "Termini station",
+                    "duration_min": 15,
+                    "note": "High-walking pace; ~10–15 min on foot.",
+                    "cost_eur": 0
+                  },
+                  {
+                    "time": "16:30",
+                    "name": "Hotel check-in & luggage drop",
                     "venue": "Hotel 55 Fifty-Five, Via Nazionale",
                     "venue_from": "",
                     "duration_min": 30,
-                    "note": "Lodging cost is included once separately (see total). Opening hours/address for the hotel were not fully listed in map data — confirm check-in time with your booking.",
-                    "cost_eur": 0
+                    "note": "Estimated cost for 2 nights per person at a mid-range hotel (estimate — confirm with booking). Lodging is costed once for the stay.",
+                    "cost_eur": 160
                   },
                   {
                     "time": "17:00",
-                    "name": "Walk and relax in Villa Borghese",
-                    "venue": "Villa Borghese",
+                    "name": "Colosseum",
+                    "venue": "Colosseum",
                     "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
                     "duration_min": 90,
-                    "note": "Large central park for easy nature strolling and views over Rome; free.",
-                    "cost_eur": 0
+                    "note": "Timed-entry ticket Colosseum + Roman Forum + Palatine ~€18. Open until 19:15 in early Sep; book a timed slot in advance.",
+                    "cost_eur": 18
                   },
                   {
-                    "time": "18:30",
-                    "name": "Walk to Trevi Fountain",
-                    "venue": "Trevi Fountain",
-                    "venue_from": "Villa Borghese",
-                    "duration_min": 30,
-                    "note": "Outdoor visit to the fountain; open public space (no hours from map data — check locally). Great at sunset/early evening when lit.",
-                    "cost_eur": 0
-                  },
-                  {
-                    "time": "19:00",
-                    "name": "Dinner (mid-range trattoria)",
-                    "venue": "Trevi / Pantheon neighbourhood",
-                    "venue_from": "Trevi Fountain",
+                    "time": "19:30",
+                    "name": "Dinner",
+                    "venue": "Monti neighbourhood",
+                    "venue_from": "",
                     "duration_min": 90,
-                    "note": "~€30 mid-range per person for a sit-down dinner (local guide price). Choose a trattoria near the fountain; can be busy — reservation recommended.",
-                    "cost_eur": 30
-                  },
-                  {
-                    "time": "20:30",
-                    "name": "Evening stroll: Spanish Steps & return",
-                    "venue": "Spanish Steps",
-                    "venue_from": "Trevi Fountain",
-                    "duration_min": 60,
-                    "note": "Walk back to hotel via the Spanish Steps; relaxed walking pace. All outdoor.",
-                    "cost_eur": 0
+                    "note": "Mid-range dinner ~€80 per person.",
+                    "cost_eur": 80
                   }
                 ]
               },
               {
                 "day": 2,
-                "title": "Colosseum, shopping, Pantheon and Trastevere evening",
+                "title": "Historic centre, shopping at noon, Villa Borghese and Trastevere in evening",
                 "items": [
                   {
                     "time": "09:00",
-                    "name": "Breakfast / coffee",
-                    "venue": "Via Nazionale / Hotel area",
+                    "name": "Trevi Fountain",
+                    "venue": "Trevi Fountain",
                     "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
                     "duration_min": 30,
-                    "note": "Coffee and light pastry; used local price guidance (coffee €1; add pastry).",
-                    "cost_eur": 3
-                  },
-                  {
-                    "time": "09:30",
-                    "name": "Walk to Colosseum",
-                    "venue": "Colosseum",
-                    "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 30,
-                    "note": "A pleasant ~25–35 minute walk depending on route; you’re walking-savvy so chosen on-foot transfer.",
+                    "note": "Outdoor visit to the fountain and square — free.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "10:00",
-                    "name": "Colosseum visit (ancient Rome outdoors & limited interiors)",
-                    "venue": "Colosseum",
-                    "venue_from": "",
-                    "duration_min": 120,
-                    "note": "Entrances/museum tickets typically ~€18–22; I used €20 per person. Book a timed entry in advance to avoid long queues. Map data did not return confirmed opening hours — check before you go.",
-                    "cost_eur": 20
+                    "time": "09:45",
+                    "name": "Pantheon",
+                    "venue": "Pantheon",
+                    "venue_from": "Trevi Fountain",
+                    "duration_min": 45,
+                    "note": "Visiting the square is free; interior may have a small entry charge (~€5). I priced €5 as an approximate interior fee — check current entrance policy.",
+                    "cost_eur": 5
                   },
                   {
-                    "time": "12:20",
-                    "name": "Shopping stop + lunch at noon",
+                    "time": "12:00",
+                    "name": "Shopping stop",
                     "venue": "Via del Corso",
-                    "venue_from": "Colosseum",
-                    "duration_min": 80,
-                    "note": "Shopping on Rome's main high street (clothes/souvenirs) and casual lunch ~€15 per person. Shopping expenses not included in this plan.",
-                    "cost_eur": 15
-                  },
-                  {
-                    "time": "14:00",
-                    "name": "Walk to Pantheon",
-                    "venue": "Pantheon",
-                    "venue_from": "Via del Corso",
-                    "duration_min": 15,
-                    "note": "Short walk through historic centre.",
+                    "venue_from": "Pantheon",
+                    "duration_min": 90,
+                    "note": "Shopping at noon as requested — browsing is free; purchases are extra.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "14:15",
-                    "name": "Pantheon visit",
-                    "venue": "Pantheon",
+                    "time": "13:30",
+                    "name": "Lunch",
+                    "venue": "Via del Corso / Centro",
                     "venue_from": "",
-                    "duration_min": 30,
-                    "note": "Interior sometimes charges a small entry fee (~€5–6); I used €6 per person. Opening hours were not present in map data — check before visiting.",
-                    "cost_eur": 6
+                    "duration_min": 60,
+                    "note": "Mid-range lunch ~€40 per person.",
+                    "cost_eur": 40
                   },
                   {
                     "time": "15:00",
-                    "name": "Riverside / Piazza Navona stroll",
-                    "venue": "Piazza Navona / Tiber riverside",
-                    "venue_from": "Pantheon",
-                    "duration_min": 120,
-                    "note": "Outdoor wandering and baroque squares — nature/light urban-scape time.",
+                    "name": "Villa Borghese gardens (park walk)",
+                    "venue": "Villa Borghese",
+                    "venue_from": "Via del Corso",
+                    "duration_min": 90,
+                    "note": "Large park and gardens — nature-style time; free. Optional bike/boat rental extra.",
                     "cost_eur": 0
-                  },
-                  {
-                    "time": "17:00",
-                    "name": "Coffee / gelato break",
-                    "venue": "Historic centre",
-                    "venue_from": "Piazza Navona",
-                    "duration_min": 30,
-                    "note": "Afternoon refreshment (~€3).",
-                    "cost_eur": 3
                   },
                   {
                     "time": "17:30",
                     "name": "Walk to Trastevere",
                     "venue": "Trastevere",
-                    "venue_from": "Piazza Navona",
-                    "duration_min": 30,
-                    "note": "Walk across the river to Trastevere — one of Rome’s most atmospheric neighbourhoods.",
+                    "venue_from": "Villa Borghese",
+                    "duration_min": 45,
+                    "note": "Scenic walk across the Tiber (Ponte Sisto) ~30–45 min on foot. Alternative: bus/metro or taxi (~€1.50 single ticket or taxi €10–15).",
                     "cost_eur": 0
                   },
                   {
-                    "time": "18:00",
-                    "name": "Explore Trastevere and dinner",
+                    "time": "19:30",
+                    "name": "Dinner",
                     "venue": "Trastevere",
                     "venue_from": "",
-                    "duration_min": 180,
-                    "note": "Evening in Trastevere with dinner at a mid-range trattoria (~€30 per person). Plenty of outdoor piazzas and riverside walking.",
-                    "cost_eur": 30
-                  },
-                  {
-                    "time": "21:30",
-                    "name": "Walk back to hotel",
-                    "venue": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "venue_from": "Trastevere",
-                    "duration_min": 30,
-                    "note": "Return by foot (or short taxi if preferred; taxi not included).",
-                    "cost_eur": 0
+                    "duration_min": 90,
+                    "note": "Mid-range dinner ~€80 per person; lively area for evening strolls.",
+                    "cost_eur": 80
                   }
                 ]
               },
               {
                 "day": 3,
-                "title": "Vatican area, panoramic Janiculum and park time — depart for FCO",
+                "title": "Vatican / St Peter's, riverside walk, return to airport",
                 "items": [
                   {
                     "time": "09:00",
-                    "name": "Breakfast / coffee",
-                    "venue": "Via Nazionale / Hotel area",
-                    "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 30,
-                    "note": "Light breakfast/coffee near the hotel.",
-                    "cost_eur": 3
-                  },
-                  {
-                    "time": "09:30",
-                    "name": "Walk to St Peter's area",
+                    "name": "St Peter's Basilica",
                     "venue": "St Peter's Basilica",
                     "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 45,
-                    "note": "Walking route to the Vatican; you may see Vatican City from the square. Map data did not return specific opening hours; expect security queues.",
+                    "duration_min": 120,
+                    "note": "Entry to the basilica is typically free; expect security queue and dress code. Dome climb or guided tours cost extra — check and pre-book if desired. I could not confirm official hours via the maps lookup; please check opening hours before you go.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "10:15",
-                    "name": "Visit St Peter's Basilica (interior & square)",
-                    "venue": "St Peter's Basilica",
+                    "time": "12:30",
+                    "name": "Lunch",
+                    "venue": "Prati neighbourhood",
                     "venue_from": "",
-                    "duration_min": 75,
-                    "note": "Entry to the basilica is free but there are security checks and sometimes queues. If you want the Dome, expect an extra charge (~€10) — not included here.",
-                    "cost_eur": 0
-                  },
-                  {
-                    "time": "11:45",
-                    "name": "Walk / climb to Gianicolo (Janiculum Hill) for views and green space",
-                    "venue": "Gianicolo",
-                    "venue_from": "St Peter's Basilica",
-                    "duration_min": 75,
-                    "note": "Excellent panoramic views and leafy walking — a nature-focused stop.",
-                    "cost_eur": 0
-                  },
-                  {
-                    "time": "13:00",
-                    "name": "Lunch near Janiculum / Trastevere",
-                    "venue": "Trastevere neighbourhood",
-                    "venue_from": "Gianicolo",
                     "duration_min": 60,
-                    "note": "Casual lunch ~€15 per person.",
-                    "cost_eur": 15
+                    "note": "Mid-range lunch ~€40 per person.",
+                    "cost_eur": 40
                   },
                   {
                     "time": "14:30",
-                    "name": "Afternoon park: Villa Doria Pamphilj (large green space)",
-                    "venue": "Villa Doria Pamphilj",
-                    "venue_from": "Trastevere",
-                    "duration_min": 120,
-                    "note": "One of Rome's largest parks — peaceful nature walking away from main tourist hubs.",
+                    "name": "Tiber riverside & Isola Tiberina walk",
+                    "venue": "Tiber River",
+                    "venue_from": "Prati neighbourhood",
+                    "duration_min": 60,
+                    "note": "Pleasant riverside nature walk; free.",
                     "cost_eur": 0
                   },
                   {
                     "time": "16:30",
-                    "name": "Return to hotel / pack",
+                    "name": "Return to Hotel 55 Fifty-Five (collect bags)",
                     "venue": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "venue_from": "Villa Doria Pamphilj",
-                    "duration_min": 90,
-                    "note": "Time to shower, pack and check out. Ensure you have luggage ready for transfer.",
+                    "venue_from": "Tiber River",
+                    "duration_min": 30,
+                    "note": "Collect luggage and prepare for airport transfer.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "18:00",
-                    "name": "Transfer: Hotel → FCO (leave city with 2–3h buffer)",
+                    "time": "17:00",
+                    "name": "Leonardo Express (Termini–FCO)",
                     "venue": "Leonardo da Vinci–Fiumicino Airport",
-                    "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 60,
-                    "note": "Walk to Roma Termini + Leonardo Express train to FCO (~32 min) + buffer; €14 per person single fare. This aims to get you to the airport ~19:00 (≈2.5 h before your 21:30 end_time); nothing scheduled after arrival per request.",
+                    "venue_from": "Termini station",
+                    "duration_min": 35,
+                    "note": "Aim to arrive at FCO ~18:00 (about 3.5 h before your 21:30 end time). Book tickets in advance. Taxi flat fare €55 is an alternative.",
                     "cost_eur": 14
+                  },
+                  {
+                    "time": "18:00",
+                    "name": "Arrive at airport — end of plan",
+                    "venue": "Leonardo da Vinci–Fiumicino Airport",
+                    "venue_from": "Leonardo Express",
+                    "duration_min": 15,
+                    "note": "Plan ends on arrival at FCO with ~3.5 h buffer before departure; nothing scheduled after this per request.",
+                    "cost_eur": 0
                   }
                 ]
               }
             ],
-            "total_cost_eur": 153
+            "total_cost_eur": 451
           }
         }
       },
@@ -537,20 +424,20 @@
         "prompt": {
           "profile": {
             "days": 3,
-            "destination": "Rome, Italy",
+            "destination": "Rome",
             "style": "nature",
             "group": "2 friends",
             "budget": "mid-range",
             "budget_amount_eur": 0,
             "budget_basis": "per person",
             "when": "3/9 15:00 to 5/9 21:30",
-            "start_point": "Leonardo da Vinci–Fiumicino Airport (FCO)",
-            "end_point": "Leonardo da Vinci–Fiumicino Airport (FCO)",
+            "start_point": "Leonardo da Vinci–Fiumicino Airport",
+            "end_point": "Leonardo da Vinci–Fiumicino Airport",
             "start_time": "3/9 15:00",
             "end_time": "5/9 21:30",
             "lodging": "Hotel 55 Fifty-Five, Via Nazionale",
             "details": [
-              "Each day 09:00–22:00",
+              "Each day roughly 09:00 to 22:00",
               "Shopping stop at noon on one day"
             ],
             "dietary": [],
@@ -572,283 +459,226 @@
             "days": [
               {
                 "day": 1,
-                "title": "Arrival and evening in central Rome (parks + Trevi)",
+                "title": "Arrival; Colosseum evening visit",
                 "items": [
                   {
                     "time": "15:30",
-                    "name": "Transfer: FCO → Hotel",
-                    "venue": "Hotel 55 Fifty-Five, Via Nazionale",
+                    "name": "Leonardo Express (FCO–Termini)",
+                    "venue": "Termini station",
                     "venue_from": "Leonardo da Vinci–Fiumicino Airport",
-                    "duration_min": 40,
-                    "note": "Leonardo Express train to Roma Termini (~32 min) + short walk to hotel; €14 per person single fare. Termini is a ~8–12 min walk to the hotel.",
+                    "duration_min": 35,
+                    "note": "Official train one-way €14 (2026). Trains ~32–35 min. Alternative: taxi flat €55 to historic centre.",
                     "cost_eur": 14
                   },
                   {
-                    "time": "16:15",
-                    "name": "Check in / settle at hotel",
+                    "time": "16:10",
+                    "name": "Walk to Hotel 55 Fifty-Five",
+                    "venue": "Hotel 55 Fifty-Five, Via Nazionale",
+                    "venue_from": "Termini station",
+                    "duration_min": 15,
+                    "note": "High-walking pace; ~10–15 min on foot.",
+                    "cost_eur": 0
+                  },
+                  {
+                    "time": "16:30",
+                    "name": "Hotel check-in & luggage drop",
                     "venue": "Hotel 55 Fifty-Five, Via Nazionale",
                     "venue_from": "",
                     "duration_min": 30,
-                    "note": "Lodging cost is included once separately (see total). Opening hours/address for the hotel were not fully listed in map data — confirm check-in time with your booking.",
-                    "cost_eur": 0
+                    "note": "Estimated cost for 2 nights per person at a mid-range hotel (estimate — confirm with booking). Lodging is costed once for the stay.",
+                    "cost_eur": 160
                   },
                   {
                     "time": "17:00",
-                    "name": "Walk and relax in Villa Borghese",
-                    "venue": "Villa Borghese",
+                    "name": "Colosseum",
+                    "venue": "Colosseum",
                     "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
                     "duration_min": 90,
-                    "note": "Large central park for easy nature strolling and views over Rome; free.",
-                    "cost_eur": 0
+                    "note": "Timed-entry ticket Colosseum + Roman Forum + Palatine ~€18. Open until 19:15 in early Sep; book a timed slot in advance.",
+                    "cost_eur": 18
                   },
                   {
-                    "time": "18:30",
-                    "name": "Walk to Trevi Fountain",
-                    "venue": "Trevi Fountain",
-                    "venue_from": "Villa Borghese",
-                    "duration_min": 30,
-                    "note": "Outdoor visit to the fountain; open public space (no hours from map data — check locally). Great at sunset/early evening when lit.",
-                    "cost_eur": 0
-                  },
-                  {
-                    "time": "19:00",
-                    "name": "Dinner (mid-range trattoria)",
-                    "venue": "Trevi / Pantheon neighbourhood",
-                    "venue_from": "Trevi Fountain",
+                    "time": "19:30",
+                    "name": "Dinner",
+                    "venue": "Monti neighbourhood",
+                    "venue_from": "",
                     "duration_min": 90,
-                    "note": "~€30 mid-range per person for a sit-down dinner (local guide price). Choose a trattoria near the fountain; can be busy — reservation recommended.",
-                    "cost_eur": 30
-                  },
-                  {
-                    "time": "20:30",
-                    "name": "Evening stroll: Spanish Steps & return",
-                    "venue": "Spanish Steps",
-                    "venue_from": "Trevi Fountain",
-                    "duration_min": 60,
-                    "note": "Walk back to hotel via the Spanish Steps; relaxed walking pace. All outdoor.",
-                    "cost_eur": 0
+                    "note": "Mid-range dinner ~€80 per person.",
+                    "cost_eur": 80
                   }
                 ]
               },
               {
                 "day": 2,
-                "title": "Colosseum, shopping, Pantheon and Trastevere evening",
+                "title": "Historic centre, shopping at noon, Villa Borghese and Trastevere in evening",
                 "items": [
                   {
                     "time": "09:00",
-                    "name": "Breakfast / coffee",
-                    "venue": "Via Nazionale / Hotel area",
+                    "name": "Trevi Fountain",
+                    "venue": "Trevi Fountain",
                     "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
                     "duration_min": 30,
-                    "note": "Coffee and light pastry; used local price guidance (coffee €1; add pastry).",
-                    "cost_eur": 3
-                  },
-                  {
-                    "time": "09:30",
-                    "name": "Walk to Colosseum",
-                    "venue": "Colosseum",
-                    "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 30,
-                    "note": "A pleasant ~25–35 minute walk depending on route; you’re walking-savvy so chosen on-foot transfer.",
+                    "note": "Outdoor visit to the fountain and square — free.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "10:00",
-                    "name": "Colosseum visit (ancient Rome outdoors & limited interiors)",
-                    "venue": "Colosseum",
-                    "venue_from": "",
-                    "duration_min": 120,
-                    "note": "Entrances/museum tickets typically ~€18–22; I used €20 per person. Book a timed entry in advance to avoid long queues. Map data did not return confirmed opening hours — check before you go.",
-                    "cost_eur": 20
+                    "time": "09:45",
+                    "name": "Pantheon",
+                    "venue": "Pantheon",
+                    "venue_from": "Trevi Fountain",
+                    "duration_min": 45,
+                    "note": "Visiting the square is free; interior may have a small entry charge (~€5). I priced €5 as an approximate interior fee — check current entrance policy.",
+                    "cost_eur": 5
                   },
                   {
-                    "time": "12:20",
-                    "name": "Shopping stop + lunch at noon",
+                    "time": "12:00",
+                    "name": "Shopping stop",
                     "venue": "Via del Corso",
-                    "venue_from": "Colosseum",
-                    "duration_min": 80,
-                    "note": "Shopping on Rome's main high street (clothes/souvenirs) and casual lunch ~€15 per person. Shopping expenses not included in this plan.",
-                    "cost_eur": 15
-                  },
-                  {
-                    "time": "14:00",
-                    "name": "Walk to Pantheon",
-                    "venue": "Pantheon",
-                    "venue_from": "Via del Corso",
-                    "duration_min": 15,
-                    "note": "Short walk through historic centre.",
+                    "venue_from": "Pantheon",
+                    "duration_min": 90,
+                    "note": "Shopping at noon as requested — browsing is free; purchases are extra.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "14:15",
-                    "name": "Pantheon visit",
-                    "venue": "Pantheon",
+                    "time": "13:30",
+                    "name": "Lunch",
+                    "venue": "Via del Corso / Centro",
                     "venue_from": "",
-                    "duration_min": 30,
-                    "note": "Interior sometimes charges a small entry fee (~€5–6); I used €6 per person. Opening hours were not present in map data — check before visiting.",
-                    "cost_eur": 6
+                    "duration_min": 60,
+                    "note": "Mid-range lunch ~€40 per person.",
+                    "cost_eur": 40
                   },
                   {
                     "time": "15:00",
-                    "name": "Riverside / Piazza Navona stroll",
-                    "venue": "Piazza Navona / Tiber riverside",
-                    "venue_from": "Pantheon",
-                    "duration_min": 120,
-                    "note": "Outdoor wandering and baroque squares — nature/light urban-scape time.",
+                    "name": "Villa Borghese gardens (park walk)",
+                    "venue": "Villa Borghese",
+                    "venue_from": "Via del Corso",
+                    "duration_min": 90,
+                    "note": "Large park and gardens — nature-style time; free. Optional bike/boat rental extra.",
                     "cost_eur": 0
-                  },
-                  {
-                    "time": "17:00",
-                    "name": "Coffee / gelato break",
-                    "venue": "Historic centre",
-                    "venue_from": "Piazza Navona",
-                    "duration_min": 30,
-                    "note": "Afternoon refreshment (~€3).",
-                    "cost_eur": 3
                   },
                   {
                     "time": "17:30",
                     "name": "Walk to Trastevere",
                     "venue": "Trastevere",
-                    "venue_from": "Piazza Navona",
-                    "duration_min": 30,
-                    "note": "Walk across the river to Trastevere — one of Rome’s most atmospheric neighbourhoods.",
+                    "venue_from": "Villa Borghese",
+                    "duration_min": 45,
+                    "note": "Scenic walk across the Tiber (Ponte Sisto) ~30–45 min on foot. Alternative: bus/metro or taxi (~€1.50 single ticket or taxi €10–15).",
                     "cost_eur": 0
                   },
                   {
-                    "time": "18:00",
-                    "name": "Explore Trastevere and dinner",
+                    "time": "19:30",
+                    "name": "Dinner",
                     "venue": "Trastevere",
                     "venue_from": "",
-                    "duration_min": 180,
-                    "note": "Evening in Trastevere with dinner at a mid-range trattoria (~€30 per person). Plenty of outdoor piazzas and riverside walking.",
-                    "cost_eur": 30
-                  },
-                  {
-                    "time": "21:30",
-                    "name": "Walk back to hotel",
-                    "venue": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "venue_from": "Trastevere",
-                    "duration_min": 30,
-                    "note": "Return by foot (or short taxi if preferred; taxi not included).",
-                    "cost_eur": 0
+                    "duration_min": 90,
+                    "note": "Mid-range dinner ~€80 per person; lively area for evening strolls.",
+                    "cost_eur": 80
                   }
                 ]
               },
               {
                 "day": 3,
-                "title": "Vatican area, panoramic Janiculum and park time — depart for FCO",
+                "title": "Vatican / St Peter's, riverside walk, return to airport",
                 "items": [
                   {
                     "time": "09:00",
-                    "name": "Breakfast / coffee",
-                    "venue": "Via Nazionale / Hotel area",
-                    "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 30,
-                    "note": "Light breakfast/coffee near the hotel.",
-                    "cost_eur": 3
-                  },
-                  {
-                    "time": "09:30",
-                    "name": "Walk to St Peter's area",
+                    "name": "St Peter's Basilica",
                     "venue": "St Peter's Basilica",
                     "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 45,
-                    "note": "Walking route to the Vatican; you may see Vatican City from the square. Map data did not return specific opening hours; expect security queues.",
+                    "duration_min": 120,
+                    "note": "Entry to the basilica is typically free; expect security queue and dress code. Dome climb or guided tours cost extra — check and pre-book if desired. I could not confirm official hours via the maps lookup; please check opening hours before you go.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "10:15",
-                    "name": "Visit St Peter's Basilica (interior & square)",
-                    "venue": "St Peter's Basilica",
+                    "time": "12:30",
+                    "name": "Lunch",
+                    "venue": "Prati neighbourhood",
                     "venue_from": "",
-                    "duration_min": 75,
-                    "note": "Entry to the basilica is free but there are security checks and sometimes queues. If you want the Dome, expect an extra charge (~€10) — not included here.",
-                    "cost_eur": 0
-                  },
-                  {
-                    "time": "11:45",
-                    "name": "Walk / climb to Gianicolo (Janiculum Hill) for views and green space",
-                    "venue": "Gianicolo",
-                    "venue_from": "St Peter's Basilica",
-                    "duration_min": 75,
-                    "note": "Excellent panoramic views and leafy walking — a nature-focused stop.",
-                    "cost_eur": 0
-                  },
-                  {
-                    "time": "13:00",
-                    "name": "Lunch near Janiculum / Trastevere",
-                    "venue": "Trastevere neighbourhood",
-                    "venue_from": "Gianicolo",
                     "duration_min": 60,
-                    "note": "Casual lunch ~€15 per person.",
-                    "cost_eur": 15
+                    "note": "Mid-range lunch ~€40 per person.",
+                    "cost_eur": 40
                   },
                   {
                     "time": "14:30",
-                    "name": "Afternoon park: Villa Doria Pamphilj (large green space)",
-                    "venue": "Villa Doria Pamphilj",
-                    "venue_from": "Trastevere",
-                    "duration_min": 120,
-                    "note": "One of Rome's largest parks — peaceful nature walking away from main tourist hubs.",
+                    "name": "Tiber riverside & Isola Tiberina walk",
+                    "venue": "Tiber River",
+                    "venue_from": "Prati neighbourhood",
+                    "duration_min": 60,
+                    "note": "Pleasant riverside nature walk; free.",
                     "cost_eur": 0
                   },
                   {
                     "time": "16:30",
-                    "name": "Return to hotel / pack",
+                    "name": "Return to Hotel 55 Fifty-Five (collect bags)",
                     "venue": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "venue_from": "Villa Doria Pamphilj",
-                    "duration_min": 90,
-                    "note": "Time to shower, pack and check out. Ensure you have luggage ready for transfer.",
+                    "venue_from": "Tiber River",
+                    "duration_min": 30,
+                    "note": "Collect luggage and prepare for airport transfer.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "18:00",
-                    "name": "Transfer: Hotel → FCO (leave city with 2–3h buffer)",
+                    "time": "17:00",
+                    "name": "Leonardo Express (Termini–FCO)",
                     "venue": "Leonardo da Vinci–Fiumicino Airport",
-                    "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 60,
-                    "note": "Walk to Roma Termini + Leonardo Express train to FCO (~32 min) + buffer; €14 per person single fare. This aims to get you to the airport ~19:00 (≈2.5 h before your 21:30 end_time); nothing scheduled after arrival per request.",
+                    "venue_from": "Termini station",
+                    "duration_min": 35,
+                    "note": "Aim to arrive at FCO ~18:00 (about 3.5 h before your 21:30 end time). Book tickets in advance. Taxi flat fare €55 is an alternative.",
                     "cost_eur": 14
+                  },
+                  {
+                    "time": "18:00",
+                    "name": "Arrive at airport — end of plan",
+                    "venue": "Leonardo da Vinci–Fiumicino Airport",
+                    "venue_from": "Leonardo Express",
+                    "duration_min": 15,
+                    "note": "Plan ends on arrival at FCO with ~3.5 h buffer before departure; nothing scheduled after this per request.",
+                    "cost_eur": 0
                   }
                 ]
               }
             ],
-            "total_cost_eur": 153
+            "total_cost_eur": 451
           }
         },
         "response": {
           "verdict": "FAIL",
           "must_fix": [
-            "Day 3: 'Visit St Peter's Basilica (interior & square)' is priced at EUR0 but its note mentions a cost — choose one option and put its price in cost_eur.",
-            "Day 3: 'Return to hotel / pack' (90 min) underestimates travel + packing time from Villa Doria Pamphilj — walking back to Hotel 55 Fifty-Five (Via Nazionale) commonly takes 60–80 minutes. Either allow more time or add a transport option (bus/taxi) and adjust subsequent airport transfer start time."
+            "Day 2: 'Walk to Trastevere' is priced at EUR0 but its note mentions a cost — choose one option and put its price in cost_eur.",
+            "Day 1: Colosseum is scheduled at 17:00 immediately after a 17:00 hotel check-in; travel time from Hotel 55 Fifty-Five to the Colosseum (~20–25 min on foot or ~10–15 min by taxi) is not included — either start the Colosseum visit later or add transit time.",
+            "Day 3: St Peter's Basilica is scheduled for 09:00 but no travel time from the hotel (~25–35 min walk or ~15–20 min by bus/taxi) is included — add transit so the start time is realistic.",
+            "Day 3: Collecting bags at the hotel at 16:30 then catching the 17:00 Leonardo Express from Termini is likely infeasible — allow time to walk from the Tiber to the hotel, collect luggage, then get to Termini (and include buffer for transit)."
           ],
           "be_aware": [
-            "Book Colosseum timed-entry tickets in advance — popular slots sell out quickly.",
-            "Check Pantheon opening/entry policy on your dates — hours and small fees vary.",
-            "Dress modestly for St Peter's Basilica (shoulders/knees covered) — enforced at entry.",
-            "Allow extra time for security queues at St Peter's/Vatican, especially mornings.",
-            "Confirm Leonardo Express schedule and buy tickets early during peak travel times."
+            "Book Colosseum timed-entry tickets well in advance — popular slots sell out quickly.",
+            "Buy Leonardo Express tickets ahead of travel to guarantee seats and schedules.",
+            "St Peter's Basilica has security queues and a strict dress code; dome access costs extra.",
+            "Pantheon interior access can be closed for services or have a small fee.",
+            "Reserve dinners in Trastevere and Monti on weekends — places fill up early."
           ],
           "issues": [
-            "Day 3: 'Visit St Peter's Basilica (interior & square)' is priced at EUR0 but its note mentions a cost — choose one option and put its price in cost_eur.",
-            "Day 3: 'Return to hotel / pack' (90 min) underestimates travel + packing time from Villa Doria Pamphilj — walking back to Hotel 55 Fifty-Five (Via Nazionale) commonly takes 60–80 minutes. Either allow more time or add a transport option (bus/taxi) and adjust subsequent airport transfer start time.",
-            "Book Colosseum timed-entry tickets in advance — popular slots sell out quickly.",
-            "Check Pantheon opening/entry policy on your dates — hours and small fees vary.",
-            "Dress modestly for St Peter's Basilica (shoulders/knees covered) — enforced at entry.",
-            "Allow extra time for security queues at St Peter's/Vatican, especially mornings.",
-            "Confirm Leonardo Express schedule and buy tickets early during peak travel times."
+            "Day 2: 'Walk to Trastevere' is priced at EUR0 but its note mentions a cost — choose one option and put its price in cost_eur.",
+            "Day 1: Colosseum is scheduled at 17:00 immediately after a 17:00 hotel check-in; travel time from Hotel 55 Fifty-Five to the Colosseum (~20–25 min on foot or ~10–15 min by taxi) is not included — either start the Colosseum visit later or add transit time.",
+            "Day 3: St Peter's Basilica is scheduled for 09:00 but no travel time from the hotel (~25–35 min walk or ~15–20 min by bus/taxi) is included — add transit so the start time is realistic.",
+            "Day 3: Collecting bags at the hotel at 16:30 then catching the 17:00 Leonardo Express from Termini is likely infeasible — allow time to walk from the Tiber to the hotel, collect luggage, then get to Termini (and include buffer for transit).",
+            "Book Colosseum timed-entry tickets well in advance — popular slots sell out quickly.",
+            "Buy Leonardo Express tickets ahead of travel to guarantee seats and schedules.",
+            "St Peter's Basilica has security queues and a strict dress code; dome access costs extra.",
+            "Pantheon interior access can be closed for services or have a small fee.",
+            "Reserve dinners in Trastevere and Monti on weekends — places fill up early."
           ],
           "fixes": [
-            "For St Peter's Basilica item: decide whether to include the Dome ascent. If you include the Dome, set cost_eur to €10 (per person) and add that to total_cost_eur; if skipping, keep cost_eur at €0 but clarify in the note that dome is optional and priced separately.",
-            "For the Villa Doria Pamphilj → hotel leg: either (A) increase 'Return to hotel / pack' duration_min to ~150 min (estimate: 70–80 min walk + 30–40 min to shower/pack), and shift the airport-transfer start time later accordingly; or (B) add a clear transit option (recommend taxi ~€12–€18 or a bus/metro route), set return duration_min to 40–50 min for a taxi (include estimated taxi cost in cost_eur), and keep the 18:00 airport-transfer but ensure the hotel-to-Termini + Leonardo Express timings still achieve the desired airport arrival buffer. Update total_cost_eur after adding any taxi or dome fees."
+            "Set a cost for the Day 2 transfer: choose 'walk (free)' or 'public transport €1.50' or 'taxi €10–15' and update cost_eur accordingly.",
+            "Add explicit transit items with realistic durations between hotel and major sites: Day 1 hotel→Colosseum (~20–25 min walk or 10–15 min taxi), Day 3 hotel→St Peter's (~25–35 min walk or 15–20 min taxi/bus), and hotel→Termini before the Leonardo Express (~10–15 min).",
+            "Shift the Day 1 Colosseum start later (e.g., 17:30–18:00) or shorten hotel check-in buffer so transit is possible before the timed slot.",
+            "On Day 3, move the 'collect bags' item earlier (e.g., 16:00) or schedule a later Leonardo Express (or take a taxi to FCO) to ensure comfortable transfer time to the airport."
           ]
         }
       },
       {
         "module": "ReAct Planner",
         "prompt": {
-          "thought": "Apply fixes: include St Peter's Dome (€10) and add taxi option for Villa Doria Pamphilj → hotel (50 min, €15). Update item durations, notes and total cost accordingly.",
+          "thought": "Fixing the listed defects: add transit items and realistic timing for Day 1 and Day 3; price the Day 2 transfer as a public-transport single ticket (€1.50); shift/check luggage and train times so hotel pickup + transfer to Termini is feasible. Recalculate total.",
           "action": "finalize"
         },
         "response": {
@@ -856,543 +686,223 @@
             "days": [
               {
                 "day": 1,
-                "title": "Arrival and evening in central Rome (parks + Trevi)",
+                "title": "Arrival; Colosseum evening visit",
                 "items": [
                   {
                     "time": "15:30",
-                    "name": "Transfer: FCO → Hotel",
-                    "venue": "Hotel 55 Fifty-Five, Via Nazionale",
+                    "name": "Leonardo Express (FCO–Termini)",
+                    "venue": "Termini station",
                     "venue_from": "Leonardo da Vinci–Fiumicino Airport",
-                    "duration_min": 40,
-                    "note": "Leonardo Express train to Roma Termini (~32 min) + short walk to hotel; €14 per person single fare. Termini is a ~8–12 min walk to the hotel.",
+                    "duration_min": 35,
+                    "note": "Official train one-way €14 (2026). Trains ~32–35 min. Alternative: taxi flat €55 to historic centre.",
                     "cost_eur": 14
                   },
                   {
-                    "time": "16:15",
-                    "name": "Check in / settle at hotel",
+                    "time": "16:10",
+                    "name": "Walk to Hotel 55 Fifty-Five",
+                    "venue": "Hotel 55 Fifty-Five, Via Nazionale",
+                    "venue_from": "Termini station",
+                    "duration_min": 15,
+                    "note": "High-walking pace; ~10–15 min on foot from Termini.",
+                    "cost_eur": 0
+                  },
+                  {
+                    "time": "16:30",
+                    "name": "Hotel check-in & luggage drop",
                     "venue": "Hotel 55 Fifty-Five, Via Nazionale",
                     "venue_from": "",
                     "duration_min": 30,
-                    "note": "Lodging cost is included once separately (see total). Confirm check-in time with your booking.",
-                    "cost_eur": 0
+                    "note": "Lodging costed once for the stay (estimate per person for 2 nights at a mid-range hotel).",
+                    "cost_eur": 160
                   },
                   {
                     "time": "17:00",
-                    "name": "Walk and relax in Villa Borghese",
-                    "venue": "Villa Borghese",
+                    "name": "Walk to Colosseum",
+                    "venue": "Colosseum",
                     "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
+                    "duration_min": 25,
+                    "note": "Walk ~20–25 min at a brisk pace. Alternative: taxi ~10–15 min (€10–15).",
+                    "cost_eur": 0
+                  },
+                  {
+                    "time": "17:30",
+                    "name": "Colosseum",
+                    "venue": "Colosseum",
+                    "venue_from": "",
                     "duration_min": 90,
-                    "note": "Large central park for easy nature strolling and views over Rome; free.",
-                    "cost_eur": 0
+                    "note": "Timed-entry ticket Colosseum + Roman Forum + Palatine ~€18. Open until ~19:15 in early Sep; book a timed slot in advance.",
+                    "cost_eur": 18
                   },
                   {
-                    "time": "18:30",
-                    "name": "Walk to Trevi Fountain",
-                    "venue": "Trevi Fountain",
-                    "venue_from": "Villa Borghese",
-                    "duration_min": 30,
-                    "note": "Outdoor visit to the fountain; open public space. Great at sunset/early evening when lit.",
-                    "cost_eur": 0
-                  },
-                  {
-                    "time": "19:00",
-                    "name": "Dinner (mid-range trattoria)",
-                    "venue": "Trevi / Pantheon neighbourhood",
-                    "venue_from": "Trevi Fountain",
+                    "time": "19:30",
+                    "name": "Dinner",
+                    "venue": "Monti neighbourhood",
+                    "venue_from": "",
                     "duration_min": 90,
-                    "note": "~€30 mid-range per person for a sit-down dinner (local guide price). Choose a trattoria near the fountain; can be busy — reservation recommended.",
-                    "cost_eur": 30
-                  },
-                  {
-                    "time": "20:30",
-                    "name": "Evening stroll: Spanish Steps & return",
-                    "venue": "Spanish Steps",
-                    "venue_from": "Trevi Fountain",
-                    "duration_min": 60,
-                    "note": "Walk back to hotel via the Spanish Steps; relaxed walking pace. All outdoor.",
-                    "cost_eur": 0
+                    "note": "Mid-range dinner ~€80 per person.",
+                    "cost_eur": 80
                   }
                 ]
               },
               {
                 "day": 2,
-                "title": "Colosseum, shopping, Pantheon and Trastevere evening",
+                "title": "Historic centre, shopping at noon, Villa Borghese and Trastevere in evening",
                 "items": [
                   {
                     "time": "09:00",
-                    "name": "Breakfast / coffee",
-                    "venue": "Via Nazionale / Hotel area",
+                    "name": "Trevi Fountain",
+                    "venue": "Trevi Fountain",
                     "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
                     "duration_min": 30,
-                    "note": "Coffee and light pastry; used local price guidance (coffee €1; add pastry).",
-                    "cost_eur": 3
-                  },
-                  {
-                    "time": "09:30",
-                    "name": "Walk to Colosseum",
-                    "venue": "Colosseum",
-                    "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 30,
-                    "note": "A pleasant ~25–35 minute walk depending on route; you’re walking-savvy so chosen on-foot transfer.",
+                    "note": "Outdoor visit to the fountain and square — free.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "10:00",
-                    "name": "Colosseum visit (ancient Rome outdoors & limited interiors)",
-                    "venue": "Colosseum",
-                    "venue_from": "",
-                    "duration_min": 120,
-                    "note": "Entrances/museum tickets typically ~€18–22; I used €20 per person. Book a timed entry in advance to avoid long queues.",
-                    "cost_eur": 20
+                    "time": "09:45",
+                    "name": "Pantheon",
+                    "venue": "Pantheon",
+                    "venue_from": "Trevi Fountain",
+                    "duration_min": 45,
+                    "note": "Visiting the square is free; interior may have a small entry fee (~€5). Priced as an approximate interior fee — check current policy.",
+                    "cost_eur": 5
                   },
                   {
-                    "time": "12:20",
-                    "name": "Shopping stop + lunch at noon",
+                    "time": "12:00",
+                    "name": "Shopping stop",
                     "venue": "Via del Corso",
-                    "venue_from": "Colosseum",
-                    "duration_min": 80,
-                    "note": "Shopping on Rome's main high street (clothes/souvenirs) and casual lunch ~€15 per person. Shopping expenses not included in this plan.",
-                    "cost_eur": 15
-                  },
-                  {
-                    "time": "14:00",
-                    "name": "Walk to Pantheon",
-                    "venue": "Pantheon",
-                    "venue_from": "Via del Corso",
-                    "duration_min": 15,
-                    "note": "Short walk through historic centre.",
+                    "venue_from": "Pantheon",
+                    "duration_min": 90,
+                    "note": "Shopping at noon as requested — browsing is free; purchases extra.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "14:15",
-                    "name": "Pantheon visit",
-                    "venue": "Pantheon",
+                    "time": "13:30",
+                    "name": "Lunch",
+                    "venue": "Via del Corso / Centro",
                     "venue_from": "",
-                    "duration_min": 30,
-                    "note": "Interior sometimes charges a small entry fee (~€5–6); I used €6 per person.",
-                    "cost_eur": 6
+                    "duration_min": 60,
+                    "note": "Mid-range lunch ~€40 per person.",
+                    "cost_eur": 40
                   },
                   {
                     "time": "15:00",
-                    "name": "Riverside / Piazza Navona stroll",
-                    "venue": "Piazza Navona / Tiber riverside",
-                    "venue_from": "Pantheon",
-                    "duration_min": 120,
-                    "note": "Outdoor wandering and baroque squares — nature/light urban-scape time.",
+                    "name": "Villa Borghese gardens (park walk)",
+                    "venue": "Villa Borghese",
+                    "venue_from": "Via del Corso",
+                    "duration_min": 90,
+                    "note": "Large park and gardens — nature-style time; free. Optional bike/boat rental extra.",
                     "cost_eur": 0
-                  },
-                  {
-                    "time": "17:00",
-                    "name": "Coffee / gelato break",
-                    "venue": "Historic centre",
-                    "venue_from": "Piazza Navona",
-                    "duration_min": 30,
-                    "note": "Afternoon refreshment (~€3).",
-                    "cost_eur": 3
                   },
                   {
                     "time": "17:30",
-                    "name": "Walk to Trastevere",
+                    "name": "Public transport to Trastevere",
                     "venue": "Trastevere",
-                    "venue_from": "Piazza Navona",
-                    "duration_min": 30,
-                    "note": "Walk across the river to Trastevere — one of Rome’s most atmospheric neighbourhoods.",
-                    "cost_eur": 0
+                    "venue_from": "Villa Borghese",
+                    "duration_min": 25,
+                    "note": "Priced as a single public-transport ticket €1.50 per person. Alternative: scenic walk across the Tiber (~30–45 min) or taxi (~€10–15).",
+                    "cost_eur": 2
                   },
                   {
-                    "time": "18:00",
-                    "name": "Explore Trastevere and dinner",
+                    "time": "19:30",
+                    "name": "Dinner",
                     "venue": "Trastevere",
                     "venue_from": "",
-                    "duration_min": 180,
-                    "note": "Evening in Trastevere with dinner at a mid-range trattoria (~€30 per person). Plenty of outdoor piazzas and riverside walking.",
-                    "cost_eur": 30
-                  },
-                  {
-                    "time": "21:30",
-                    "name": "Walk back to hotel",
-                    "venue": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "venue_from": "Trastevere",
-                    "duration_min": 30,
-                    "note": "Return by foot (or short taxi if preferred; taxi not included).",
-                    "cost_eur": 0
+                    "duration_min": 90,
+                    "note": "Mid-range dinner ~€80 per person; lively area for evening strolls.",
+                    "cost_eur": 80
                   }
                 ]
               },
               {
                 "day": 3,
-                "title": "Vatican area, panoramic Janiculum and park time — depart for FCO",
+                "title": "Vatican / St Peter's, riverside walk, return to airport",
                 "items": [
                   {
-                    "time": "09:00",
-                    "name": "Breakfast / coffee",
-                    "venue": "Via Nazionale / Hotel area",
-                    "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 30,
-                    "note": "Light breakfast/coffee near the hotel.",
-                    "cost_eur": 3
-                  },
-                  {
-                    "time": "09:30",
-                    "name": "Walk to St Peter's area",
+                    "time": "08:25",
+                    "name": "Walk to St Peter's Basilica",
                     "venue": "St Peter's Basilica",
                     "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 45,
-                    "note": "Walking route to the Vatican; expect security queues.",
+                    "duration_min": 35,
+                    "note": "Walk ~25–35 min to arrive by 09:00; leaves earlier than 09:00 so you can reach the basilica for opening. Alternative: bus/taxi ~15–20 min.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "10:15",
-                    "name": "Visit St Peter's Basilica (interior & square)",
+                    "time": "09:00",
+                    "name": "St Peter's Basilica",
                     "venue": "St Peter's Basilica",
                     "venue_from": "",
-                    "duration_min": 75,
-                    "note": "Includes Dome ascent (€10 per person). Entry to the basilica itself is free but security checks and queues apply; this item prices the optional Dome climb.",
-                    "cost_eur": 10
-                  },
-                  {
-                    "time": "11:45",
-                    "name": "Walk / climb to Gianicolo (Janiculum Hill) for views and green space",
-                    "venue": "Gianicolo",
-                    "venue_from": "St Peter's Basilica",
-                    "duration_min": 75,
-                    "note": "Excellent panoramic views and leafy walking — a nature-focused stop.",
+                    "duration_min": 120,
+                    "note": "Entry to the basilica is typically free; expect security queue and dress code. Dome climb or guided tours cost extra — check and pre-book if desired.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "13:00",
-                    "name": "Lunch near Janiculum / Trastevere",
-                    "venue": "Trastevere neighbourhood",
-                    "venue_from": "Gianicolo",
+                    "time": "12:30",
+                    "name": "Lunch",
+                    "venue": "Prati neighbourhood",
+                    "venue_from": "",
                     "duration_min": 60,
-                    "note": "Casual lunch ~€15 per person.",
-                    "cost_eur": 15
+                    "note": "Mid-range lunch ~€40 per person.",
+                    "cost_eur": 40
                   },
                   {
                     "time": "14:30",
-                    "name": "Afternoon park: Villa Doria Pamphilj (large green space)",
-                    "venue": "Villa Doria Pamphilj",
-                    "venue_from": "Trastevere",
-                    "duration_min": 120,
-                    "note": "One of Rome's largest parks — peaceful nature walking away from main tourist hubs.",
+                    "name": "Tiber riverside & Isola Tiberina walk",
+                    "venue": "Tiber River",
+                    "venue_from": "Prati neighbourhood",
+                    "duration_min": 60,
+                    "note": "Pleasant riverside nature walk; free.",
                     "cost_eur": 0
                   },
-                  {
-                    "time": "16:30",
-                    "name": "Return to hotel / pack (taxi recommended)",
-                    "venue": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "venue_from": "Villa Doria Pamphilj",
-                    "duration_min": 50,
-                    "note": "Recommend a taxi from the park back to the hotel (~€12–€18; I used €15). This item includes the taxi ride and ~20–30 min to shower/pack/check out.",
-                    "cost_eur": 15
-                  },
-                  {
-                    "time": "18:00",
-                    "name": "Transfer: Hotel → FCO (leave city with 2–3h buffer)",
-                    "venue": "Leonardo da Vinci–Fiumicino Airport",
-                    "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 60,
-                    "note": "Walk to Roma Termini + Leonardo Express train to FCO (~32 min) + buffer; €14 per person single fare. This aims to get you to the airport ~19:00 (≈2.5 h before your 21:30 end_time). Nothing scheduled after arrival per request.",
-                    "cost_eur": 14
-                  }
-                ]
-              }
-            ],
-            "total_cost_eur": 178
-          }
-        }
-      },
-      {
-        "module": "Reflection Layer",
-        "prompt": {
-          "profile": {
-            "days": 3,
-            "destination": "Rome, Italy",
-            "style": "nature",
-            "group": "2 friends",
-            "budget": "mid-range",
-            "budget_amount_eur": 0,
-            "budget_basis": "per person",
-            "when": "3/9 15:00 to 5/9 21:30",
-            "start_point": "Leonardo da Vinci–Fiumicino Airport (FCO)",
-            "end_point": "Leonardo da Vinci–Fiumicino Airport (FCO)",
-            "start_time": "3/9 15:00",
-            "end_time": "5/9 21:30",
-            "lodging": "Hotel 55 Fifty-Five, Via Nazionale",
-            "details": [
-              "Each day 09:00–22:00",
-              "Shopping stop at noon on one day"
-            ],
-            "dietary": [],
-            "walking": "high",
-            "accessibility": false,
-            "priorities": [
-              "Colosseum",
-              "Pantheon",
-              "Trevi Fountain",
-              "Trastevere",
-              "St Peter's Basilica"
-            ],
-            "avoid": [
-              "indoor museums"
-            ],
-            "assumptions": []
-          },
-          "draft": {
-            "days": [
-              {
-                "day": 1,
-                "title": "Arrival and evening in central Rome (parks + Trevi)",
-                "items": [
                   {
                     "time": "15:30",
-                    "name": "Transfer: FCO → Hotel",
+                    "name": "Walk back to Hotel 55 Fifty-Five",
                     "venue": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "venue_from": "Leonardo da Vinci–Fiumicino Airport",
-                    "duration_min": 40,
-                    "note": "Leonardo Express train to Roma Termini (~32 min) + short walk to hotel; €14 per person single fare. Termini is a ~8–12 min walk to the hotel.",
-                    "cost_eur": 14
+                    "venue_from": "Tiber River",
+                    "duration_min": 20,
+                    "note": "Return to the hotel to collect luggage; walking time depends on exact spot along the Tiber.",
+                    "cost_eur": 0
                   },
                   {
-                    "time": "16:15",
-                    "name": "Check in / settle at hotel",
+                    "time": "15:50",
+                    "name": "Collect bags at hotel",
                     "venue": "Hotel 55 Fifty-Five, Via Nazionale",
                     "venue_from": "",
-                    "duration_min": 30,
-                    "note": "Lodging cost is included once separately (see total). Confirm check-in time with your booking.",
+                    "duration_min": 20,
+                    "note": "Collect luggage and prepare for airport transfer. Moved earlier so you have time to reach Termini comfortably.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "17:00",
-                    "name": "Walk and relax in Villa Borghese",
-                    "venue": "Villa Borghese",
+                    "time": "16:10",
+                    "name": "Walk to Termini station",
+                    "venue": "Termini station",
                     "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 90,
-                    "note": "Large central park for easy nature strolling and views over Rome; free.",
-                    "cost_eur": 0
-                  },
-                  {
-                    "time": "18:30",
-                    "name": "Walk to Trevi Fountain",
-                    "venue": "Trevi Fountain",
-                    "venue_from": "Villa Borghese",
-                    "duration_min": 30,
-                    "note": "Outdoor visit to the fountain; open public space. Great at sunset/early evening when lit.",
-                    "cost_eur": 0
-                  },
-                  {
-                    "time": "19:00",
-                    "name": "Dinner (mid-range trattoria)",
-                    "venue": "Trevi / Pantheon neighbourhood",
-                    "venue_from": "Trevi Fountain",
-                    "duration_min": 90,
-                    "note": "~€30 mid-range per person for a sit-down dinner (local guide price). Choose a trattoria near the fountain; can be busy — reservation recommended.",
-                    "cost_eur": 30
-                  },
-                  {
-                    "time": "20:30",
-                    "name": "Evening stroll: Spanish Steps & return",
-                    "venue": "Spanish Steps",
-                    "venue_from": "Trevi Fountain",
-                    "duration_min": 60,
-                    "note": "Walk back to hotel via the Spanish Steps; relaxed walking pace. All outdoor.",
-                    "cost_eur": 0
-                  }
-                ]
-              },
-              {
-                "day": 2,
-                "title": "Colosseum, shopping, Pantheon and Trastevere evening",
-                "items": [
-                  {
-                    "time": "09:00",
-                    "name": "Breakfast / coffee",
-                    "venue": "Via Nazionale / Hotel area",
-                    "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 30,
-                    "note": "Coffee and light pastry; used local price guidance (coffee €1; add pastry).",
-                    "cost_eur": 3
-                  },
-                  {
-                    "time": "09:30",
-                    "name": "Walk to Colosseum",
-                    "venue": "Colosseum",
-                    "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 30,
-                    "note": "A pleasant ~25–35 minute walk depending on route; you’re walking-savvy so chosen on-foot transfer.",
-                    "cost_eur": 0
-                  },
-                  {
-                    "time": "10:00",
-                    "name": "Colosseum visit (ancient Rome outdoors & limited interiors)",
-                    "venue": "Colosseum",
-                    "venue_from": "",
-                    "duration_min": 120,
-                    "note": "Entrances/museum tickets typically ~€18–22; I used €20 per person. Book a timed entry in advance to avoid long queues.",
-                    "cost_eur": 20
-                  },
-                  {
-                    "time": "12:20",
-                    "name": "Shopping stop + lunch at noon",
-                    "venue": "Via del Corso",
-                    "venue_from": "Colosseum",
-                    "duration_min": 80,
-                    "note": "Shopping on Rome's main high street (clothes/souvenirs) and casual lunch ~€15 per person. Shopping expenses not included in this plan.",
-                    "cost_eur": 15
-                  },
-                  {
-                    "time": "14:00",
-                    "name": "Walk to Pantheon",
-                    "venue": "Pantheon",
-                    "venue_from": "Via del Corso",
                     "duration_min": 15,
-                    "note": "Short walk through historic centre.",
+                    "note": "Walk ~10–15 min to Termini. Alternative: short taxi ~€6–10 or bus (single ticket €1.50).",
                     "cost_eur": 0
                   },
                   {
-                    "time": "14:15",
-                    "name": "Pantheon visit",
-                    "venue": "Pantheon",
-                    "venue_from": "",
-                    "duration_min": 30,
-                    "note": "Interior sometimes charges a small entry fee (~€5–6); I used €6 per person.",
-                    "cost_eur": 6
-                  },
-                  {
-                    "time": "15:00",
-                    "name": "Riverside / Piazza Navona stroll",
-                    "venue": "Piazza Navona / Tiber riverside",
-                    "venue_from": "Pantheon",
-                    "duration_min": 120,
-                    "note": "Outdoor wandering and baroque squares — nature/light urban-scape time.",
-                    "cost_eur": 0
-                  },
-                  {
-                    "time": "17:00",
-                    "name": "Coffee / gelato break",
-                    "venue": "Historic centre",
-                    "venue_from": "Piazza Navona",
-                    "duration_min": 30,
-                    "note": "Afternoon refreshment (~€3).",
-                    "cost_eur": 3
-                  },
-                  {
-                    "time": "17:30",
-                    "name": "Walk to Trastevere",
-                    "venue": "Trastevere",
-                    "venue_from": "Piazza Navona",
-                    "duration_min": 30,
-                    "note": "Walk across the river to Trastevere — one of Rome’s most atmospheric neighbourhoods.",
-                    "cost_eur": 0
-                  },
-                  {
-                    "time": "18:00",
-                    "name": "Explore Trastevere and dinner",
-                    "venue": "Trastevere",
-                    "venue_from": "",
-                    "duration_min": 180,
-                    "note": "Evening in Trastevere with dinner at a mid-range trattoria (~€30 per person). Plenty of outdoor piazzas and riverside walking.",
-                    "cost_eur": 30
-                  },
-                  {
-                    "time": "21:30",
-                    "name": "Walk back to hotel",
-                    "venue": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "venue_from": "Trastevere",
-                    "duration_min": 30,
-                    "note": "Return by foot (or short taxi if preferred; taxi not included).",
-                    "cost_eur": 0
-                  }
-                ]
-              },
-              {
-                "day": 3,
-                "title": "Vatican area, panoramic Janiculum and park time — depart for FCO",
-                "items": [
-                  {
-                    "time": "09:00",
-                    "name": "Breakfast / coffee",
-                    "venue": "Via Nazionale / Hotel area",
-                    "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 30,
-                    "note": "Light breakfast/coffee near the hotel.",
-                    "cost_eur": 3
-                  },
-                  {
-                    "time": "09:30",
-                    "name": "Walk to St Peter's area",
-                    "venue": "St Peter's Basilica",
-                    "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 45,
-                    "note": "Walking route to the Vatican; expect security queues.",
-                    "cost_eur": 0
-                  },
-                  {
-                    "time": "10:15",
-                    "name": "Visit St Peter's Basilica (interior & square)",
-                    "venue": "St Peter's Basilica",
-                    "venue_from": "",
-                    "duration_min": 75,
-                    "note": "Includes Dome ascent (€10 per person). Entry to the basilica itself is free but security checks and queues apply; this item prices the optional Dome climb.",
-                    "cost_eur": 10
-                  },
-                  {
-                    "time": "11:45",
-                    "name": "Walk / climb to Gianicolo (Janiculum Hill) for views and green space",
-                    "venue": "Gianicolo",
-                    "venue_from": "St Peter's Basilica",
-                    "duration_min": 75,
-                    "note": "Excellent panoramic views and leafy walking — a nature-focused stop.",
-                    "cost_eur": 0
-                  },
-                  {
-                    "time": "13:00",
-                    "name": "Lunch near Janiculum / Trastevere",
-                    "venue": "Trastevere neighbourhood",
-                    "venue_from": "Gianicolo",
-                    "duration_min": 60,
-                    "note": "Casual lunch ~€15 per person.",
-                    "cost_eur": 15
-                  },
-                  {
-                    "time": "14:30",
-                    "name": "Afternoon park: Villa Doria Pamphilj (large green space)",
-                    "venue": "Villa Doria Pamphilj",
-                    "venue_from": "Trastevere",
-                    "duration_min": 120,
-                    "note": "One of Rome's largest parks — peaceful nature walking away from main tourist hubs.",
-                    "cost_eur": 0
-                  },
-                  {
-                    "time": "16:30",
-                    "name": "Return to hotel / pack (taxi recommended)",
-                    "venue": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "venue_from": "Villa Doria Pamphilj",
-                    "duration_min": 50,
-                    "note": "Recommend a taxi from the park back to the hotel (~€12–€18; I used €15). This item includes the taxi ride and ~20–30 min to shower/pack/check out.",
-                    "cost_eur": 15
-                  },
-                  {
-                    "time": "18:00",
-                    "name": "Transfer: Hotel → FCO (leave city with 2–3h buffer)",
+                    "time": "16:40",
+                    "name": "Leonardo Express (Termini–FCO)",
                     "venue": "Leonardo da Vinci–Fiumicino Airport",
-                    "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 60,
-                    "note": "Walk to Roma Termini + Leonardo Express train to FCO (~32 min) + buffer; €14 per person single fare. This aims to get you to the airport ~19:00 (≈2.5 h before your 21:30 end_time). Nothing scheduled after arrival per request.",
+                    "venue_from": "Termini station",
+                    "duration_min": 35,
+                    "note": "Official train one-way €14 (2026). Departing Termini ~16:40 to arrive ~17:15 — gives ~4h before your 21:30 end time. Book tickets in advance; taxi to FCO (~€55) is an alternative.",
                     "cost_eur": 14
+                  },
+                  {
+                    "time": "17:15",
+                    "name": "Arrive at airport — end of plan",
+                    "venue": "Leonardo da Vinci–Fiumicino Airport",
+                    "venue_from": "Leonardo Express",
+                    "duration_min": 15,
+                    "note": "Plan ends on arrival at FCO with a comfortable buffer before your 21:30 departure; nothing scheduled after this per request.",
+                    "cost_eur": 0
                   }
                 ]
               }
             ],
-            "total_cost_eur": 178
+            "total_cost_eur": 453
           }
-        },
-        "response": {
-          "verdict": "FAIL",
-          "must_fix": [],
-          "be_aware": [],
-          "issues": [],
-          "fixes": []
         }
       },
       {
@@ -1402,271 +912,243 @@
             "days": [
               {
                 "day": 1,
-                "title": "Arrival and evening in central Rome (parks + Trevi)",
+                "title": "Arrival; Colosseum evening visit",
                 "items": [
                   {
                     "time": "15:30",
-                    "name": "Transfer: FCO → Hotel",
-                    "venue": "Hotel 55 Fifty-Five, Via Nazionale",
+                    "name": "Leonardo Express (FCO–Termini)",
+                    "venue": "Termini station",
                     "venue_from": "Leonardo da Vinci–Fiumicino Airport",
-                    "duration_min": 40,
-                    "note": "Leonardo Express train to Roma Termini (~32 min) + short walk to hotel; €14 per person single fare. Termini is a ~8–12 min walk to the hotel.",
+                    "duration_min": 35,
+                    "note": "Official train one-way €14 (2026). Trains ~32–35 min. Alternative: taxi flat €55 to historic centre.",
                     "cost_eur": 14
                   },
                   {
-                    "time": "16:15",
-                    "name": "Check in / settle at hotel",
+                    "time": "16:10",
+                    "name": "Walk to Hotel 55 Fifty-Five",
+                    "venue": "Hotel 55 Fifty-Five, Via Nazionale",
+                    "venue_from": "Termini station",
+                    "duration_min": 15,
+                    "note": "High-walking pace; ~10–15 min on foot from Termini.",
+                    "cost_eur": 0
+                  },
+                  {
+                    "time": "16:30",
+                    "name": "Hotel check-in & luggage drop",
                     "venue": "Hotel 55 Fifty-Five, Via Nazionale",
                     "venue_from": "",
                     "duration_min": 30,
-                    "note": "Lodging cost is included once separately (see total). Confirm check-in time with your booking.",
-                    "cost_eur": 0
+                    "note": "Lodging costed once for the stay (estimate per person for 2 nights at a mid-range hotel).",
+                    "cost_eur": 160
                   },
                   {
                     "time": "17:00",
-                    "name": "Walk and relax in Villa Borghese",
-                    "venue": "Villa Borghese",
+                    "name": "Walk to Colosseum",
+                    "venue": "Colosseum",
                     "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
+                    "duration_min": 25,
+                    "note": "Walk ~20–25 min at a brisk pace. Alternative: taxi ~10–15 min (€10–15).",
+                    "cost_eur": 0
+                  },
+                  {
+                    "time": "17:30",
+                    "name": "Colosseum",
+                    "venue": "Colosseum",
+                    "venue_from": "",
                     "duration_min": 90,
-                    "note": "Large central park for easy nature strolling and views over Rome; free.",
-                    "cost_eur": 0
+                    "note": "Timed-entry ticket Colosseum + Roman Forum + Palatine ~€18. Open until ~19:15 in early Sep; book a timed slot in advance.",
+                    "cost_eur": 18
                   },
                   {
-                    "time": "18:30",
-                    "name": "Walk to Trevi Fountain",
-                    "venue": "Trevi Fountain",
-                    "venue_from": "Villa Borghese",
-                    "duration_min": 30,
-                    "note": "Outdoor visit to the fountain; open public space. Great at sunset/early evening when lit.",
-                    "cost_eur": 0
-                  },
-                  {
-                    "time": "19:00",
-                    "name": "Dinner (mid-range trattoria)",
-                    "venue": "Trevi / Pantheon neighbourhood",
-                    "venue_from": "Trevi Fountain",
+                    "time": "19:30",
+                    "name": "Dinner",
+                    "venue": "Monti neighbourhood",
+                    "venue_from": "",
                     "duration_min": 90,
-                    "note": "~€30 mid-range per person for a sit-down dinner (local guide price). Choose a trattoria near the fountain; can be busy — reservation recommended.",
-                    "cost_eur": 30
-                  },
-                  {
-                    "time": "20:30",
-                    "name": "Evening stroll: Spanish Steps & return",
-                    "venue": "Spanish Steps",
-                    "venue_from": "Trevi Fountain",
-                    "duration_min": 60,
-                    "note": "Walk back to hotel via the Spanish Steps; relaxed walking pace. All outdoor.",
-                    "cost_eur": 0
+                    "note": "Mid-range dinner ~€80 per person.",
+                    "cost_eur": 80
                   }
                 ]
               },
               {
                 "day": 2,
-                "title": "Colosseum, shopping, Pantheon and Trastevere evening",
+                "title": "Historic centre, shopping at noon, Villa Borghese and Trastevere in evening",
                 "items": [
                   {
                     "time": "09:00",
-                    "name": "Breakfast / coffee",
-                    "venue": "Via Nazionale / Hotel area",
+                    "name": "Trevi Fountain",
+                    "venue": "Trevi Fountain",
                     "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
                     "duration_min": 30,
-                    "note": "Coffee and light pastry; used local price guidance (coffee €1; add pastry).",
-                    "cost_eur": 3
-                  },
-                  {
-                    "time": "09:30",
-                    "name": "Walk to Colosseum",
-                    "venue": "Colosseum",
-                    "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 30,
-                    "note": "A pleasant ~25–35 minute walk depending on route; you’re walking-savvy so chosen on-foot transfer.",
+                    "note": "Outdoor visit to the fountain and square — free.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "10:00",
-                    "name": "Colosseum visit (ancient Rome outdoors & limited interiors)",
-                    "venue": "Colosseum",
-                    "venue_from": "",
-                    "duration_min": 120,
-                    "note": "Entrances/museum tickets typically ~€18–22; I used €20 per person. Book a timed entry in advance to avoid long queues.",
-                    "cost_eur": 20
+                    "time": "09:45",
+                    "name": "Pantheon",
+                    "venue": "Pantheon",
+                    "venue_from": "Trevi Fountain",
+                    "duration_min": 45,
+                    "note": "Visiting the square is free; interior may have a small entry fee (~€5). Priced as an approximate interior fee — check current policy.",
+                    "cost_eur": 5
                   },
                   {
-                    "time": "12:20",
-                    "name": "Shopping stop + lunch at noon",
+                    "time": "12:00",
+                    "name": "Shopping stop",
                     "venue": "Via del Corso",
-                    "venue_from": "Colosseum",
-                    "duration_min": 80,
-                    "note": "Shopping on Rome's main high street (clothes/souvenirs) and casual lunch ~€15 per person. Shopping expenses not included in this plan.",
-                    "cost_eur": 15
-                  },
-                  {
-                    "time": "14:00",
-                    "name": "Walk to Pantheon",
-                    "venue": "Pantheon",
-                    "venue_from": "Via del Corso",
-                    "duration_min": 15,
-                    "note": "Short walk through historic centre.",
+                    "venue_from": "Pantheon",
+                    "duration_min": 90,
+                    "note": "Shopping at noon as requested — browsing is free; purchases extra.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "14:15",
-                    "name": "Pantheon visit",
-                    "venue": "Pantheon",
+                    "time": "13:30",
+                    "name": "Lunch",
+                    "venue": "Via del Corso / Centro",
                     "venue_from": "",
-                    "duration_min": 30,
-                    "note": "Interior sometimes charges a small entry fee (~€5–6); I used €6 per person.",
-                    "cost_eur": 6
+                    "duration_min": 60,
+                    "note": "Mid-range lunch ~€40 per person.",
+                    "cost_eur": 40
                   },
                   {
                     "time": "15:00",
-                    "name": "Riverside / Piazza Navona stroll",
-                    "venue": "Piazza Navona / Tiber riverside",
-                    "venue_from": "Pantheon",
-                    "duration_min": 120,
-                    "note": "Outdoor wandering and baroque squares — nature/light urban-scape time.",
+                    "name": "Villa Borghese gardens (park walk)",
+                    "venue": "Villa Borghese",
+                    "venue_from": "Via del Corso",
+                    "duration_min": 90,
+                    "note": "Large park and gardens — nature-style time; free. Optional bike/boat rental extra.",
                     "cost_eur": 0
-                  },
-                  {
-                    "time": "17:00",
-                    "name": "Coffee / gelato break",
-                    "venue": "Historic centre",
-                    "venue_from": "Piazza Navona",
-                    "duration_min": 30,
-                    "note": "Afternoon refreshment (~€3).",
-                    "cost_eur": 3
                   },
                   {
                     "time": "17:30",
-                    "name": "Walk to Trastevere",
+                    "name": "Public transport to Trastevere",
                     "venue": "Trastevere",
-                    "venue_from": "Piazza Navona",
-                    "duration_min": 30,
-                    "note": "Walk across the river to Trastevere — one of Rome’s most atmospheric neighbourhoods.",
-                    "cost_eur": 0
+                    "venue_from": "Villa Borghese",
+                    "duration_min": 25,
+                    "note": "Priced as a single public-transport ticket €1.50 per person. Alternative: scenic walk across the Tiber (~30–45 min) or taxi (~€10–15).",
+                    "cost_eur": 2
                   },
                   {
-                    "time": "18:00",
-                    "name": "Explore Trastevere and dinner",
+                    "time": "19:30",
+                    "name": "Dinner",
                     "venue": "Trastevere",
                     "venue_from": "",
-                    "duration_min": 180,
-                    "note": "Evening in Trastevere with dinner at a mid-range trattoria (~€30 per person). Plenty of outdoor piazzas and riverside walking.",
-                    "cost_eur": 30
-                  },
-                  {
-                    "time": "21:30",
-                    "name": "Walk back to hotel",
-                    "venue": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "venue_from": "Trastevere",
-                    "duration_min": 30,
-                    "note": "Return by foot (or short taxi if preferred; taxi not included).",
-                    "cost_eur": 0
+                    "duration_min": 90,
+                    "note": "Mid-range dinner ~€80 per person; lively area for evening strolls.",
+                    "cost_eur": 80
                   }
                 ]
               },
               {
                 "day": 3,
-                "title": "Vatican area, panoramic Janiculum and park time — depart for FCO",
+                "title": "Vatican / St Peter's, riverside walk, return to airport",
                 "items": [
                   {
-                    "time": "09:00",
-                    "name": "Breakfast / coffee",
-                    "venue": "Via Nazionale / Hotel area",
-                    "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 30,
-                    "note": "Light breakfast/coffee near the hotel.",
-                    "cost_eur": 3
-                  },
-                  {
-                    "time": "09:30",
-                    "name": "Walk to St Peter's area",
+                    "time": "08:25",
+                    "name": "Walk to St Peter's Basilica",
                     "venue": "St Peter's Basilica",
                     "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 45,
-                    "note": "Walking route to the Vatican; expect security queues.",
+                    "duration_min": 35,
+                    "note": "Walk ~25–35 min to arrive by 09:00; leaves earlier than 09:00 so you can reach the basilica for opening. Alternative: bus/taxi ~15–20 min.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "10:15",
-                    "name": "Visit St Peter's Basilica (interior & square)",
+                    "time": "09:00",
+                    "name": "St Peter's Basilica",
                     "venue": "St Peter's Basilica",
                     "venue_from": "",
-                    "duration_min": 75,
-                    "note": "Includes Dome ascent (€10 per person). Entry to the basilica itself is free but security checks and queues apply; this item prices the optional Dome climb.",
-                    "cost_eur": 10
-                  },
-                  {
-                    "time": "11:45",
-                    "name": "Walk / climb to Gianicolo (Janiculum Hill) for views and green space",
-                    "venue": "Gianicolo",
-                    "venue_from": "St Peter's Basilica",
-                    "duration_min": 75,
-                    "note": "Excellent panoramic views and leafy walking — a nature-focused stop.",
+                    "duration_min": 120,
+                    "note": "Entry to the basilica is typically free; expect security queue and dress code. Dome climb or guided tours cost extra — check and pre-book if desired.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "13:00",
-                    "name": "Lunch near Janiculum / Trastevere",
-                    "venue": "Trastevere neighbourhood",
-                    "venue_from": "Gianicolo",
+                    "time": "12:30",
+                    "name": "Lunch",
+                    "venue": "Prati neighbourhood",
+                    "venue_from": "",
                     "duration_min": 60,
-                    "note": "Casual lunch ~€15 per person.",
-                    "cost_eur": 15
+                    "note": "Mid-range lunch ~€40 per person.",
+                    "cost_eur": 40
                   },
                   {
                     "time": "14:30",
-                    "name": "Afternoon park: Villa Doria Pamphilj (large green space)",
-                    "venue": "Villa Doria Pamphilj",
-                    "venue_from": "Trastevere",
-                    "duration_min": 120,
-                    "note": "One of Rome's largest parks — peaceful nature walking away from main tourist hubs.",
+                    "name": "Tiber riverside & Isola Tiberina walk",
+                    "venue": "Tiber River",
+                    "venue_from": "Prati neighbourhood",
+                    "duration_min": 60,
+                    "note": "Pleasant riverside nature walk; free.",
                     "cost_eur": 0
                   },
                   {
-                    "time": "16:30",
-                    "name": "Return to hotel / pack (taxi recommended)",
+                    "time": "15:30",
+                    "name": "Walk back to Hotel 55 Fifty-Five",
                     "venue": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "venue_from": "Villa Doria Pamphilj",
-                    "duration_min": 50,
-                    "note": "Recommend a taxi from the park back to the hotel (~€12–€18; I used €15). This item includes the taxi ride and ~20–30 min to shower/pack/check out.",
-                    "cost_eur": 15
+                    "venue_from": "Tiber River",
+                    "duration_min": 20,
+                    "note": "Return to the hotel to collect luggage; walking time depends on exact spot along the Tiber.",
+                    "cost_eur": 0
                   },
                   {
-                    "time": "18:00",
-                    "name": "Transfer: Hotel → FCO (leave city with 2–3h buffer)",
-                    "venue": "Leonardo da Vinci–Fiumicino Airport",
+                    "time": "15:50",
+                    "name": "Collect bags at hotel",
+                    "venue": "Hotel 55 Fifty-Five, Via Nazionale",
+                    "venue_from": "",
+                    "duration_min": 20,
+                    "note": "Collect luggage and prepare for airport transfer. Moved earlier so you have time to reach Termini comfortably.",
+                    "cost_eur": 0
+                  },
+                  {
+                    "time": "16:10",
+                    "name": "Walk to Termini station",
+                    "venue": "Termini station",
                     "venue_from": "Hotel 55 Fifty-Five, Via Nazionale",
-                    "duration_min": 60,
-                    "note": "Walk to Roma Termini + Leonardo Express train to FCO (~32 min) + buffer; €14 per person single fare. This aims to get you to the airport ~19:00 (≈2.5 h before your 21:30 end_time). Nothing scheduled after arrival per request.",
+                    "duration_min": 15,
+                    "note": "Walk ~10–15 min to Termini. Alternative: short taxi ~€6–10 or bus (single ticket €1.50).",
+                    "cost_eur": 0
+                  },
+                  {
+                    "time": "16:40",
+                    "name": "Leonardo Express (Termini–FCO)",
+                    "venue": "Leonardo da Vinci–Fiumicino Airport",
+                    "venue_from": "Termini station",
+                    "duration_min": 35,
+                    "note": "Official train one-way €14 (2026). Departing Termini ~16:40 to arrive ~17:15 — gives ~4h before your 21:30 end time. Book tickets in advance; taxi to FCO (~€55) is an alternative.",
                     "cost_eur": 14
+                  },
+                  {
+                    "time": "17:15",
+                    "name": "Arrive at airport — end of plan",
+                    "venue": "Leonardo da Vinci–Fiumicino Airport",
+                    "venue_from": "Leonardo Express",
+                    "duration_min": 15,
+                    "note": "Plan ends on arrival at FCO with a comfortable buffer before your 21:30 departure; nothing scheduled after this per request.",
+                    "cost_eur": 0
                   }
                 ]
               }
             ],
-            "total_cost_eur": 178
+            "total_cost_eur": 453
           }
         },
         "response": {
-          "itinerary_markdown": "# 3-day itinerary — Rome, Italy\n\n## Day 1 — Arrival and evening in central Rome (parks + Trevi)\n- **15:30** — [Transfer: FCO → Hotel](https://www.google.com/maps/dir/?api=1&origin=Leonardo+da+Vinci%E2%80%93Fiumicino+Airport+Rome%2C+Italy&destination=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome%2C+Italy)\n  - Leonardo Express train to Roma Termini (~32 min) + short walk to hotel; €14 per person single fare. Termini is a ~8–12 min walk to the hotel.\n  - 40 min · €14 per person\n\n- **16:15** — [Check in / settle at hotel](https://www.google.com/maps/search/?api=1&query=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome%2C+Italy)\n  - Lodging cost is included once separately (see total). Confirm check-in time with your booking.\n  - 30 min · €0 per person\n\n- **17:00** — [Walk and relax in Villa Borghese](https://www.google.com/maps/search/?api=1&query=Villa+Borghese+Rome%2C+Italy)\n  - Large central park for easy nature strolling and views over Rome; free.\n  - 90 min · €0 per person\n\n- **18:30** — [Walk to Trevi Fountain](https://www.google.com/maps/dir/?api=1&origin=Villa+Borghese+Rome%2C+Italy&destination=Trevi+Fountain+Rome%2C+Italy)\n  - Outdoor visit to the fountain; open public space. Great at sunset/early evening when lit.\n  - 30 min · €0 per person\n\n- **19:00** — [Dinner (mid-range trattoria)](https://www.google.com/maps/search/?api=1&query=Trevi+%2F+Pantheon+neighbourhood+Rome%2C+Italy)\n  - ~€30 mid-range per person for a sit-down dinner (local guide price). Choose a trattoria near the fountain; can be busy — reservation recommended.\n  - 90 min · €30 per person\n\n- **20:30** — [Evening stroll: Spanish Steps & return](https://www.google.com/maps/search/?api=1&query=Spanish+Steps+Rome%2C+Italy)\n  - Walk back to hotel via the Spanish Steps; relaxed walking pace. All outdoor.\n  - 60 min · €0 per person\n\n\n_Day total: €44_\n\n## Day 2 — Colosseum, shopping, Pantheon and Trastevere evening\n- **09:00** — [Breakfast / coffee](https://www.google.com/maps/search/?api=1&query=Via+Nazionale+%2F+Hotel+area+Rome%2C+Italy)\n  - Coffee and light pastry; used local price guidance (coffee €1; add pastry).\n  - 30 min · €3 per person\n\n- **09:30** — [Walk to Colosseum](https://www.google.com/maps/dir/?api=1&origin=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome%2C+Italy&destination=Colosseum+Rome%2C+Italy)\n  - A pleasant ~25–35 minute walk depending on route; you’re walking-savvy so chosen on-foot transfer.\n  - 30 min · €0 per person\n\n- **10:00** — [Colosseum visit (ancient Rome outdoors & limited interiors)](https://www.google.com/maps/search/?api=1&query=Colosseum+Rome%2C+Italy)\n  - Entrances/museum tickets typically ~€18–22; I used €20 per person. Book a timed entry in advance to avoid long queues.\n  - 120 min · €20 per person\n\n- **12:20** — Shopping stop + lunch at noon\n  - Shopping on Rome's main high street (clothes/souvenirs) and casual lunch ~€15 per person. Shopping expenses not included in this plan.\n  - 80 min · €15 per person\n\n- **14:00** — [Walk to Pantheon](https://www.google.com/maps/dir/?api=1&origin=Via+del+Corso+Rome%2C+Italy&destination=Pantheon+Rome%2C+Italy)\n  - Short walk through historic centre.\n  - 15 min · €0 per person\n\n- **14:15** — [Pantheon visit](https://www.google.com/maps/search/?api=1&query=Pantheon+Rome%2C+Italy)\n  - Interior sometimes charges a small entry fee (~€5–6); I used €6 per person.\n  - 30 min · €6 per person\n\n- **15:00** — [Riverside / Piazza Navona stroll](https://www.google.com/maps/search/?api=1&query=Piazza+Navona+%2F+Tiber+riverside+Rome%2C+Italy)\n  - Outdoor wandering and baroque squares — nature/light urban-scape time.\n  - 120 min · €0 per person\n\n- **17:00** — [Coffee / gelato break](https://www.google.com/maps/search/?api=1&query=Historic+centre+Rome%2C+Italy)\n  - Afternoon refreshment (~€3).\n  - 30 min · €3 per person\n\n- **17:30** — [Walk to Trastevere](https://www.google.com/maps/dir/?api=1&origin=Piazza+Navona+Rome%2C+Italy&destination=Trastevere+Rome%2C+Italy)\n  - Walk across the river to Trastevere — one of Rome’s most atmospheric neighbourhoods.\n  - 30 min · €0 per person\n\n- **18:00** — [Explore Trastevere and dinner](https://www.google.com/maps/search/?api=1&query=Trastevere+Rome%2C+Italy)\n  - Evening in Trastevere with dinner at a mid-range trattoria (~€30 per person). Plenty of outdoor piazzas and riverside walking.\n  - 180 min · €30 per person\n\n- **21:30** — [Walk back to hotel](https://www.google.com/maps/search/?api=1&query=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome%2C+Italy)\n  - Return by foot (or short taxi if preferred; taxi not included).\n  - 30 min · €0 per person\n\n\n_Day total: €77_\n\n## Day 3 — Vatican area, panoramic Janiculum and park time — depart for FCO\n- **09:00** — [Breakfast / coffee](https://www.google.com/maps/search/?api=1&query=Via+Nazionale+%2F+Hotel+area+Rome%2C+Italy)\n  - Light breakfast/coffee near the hotel.\n  - 30 min · €3 per person\n\n- **09:30** — [Walk to St Peter's area](https://www.google.com/maps/dir/?api=1&origin=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome%2C+Italy&destination=St+Peter%27s+Basilica+Rome%2C+Italy)\n  - Walking route to the Vatican; expect security queues.\n  - 45 min · €0 per person\n\n- **10:15** — [Visit St Peter's Basilica (interior & square)](https://www.google.com/maps/search/?api=1&query=St+Peter%27s+Basilica+Rome%2C+Italy)\n  - Includes Dome ascent (€10 per person). Entry to the basilica itself is free but security checks and queues apply; this item prices the optional Dome climb.\n  - 75 min · €10 per person\n\n- **11:45** — [Walk / climb to Gianicolo (Janiculum Hill) for views and green space](https://www.google.com/maps/search/?api=1&query=Gianicolo+Rome%2C+Italy)\n  - Excellent panoramic views and leafy walking — a nature-focused stop.\n  - 75 min · €0 per person\n\n- **13:00** — [Lunch near Janiculum / Trastevere](https://www.google.com/maps/search/?api=1&query=Trastevere+neighbourhood+Rome%2C+Italy)\n  - Casual lunch ~€15 per person.\n  - 60 min · €15 per person\n\n- **14:30** — [Afternoon park: Villa Doria Pamphilj (large green space)](https://www.google.com/maps/search/?api=1&query=Villa+Doria+Pamphilj+Rome%2C+Italy)\n  - One of Rome's largest parks — peaceful nature walking away from main tourist hubs.\n  - 120 min · €0 per person\n\n- **16:30** — [Return to hotel / pack (taxi recommended)](https://www.google.com/maps/search/?api=1&query=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome%2C+Italy)\n  - Recommend a taxi from the park back to the hotel (~€12–€18; I used €15). This item includes the taxi ride and ~20–30 min to shower/pack/check out.\n  - 50 min · €15 per person\n\n- **18:00** — Transfer: Hotel → FCO (leave city with 2–3h buffer)\n  - Walk to Roma Termini + Leonardo Express train to FCO (~32 min) + buffer; €14 per person single fare. This aims to get you to the airport ~19:00 (≈2.5 h before your 21:30 end_time). Nothing scheduled after arrival per request.\n  - 60 min · €14 per person\n\n\n_Day total: €57_\n\n**Total: €178 per person**",
+          "itinerary_markdown": "# 3-day itinerary — Rome\n\n## Day 1 — Arrival; Colosseum evening visit\n- **15:30** — [Leonardo Express (FCO–Termini)](https://www.google.com/maps/search/?api=1&query=Termini+station+Rome)\n  - Official train one-way €14 (2026). Trains ~32–35 min. Alternative: taxi flat €55 to historic centre.\n  - 35 min · €14 per person\n\n- **16:10** — [Walk to Hotel 55 Fifty-Five](https://www.google.com/maps/dir/?api=1&origin=Termini+station+Rome&destination=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome)\n  - High-walking pace; ~10–15 min on foot from Termini.\n  - 15 min · €0 per person\n\n- **16:30** — [Hotel check-in & luggage drop](https://www.google.com/maps/search/?api=1&query=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome)\n  - Lodging costed once for the stay (estimate per person for 2 nights at a mid-range hotel).\n  - 30 min · €160 per person\n\n- **17:00** — [Walk to Colosseum](https://www.google.com/maps/dir/?api=1&origin=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome&destination=Colosseum+Rome)\n  - Walk ~20–25 min at a brisk pace. Alternative: taxi ~10–15 min (€10–15).\n  - 25 min · €0 per person\n\n- **17:30** — [Colosseum](https://www.google.com/maps/search/?api=1&query=Colosseum+Rome)\n  - Timed-entry ticket Colosseum + Roman Forum + Palatine ~€18. Open until ~19:15 in early Sep; book a timed slot in advance.\n  - 90 min · €18 per person\n\n- **19:30** — [Dinner](https://www.google.com/maps/search/?api=1&query=Monti+neighbourhood+Rome)\n  - Mid-range dinner ~€80 per person.\n  - 90 min · €80 per person\n\n\n_Day total: €272_\n\n## Day 2 — Historic centre, shopping at noon, Villa Borghese and Trastevere in evening\n- **09:00** — [Trevi Fountain](https://www.google.com/maps/search/?api=1&query=Trevi+Fountain+Rome)\n  - Outdoor visit to the fountain and square — free.\n  - 30 min · €0 per person\n\n- **09:45** — [Pantheon](https://www.google.com/maps/search/?api=1&query=Pantheon+Rome)\n  - Visiting the square is free; interior may have a small entry fee (~€5). Priced as an approximate interior fee — check current policy.\n  - 45 min · €5 per person\n\n- **12:00** — Shopping stop\n  - Shopping at noon as requested — browsing is free; purchases extra.\n  - 90 min · €0 per person\n\n- **13:30** — [Lunch](https://www.google.com/maps/search/?api=1&query=Via+del+Corso+%2F+Centro+Rome)\n  - Mid-range lunch ~€40 per person.\n  - 60 min · €40 per person\n\n- **15:00** — [Villa Borghese gardens (park walk)](https://www.google.com/maps/search/?api=1&query=Villa+Borghese+Rome)\n  - Large park and gardens — nature-style time; free. Optional bike/boat rental extra.\n  - 90 min · €0 per person\n\n- **17:30** — [Public transport to Trastevere](https://www.google.com/maps/search/?api=1&query=Trastevere+Rome)\n  - Priced as a single public-transport ticket €1.50 per person. Alternative: scenic walk across the Tiber (~30–45 min) or taxi (~€10–15).\n  - 25 min · €2 per person\n\n- **19:30** — [Dinner](https://www.google.com/maps/search/?api=1&query=Trastevere+Rome)\n  - Mid-range dinner ~€80 per person; lively area for evening strolls.\n  - 90 min · €80 per person\n\n\n_Day total: €127_\n\n## Day 3 — Vatican / St Peter's, riverside walk, return to airport\n- **08:25** — [Walk to St Peter's Basilica](https://www.google.com/maps/dir/?api=1&origin=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome&destination=St+Peter%27s+Basilica+Rome)\n  - Walk ~25–35 min to arrive by 09:00; leaves earlier than 09:00 so you can reach the basilica for opening. Alternative: bus/taxi ~15–20 min.\n  - 35 min · €0 per person\n\n- **09:00** — [St Peter's Basilica](https://www.google.com/maps/search/?api=1&query=St+Peter%27s+Basilica+Rome)\n  - Entry to the basilica is typically free; expect security queue and dress code. Dome climb or guided tours cost extra — check and pre-book if desired.\n  - 120 min · €0 per person\n\n- **12:30** — [Lunch](https://www.google.com/maps/search/?api=1&query=Prati+neighbourhood+Rome)\n  - Mid-range lunch ~€40 per person.\n  - 60 min · €40 per person\n\n- **14:30** — [Tiber riverside & Isola Tiberina walk](https://www.google.com/maps/search/?api=1&query=Tiber+River+Rome)\n  - Pleasant riverside nature walk; free.\n  - 60 min · €0 per person\n\n- **15:30** — [Walk back to Hotel 55 Fifty-Five](https://www.google.com/maps/search/?api=1&query=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome)\n  - Return to the hotel to collect luggage; walking time depends on exact spot along the Tiber.\n  - 20 min · €0 per person\n\n- **15:50** — [Collect bags at hotel](https://www.google.com/maps/search/?api=1&query=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome)\n  - Collect luggage and prepare for airport transfer. Moved earlier so you have time to reach Termini comfortably.\n  - 20 min · €0 per person\n\n- **16:10** — [Walk to Termini station](https://www.google.com/maps/dir/?api=1&origin=Hotel+55+Fifty-Five%2C+Via+Nazionale+Rome&destination=Termini+station+Rome)\n  - Walk ~10–15 min to Termini. Alternative: short taxi ~€6–10 or bus (single ticket €1.50).\n  - 15 min · €0 per person\n\n- **16:40** — [Leonardo Express (Termini–FCO)](https://www.google.com/maps/search/?api=1&query=Leonardo+da+Vinci%E2%80%93Fiumicino+Airport+Rome)\n  - Official train one-way €14 (2026). Departing Termini ~16:40 to arrive ~17:15 — gives ~4h before your 21:30 end time. Book tickets in advance; taxi to FCO (~€55) is an alternative.\n  - 35 min · €14 per person\n\n- **17:15** — [Arrive at airport — end of plan](https://www.google.com/maps/search/?api=1&query=Leonardo+da+Vinci%E2%80%93Fiumicino+Airport+Rome)\n  - Plan ends on arrival at FCO with a comfortable buffer before your 21:30 departure; nothing scheduled after this per request.\n  - 15 min · €0 per person\n\n\n_Day total: €54_\n\n**Total: €453 per person**",
           "fallback": true
         }
       }
     ]
   },
   {
-    "prompt": "User: Plan a 3-day trip to Rome for 2 friends who like nature. Budget: mid-range. Travelling 3/9 15:00 to 5/9 21:30, starting and ending at Fiumicino Airport. Staying at Hotel 55 Fifty-Five, Via Nazionale. Each day should run roughly 09:00 to 22:00. Must-see: Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica. Avoid: indoor museums. Also: we walk a lot, we want a shopping stop at noon on one day.\nAgent: **Here's your trip so far**\n\n- **Destination:** Rome, Italy\n- **Days:** 3\n- **Travellers:** 2 friends\n- **Budget:** mid-range\n- **Interests:** nature\n- **Walking:** high\n- **Must-see:** Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica\n- **Avoid:** indoor museums\n- **Trip window:** 3/9 15:00 → 5/9 21:30\n- **Start point:** Leonardo da Vinci–Fiumicino Airport (FCO)\n- **End point:** Leonardo da Vinci–Fiumicino Airport (FCO)\n- **Staying at:** Hotel 55 Fifty-Five, Via Nazionale\n- **Also noted:** Each day 09:00–22:00; Shopping stop at noon on one day\n\nDoes this look right? Reply **yes** to start planning — or tell me what to change.\nUser: yes\nAgent: [delivered an itinerary — the current plan is supplied separately]\nUser: what does day 2 cost per person, and how much walking is it?",
+    "prompt": "what does day 2 cost per person, and how much walking is it?",
     "request": {
-      "prompt": "User: Plan a 3-day trip to Rome for 2 friends who like nature. Budget: mid-range. Travelling 3/9 15:00 to 5/9 21:30, starting and ending at Fiumicino Airport. Staying at Hotel 55 Fifty-Five, Via Nazionale. Each day should run roughly 09:00 to 22:00. Must-see: Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica. Avoid: indoor museums. Also: we walk a lot, we want a shopping stop at noon on one day.\nAgent: **Here's your trip so far**\n\n- **Destination:** Rome, Italy\n- **Days:** 3\n- **Travellers:** 2 friends\n- **Budget:** mid-range\n- **Interests:** nature\n- **Walking:** high\n- **Must-see:** Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica\n- **Avoid:** indoor museums\n- **Trip window:** 3/9 15:00 → 5/9 21:30\n- **Start point:** Leonardo da Vinci–Fiumicino Airport (FCO)\n- **End point:** Leonardo da Vinci–Fiumicino Airport (FCO)\n- **Staying at:** Hotel 55 Fifty-Five, Via Nazionale\n- **Also noted:** Each day 09:00–22:00; Shopping stop at noon on one day\n\nDoes this look right? Reply **yes** to start planning — or tell me what to change.\nUser: yes\nAgent: [delivered an itinerary — the current plan is supplied separately]\nUser: what does day 2 cost per person, and how much walking is it?",
-      "conversation_id": "57e7c7c1-c297-4d0e-9a5f-2929a915e6be",
-      "device_id": "c70e9c8c-5474-4a88-8e93-36eb805fceb8"
+      "prompt": "what does day 2 cost per person, and how much walking is it?",
+      "conversation_id": "8fedddab-1a8b-40ed-888b-4ab9490b0c91"
     },
-    "full_response": "- Day 2 costs €77 per person.  \n- Walking is high — the itinerary schedules about 635 minutes (≈10.5 hours) of walking/strolling across the day.",
+    "full_response": "- Day 2 costs €127 per person (0 + 5 + 0 + 40 + 0 + 2 + 80 = €127).  \n- Walking is high: the day involves extensive on-foot exploring of the historic centre (Trevi, Pantheon, Via del Corso), a park walk in Villa Borghese and an evening stroll in Trastevere.",
     "steps": [
       {
         "module": "Conversational Intake",
         "prompt": {
-          "conversation": "User: Plan a 3-day trip to Rome for 2 friends who like nature. Budget: mid-range. Travelling 3/9 15:00 to 5/9 21:30, starting and ending at Fiumicino Airport. Staying at Hotel 55 Fifty-Five, Via Nazionale. Each day should run roughly 09:00 to 22:00. Must-see: Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica. Avoid: indoor museums. Also: we walk a lot, we want a shopping stop at noon on one day.\nAgent: **Here's your trip so far**\n\n- **Destination:** Rome, Italy\n- **Days:** 3\n- **Travellers:** 2 friends\n- **Budget:** mid-range\n- **Interests:** nature\n- **Walking:** high\n- **Must-see:** Colosseum, Pantheon, Trevi Fountain, Trastevere, St Peter's Basilica\n- **Avoid:** indoor museums\n- **Trip window:** 3/9 15:00 → 5/9 21:30\n- **Start point:** Leonardo da Vinci–Fiumicino Airport (FCO)\n- **End point:** Leonardo da Vinci–Fiumicino Airport (FCO)\n- **Staying at:** Hotel 55 Fifty-Five, Via Nazionale\n- **Also noted:** Each day 09:00–22:00; Shopping stop at noon on one day\n\nDoes this look right? Reply **yes** to start planning — or tell me what to change.\nUser: yes\nAgent: [delivered an itinerary — the current plan is supplied separately]\nUser: what does day 2 cost per person, and how much walking is it?"
+          "conversation": "what does day 2 cost per person, and how much walking is it?"
         },
         "response": {
           "stage": "question",
@@ -1680,13 +1162,13 @@
             "budget_amount_eur": 0,
             "budget_basis": "per person",
             "when": "3/9 15:00 to 5/9 21:30",
-            "start_point": "Leonardo da Vinci–Fiumicino Airport (FCO)",
-            "end_point": "Leonardo da Vinci–Fiumicino Airport (FCO)",
+            "start_point": "Leonardo da Vinci–Fiumicino Airport",
+            "end_point": "Leonardo da Vinci–Fiumicino Airport",
             "start_time": "3/9 15:00",
             "end_time": "5/9 21:30",
             "lodging": "Hotel 55 Fifty-Five, Via Nazionale",
             "details": [
-              "Each day 09:00–22:00",
+              "Each day roughly 09:00 to 22:00",
               "Shopping stop at noon on one day"
             ],
             "dietary": [],
@@ -1709,10 +1191,10 @@
       {
         "module": "Itinerary Q&A",
         "prompt": {
-          "plan_total_eur": 178
+          "plan_total_eur": 453
         },
         "response": {
-          "answer": "- Day 2 costs €77 per person.  \n- Walking is high — the itinerary schedules about 635 minutes (≈10.5 hours) of walking/strolling across the day."
+          "answer": "- Day 2 costs €127 per person (0 + 5 + 0 + 40 + 0 + 2 + 80 = €127).  \n- Walking is high: the day involves extensive on-foot exploring of the historic centre (Trevi, Pantheon, Via del Corso), a park walk in Villa Borghese and an evening stroll in Trastevere."
         }
       }
     ]

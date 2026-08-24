@@ -926,9 +926,9 @@ def _edit_plan(prof, plan, conversation, steps, run_id=None):
     summary = schemas._as_str(turn.get("summary"))
 
     _trace(steps, "Plan Editor",
-           {"thought": turn.get("thought"), "current_total_eur": plan.get("total_cost_eur"),
-            "requested_change": "see conversation"},
-           {"changed_days": changed, "summary": summary,
+           {"profile": schemas.compact_profile(prof), "current_itinerary": plan,
+            "conversation": conversation},
+           {"thought": turn.get("thought"), "changed_days": changed, "summary": summary,
             "new_total_eur": new_plan.get("total_cost_eur")})
     obs.log("plan_edited", run_id=run_id, changed_days=changed,
             cost_eur=new_plan.get("total_cost_eur"))
@@ -954,7 +954,13 @@ def _answer_question(prof, plan, conversation, steps, run_id=None):
             "\n\nConversation (the question is the LAST user message):\n" + conversation)
     msgs = [{"role": "system", "content": sys}, {"role": "user", "content": user}]
     text = chat(msgs, temperature=0.2, max_tokens=400) or ""
-    _trace(steps, "Itinerary Q&A", {"plan_total_eur": plan.get("total_cost_eur")},
+    # The brief requires the step to carry the prompt. This used to record
+    # {"plan_total_eur": N} — a summary of the input, not the input — so the trace could not
+    # be read to see what the module was actually asked. The system prompt stays out: it is
+    # the module's instructions rather than its prompt, and publishing it serves nobody.
+    _trace(steps, "Itinerary Q&A",
+           {"profile": schemas.compact_profile(prof), "itinerary": plan,
+            "conversation": conversation},
            {"answer": text})
     obs.log("question_answered", run_id=run_id, chars=len(text))
     return text
@@ -1447,7 +1453,7 @@ def _resume_fix(prof, plan, outstanding, steps, run_id, deadline):
         else:
             try:
                 verdict = _reflect(prof, fixed, steps, run_id, found=computed,
-                                   suspect=audit.check_costs(fixed))
+                                   suspect=audit.check_costs(fixed, prof))
                 remaining, notes = verdict["must_fix"], verdict["be_aware"]
             except Exception:
                 # A review that cannot finish must not take the corrected plan with it. The
@@ -1658,7 +1664,7 @@ def _run_turn(user_prompt, steps, state=None):
         # them — it is also the shape of a genuinely free one, which is why this is put to
         # the critic rather than counted as a defect. If it were counted as one, an
         # itinerary would be sent back for a fix over a breakfast the hotel includes.
-        suspect = audit.check_costs(draft)
+        suspect = audit.check_costs(draft, prof)
         # The review is optional; writing the plan up is not. With little time left, skipping
         # it leaves the formatter enough to work with — a good plan reviewed by nobody beats
         # a reviewed plan nobody can read.

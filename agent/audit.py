@@ -308,7 +308,15 @@ _COST_EXPLAINED = re.compile(
 _MIN_ITEMS_FOR_TOTAL = 4
 
 
-def check_costs(plan):
+# Rough per-person ceiling for a single meal, by budget tier, in EUR. Deliberately generous:
+# this is a smell test for a price that contradicts the stated tier, not a price list, and it
+# is reported to the critic as a question rather than asserted as a defect. Per-person price
+# FLOORS were tried here once and removed — they overwrote costs that had been researched
+# correctly. A ceiling is the opposite case and does not rewrite anything.
+_MEAL_CEILING_EUR = {"low": 20, "mid-range": 45, "luxury": 250}
+
+
+def check_costs(plan, profile=None):
     """Report costs that look like the live price data never reached the itinerary.
 
     Returns traveller-readable strings for the critic to judge. Nothing here rewrites the
@@ -316,13 +324,21 @@ def check_costs(plan):
     """
     out = []
     items = priced = 0
+    tier = (profile or {}).get("budget")
+    ceiling = _MEAL_CEILING_EUR.get(tier)
     for day in plan.get("days", []):
         for it in day.get("items", []):
             items += 1
-            if int(it.get("cost_eur") or 0) > 0:
-                priced += 1
-                continue
+            cost = int(it.get("cost_eur") or 0)
             name = it.get("name") or "item"
+            if cost > 0:
+                priced += 1
+                if ceiling and cost > ceiling and is_meal(name) and not is_flexible(name):
+                    out.append(f"'{name}' on day {day.get('day')} is EUR{cost} per person, "
+                               f"which reads as well above {tier} for this destination. "
+                               "Check it against the local prices given, or say in the note "
+                               "what makes it cost that.")
+                continue
             note = it.get("note") or ""
             if it.get("cost_missing"):
                 # Recorded at validation: the planner returned no usable number for this
