@@ -1017,6 +1017,12 @@ def _reflect(prof, draft, steps, run_id=None, found=None, suspect=None):
         obs.log("reflect_timeout", run_id=run_id)
         raw = None
     verdict = schemas.validate_verdict(raw)
+    # Whether the critic actually replied. `validate_verdict` defaults an unreadable reply
+    # to FAIL with empty lists, which is deliberate — an unreadable critic must never
+    # green-light a plan — but it makes "the critic failed" and "the critic found nothing"
+    # identical in the result. They mean opposite things to the traveller, so the caller
+    # needs to tell them apart.
+    verdict["answered"] = raw is not None
     # The critic may drop or reword them; these are facts, so they are re-asserted here.
     for defect in (found or []):
         if defect not in verdict["must_fix"]:
@@ -1479,6 +1485,20 @@ def _run_turn(user_prompt, steps, state=None):
     decision = _profile(conversation, has_plan=bool(prior_plan))
     missing = decision["missing"]
 
+    # A stored profile answers for whatever this turn did not restate. Intake re-extracts
+    # from the transcript alone, so a short follow-up on a conversation the server already
+    # holds — "what does day 2 cost?" sent with its conversation_id — reads as a brand-new
+    # request with every required field missing, and the traveller is asked where they want
+    # to go while their itinerary is on screen. Only gaps are filled: anything the turn did
+    # state still wins, so changing a required field is still seen and still re-confirmed.
+    if missing and prior_profile:
+        merged = dict(prior_profile)
+        merged.update({k: v for k, v in schemas.as_obj(decision["profile"]).items()
+                       if v not in (None, "", [], {})})
+        if not schemas.missing_required(merged):
+            obs.log("intake_filled_from_state", run_id=run_id, filled=missing)
+            decision["profile"], missing = merged, []
+
     # ---- Branch A: required info still missing -> ask, stop (no planner, no token waste). ----
     if missing:
         question = decision["question"] or _fallback_question(missing)
@@ -1676,7 +1696,12 @@ def _run_turn(user_prompt, steps, state=None):
             # "fully validated".
             if v["must_fix"]:
                 _unfixed(v["must_fix"])
-            elif not v["be_aware"]:
+            elif not v["answered"]:
+                # Only when the critic genuinely did not answer. This used to fire whenever
+                # it returned nothing at all, which is also what a clean second pass looks
+                # like after the fix cycle repaired everything the first pass found — so a
+                # plan whose defects had all been corrected was delivered under a banner
+                # saying it had not been validated.
                 warnings.append(
                     "The reviewer could not complete its check, so this itinerary has not "
                     "been validated. Times, opening hours and costs are worth confirming "

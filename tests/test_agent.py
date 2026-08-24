@@ -1300,3 +1300,57 @@ def test_the_wall_leaves_room_for_the_platform_cap():
     assert MAX_RUN_SECONDS < HARD_WALL_SECONDS
     assert HARD_WALL_SECONDS <= 250, "a real run past this was killed by the platform"
 
+
+
+def test_a_clean_second_review_is_not_reported_as_a_failed_one(patched_agent):
+    """Regression from a real recorded run. The first review found two defects, the fix pass
+    corrected both, and the second review returned nothing — which is what a clean plan looks
+    like. The code read "said nothing" as "could not answer" and delivered a correct
+    itinerary under a banner saying it had not been validated.
+    """
+    from unittest.mock import patch
+    from agent import agent as mod
+
+    prof = {"destination": "Rome", "days": 1, "group": "2 friends", "budget": "mid-range"}
+    draft = {"days": [{"day": 1, "title": "D1", "items": [
+        {"time": "09:00", "name": "Colosseum", "venue": "Colosseum",
+         "duration_min": 120, "cost_eur": 20}]}], "total_cost_eur": 20}
+
+    # The critic replies, and has nothing to report.
+    with patch.object(mod, "_chat_json", lambda *a, **k: {"verdict": "PASS",
+                                                          "must_fix": [], "be_aware": []}):
+        v = mod._reflect(prof, draft, [], run_id="t")
+    assert v["answered"] is True
+
+    # The critic does not reply at all (a timeout degrades raw to None).
+    with patch.object(mod, "_chat_json", lambda *a, **k: None):
+        v = mod._reflect(prof, draft, [], run_id="t")
+    assert v["answered"] is False
+    assert v["verdict"] == "FAIL", "an unreadable critic must never green-light a plan"
+
+
+def test_a_bare_follow_up_uses_the_stored_profile(patched_agent):
+    """The README promises conversation_id retrieves the stored profile AND plan, but the
+    clarify gate ran against the profile intake re-extracted from the transcript alone. So
+    "what does day 2 cost?" sent with its conversation_id was answered with "where would you
+    like to go?" while the server was holding that traveller's itinerary.
+    """
+    from unittest.mock import patch
+    from agent import agent as mod
+
+    profile = {"destination": "Rome", "days": 3, "group": "2 friends",
+               "budget": "mid-range", "walking": "high"}
+    plan = {"days": [{"day": 2, "title": "D2", "items": [
+        {"time": "09:00", "name": "Colosseum", "venue": "Colosseum",
+         "duration_min": 120, "cost_eur": 20}]}], "total_cost_eur": 20}
+
+    # Intake sees only the question, so it extracts nothing and reports everything missing.
+    empty = {"profile": {}, "missing": ["destination", "days", "budget", "group"],
+             "confirmed": False, "question": "Where would you like to go?", "intent": "question"}
+    with patch.object(mod, "_profile", lambda *a, **k: dict(empty)), \
+         patch.object(mod, "_answer_question", lambda *a, **k: "Day 2 costs EUR20 per person."):
+        out = mod._run_turn("what does day 2 cost per person?", [],
+                            state={"profile": profile, "plan": plan})
+
+    assert out["branch"] == "question", f"routed to {out['branch']} instead of answering"
+    assert "EUR20" in out["response"]
