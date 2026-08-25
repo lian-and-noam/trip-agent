@@ -21,3 +21,7 @@ __pycache__
 # Local artifacts from recording examples
 out*.json
 run.log
+
+# Local artifacts from recording examples
+out*.json
+run.log

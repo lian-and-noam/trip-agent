@@ -97,6 +97,22 @@ def _expired(deadline, reserve=0):
     return deadline is not None and time.monotonic() >= deadline - reserve
 
 
+def _in_region(city_coords, result):
+    """True unless the result has coordinates that put it far from the destination.
+
+    Unknown coordinates pass: this rejects places we can prove are elsewhere, and refusing
+    everything we cannot check would empty the salvage list on the runs that need it most.
+    """
+    if not city_coords:
+        return True
+    try:
+        lat, lon = float(result["lat"]), float(result["lon"])
+    except (KeyError, TypeError, ValueError):
+        return True
+    return audit.km_between(float(city_coords["lat"]), float(city_coords["lon"]),
+                            lat, lon) <= MAX_VENUE_KM
+
+
 def _abort_plan(prof, steps, run_id, reason="the run deadline was reached", venues=None):
     """Return a valid plan without spending an LLM call, for when time has run out.
 
@@ -652,7 +668,9 @@ def _forecast_for(prof, coords):
     if not coords:
         return None
     try:
-        data = run_tool("weather_tool", {"location": prof.get("destination", "")})
+        # Reuse the coordinates from the destination geocode rather than paying for another.
+        data = run_tool("weather_tool", {"location": prof.get("destination", ""),
+                                         "lat": coords.get("lat"), "lon": coords.get("lon")})
     except Exception:
         return None
     if not isinstance(data, dict) or not data.get("ok"):
@@ -661,8 +679,16 @@ def _forecast_for(prof, coords):
             for d in (data.get("daily") or [])[:8]]
 
 
+# How far from the destination a looked-up place may be and still belong to the trip.
+# Geoapify answers a query it cannot match with the nearest thing it CAN match, so a search
+# for the 9/11 Memorial came back with the Oklahoma City National Memorial, and the salvage
+# path put it in a New York itinerary. Generous enough for a day trip, tight enough to catch
+# another state.
+MAX_VENUE_KM = int(os.environ.get("MAX_VENUE_KM", "150"))
+
+
 def _plan(prof, steps, feedback=None, run_id=None, deadline=None, draft=None,
-          forecast=None, prices=None, hours_seen=None, coords_seen=None):
+          forecast=None, prices=None, hours_seen=None, coords_seen=None, city_coords=None):
     usage.set_module("ReAct Planner")
     sys = (
         "You are the ReAct Planner for a trip. Work in a Thought -> Action -> Observation loop.\n"
@@ -727,6 +753,12 @@ def _plan(prof, steps, feedback=None, run_id=None, deadline=None, draft=None,
             user += "\n\nCurrent plan:\n" + json.dumps(draft, ensure_ascii=False)
     msgs = [{"role": "system", "content": sys}, {"role": "user", "content": user}]
 
+    # Room for the draft to come back whole. 3000 was sized for a 3-day plan; a 5-day one
+    # with full days is close to it, and a draft that truncates mid-object is unparseable —
+    # which costs a repair retry (a whole extra call, ~36s) and often the rest of the run.
+    # A ceiling costs nothing when it is not used, so it scales with the trip instead.
+    plan_tokens = min(6000, 1800 + 450 * max(1, int(prof.get("days") or 1)))
+
     seen_calls = set()  # repetition guard: (tool, canonical tool_input)
     tool_seconds = [0.0]
     failures = [0]         # consecutive failed lookups; see MAX_TOOL_FAILURES
@@ -754,7 +786,7 @@ def _plan(prof, steps, feedback=None, run_id=None, deadline=None, draft=None,
         # attempt: unparseable -> repair retry -> ~36s burned -> repeat until the deadline.
         # This is a ceiling, not a target — tool-call turns still emit tiny JSON.
         try:
-            turn = _chat_json(msgs, temperature=0.3, max_tokens=3000)
+            turn = _chat_json(msgs, temperature=0.3, max_tokens=plan_tokens)
         except (ConfigError, CallLimitExceeded):
             # Misconfiguration and the spend guard must fail loudly: neither is a transient
             # fault and both need an operator, not a degraded itinerary.
@@ -814,7 +846,11 @@ def _plan(prof, steps, feedback=None, run_id=None, deadline=None, draft=None,
                 for result in (observation.get("results") or []
                                if isinstance(observation, dict) else []):
                     if isinstance(result, dict) and result.get("name"):
-                        venues_seen.append(result["name"])
+                        if _in_region(city_coords, result):
+                            venues_seen.append(result["name"])
+                        else:
+                            obs.log("venue_out_of_region", run_id=run_id,
+                                    venue=result.get("name"))
             _trace(steps, "ReAct Planner",
                    {"thought": (turn or {}).get("thought"), "tool": tool, "tool_input": tool_input},
                    {"observation": observation})
@@ -836,7 +872,7 @@ def _plan(prof, steps, feedback=None, run_id=None, deadline=None, draft=None,
     msgs.append({"role": "user",
                  "content": 'Stop now. Return ONLY {"thought":"...","done":true,"draft_plan":{...}}.'})
     try:
-        turn = _chat_json(msgs, temperature=0.2, max_tokens=3000)   # see the loop call above
+        turn = _chat_json(msgs, temperature=0.2, max_tokens=plan_tokens)  # see the loop call
     except Exception as e:
         # Whatever went wrong — a timeout, a provider 5xx, a malformed reply — the research
         # already done is worth keeping. Salvage lays those venues out rather than binning
@@ -1187,11 +1223,22 @@ def _format_fallback(prof, plan, coords=None):
                 out.append(f"  - {it['note']}")
             # The name already links to the directions when this is a leg; repeating the URL
             # on the detail line would be the same link twice on one bullet.
-            out.append(f"  - {it.get('duration_min', 0)} min · €{it.get('cost_eur', 0)} per person")
+            # An item nobody priced is not an item that costs nothing. Saying "€0" about a
+            # museum the run never got round to checking is a claim about money, and on a
+            # salvaged plan it produced a five-day New York trip totalling zero.
+            cost = ("price not checked" if it.get("cost_missing")
+                    else f"€{it.get('cost_eur', 0)} per person")
+            out.append(f"  - {it.get('duration_min', 0)} min · {cost}")
             out.append("")          # blank line between items keeps the times scannable
-        out += ["", f"_Day total: €{sum(i.get('cost_eur', 0) for i in items)}_"]
+        if any(i.get("cost_missing") for i in items):
+            out += ["", "_Day total: not priced_"]
+        else:
+            out += ["", f"_Day total: €{sum(i.get('cost_eur', 0) for i in items)}_"]
         out.append("")
-    out.append(f"**Total: €{plan.get('total_cost_eur', 0)} per person**")
+    unpriced = any(i.get("cost_missing")
+                   for d in plan.get("days", []) for i in d.get("items", []))
+    out.append("_Costs were not worked out for this itinerary._" if unpriced
+               else f"**Total: €{plan.get('total_cost_eur', 0)} per person**")
     return "\n".join(out)
 
 
@@ -1632,7 +1679,7 @@ def _run_turn(user_prompt, steps, state=None):
     forecast, prices = _forecast_for(prof, coords), _prices_for(prof)
     draft = _plan(prof, steps, run_id=run_id, deadline=deadline,
                   forecast=forecast, prices=prices, hours_seen=hours_seen,
-                  coords_seen=coords_seen)
+                  coords_seen=coords_seen, city_coords=coords)
     notes = []          # advisory travel tips; shown apart from the defect warnings
     unresolved = []     # defects being shipped rather than fixed; see _unfixed() below
 

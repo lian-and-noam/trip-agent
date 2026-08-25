@@ -301,3 +301,25 @@ def test_a_sensible_meal_price_is_not_questioned():
          "duration_min": 90, "cost_eur": 28, "note": "Mid-range trattoria."}]}],
         "total_cost_eur": 28}
     assert audit.check_costs(plan, {"budget": "mid-range"}) == []
+
+
+def test_salvage_keeps_every_requested_day():
+    """From a real run: 8 venues over a 5-day trip filled four days and dropped day 5, so a
+    five-day request came back as a four-day itinerary. The Plan Editor then refuses to
+    repair it, because adding a day is not an edit it is allowed to make."""
+    plan = audit.salvage_plan({"days": 5, "destination": "nyc"},
+                              ["A", "B", "C", "D", "E", "F", "G", "H"])
+    assert [d["day"] for d in plan["days"]] == [1, 2, 3, 4, 5]
+    assert all(d["items"] for d in plan["days"]), "no day may render as empty"
+
+
+def test_salvage_fills_a_day_it_has_no_venue_for():
+    plan = audit.salvage_plan({"days": 3, "destination": "Rome"}, ["Colosseum"])
+    assert len(plan["days"]) == 3
+    assert "Explore Rome" in plan["days"][2]["items"][0]["name"]
+
+
+def test_km_between_is_sane():
+    # New York -> Oklahoma City, the pair that put a memorial in the wrong state.
+    assert 2000 < audit.km_between(40.7128, -74.0060, 35.4676, -97.5164) < 2250
+    assert audit.km_between(40.7128, -74.0060, 40.7484, -73.9857) < 5

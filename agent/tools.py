@@ -117,8 +117,14 @@ def geocode_place(place):
 
 
 # ---- Real ----
-def weather_tool(location=None, date=None, **_):
-    geo = _geocode(location or "")
+def weather_tool(location=None, date=None, lat=None, lon=None, **_):
+    # Coordinates win when the caller already has them: the orchestrator geocodes the
+    # destination to validate it, and re-resolving the same place name here was a second
+    # HTTP round trip on the critical path for an answer already in hand.
+    if lat is not None and lon is not None:
+        geo = {"lat": lat, "lon": lon, "name": location or "", "country": ""}
+    else:
+        geo = _geocode(location or "")
     if not geo:
         return {"ok": False, "error_type": "not_found", "note": f'Could not geocode "{location}"'}
     try:

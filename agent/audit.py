@@ -11,6 +11,7 @@ Nothing here rewrites the plan. Every check reports and lets the critic decide �
 the cost checks, which used to impose per-person food-price floors and no longer do: the
 floor overwrote costs that had been researched correctly.
 """
+import math
 import re
 
 # --- Meal venues -----------------------------------------------------------------------
@@ -229,6 +230,15 @@ def check_opening_hours(plan, hours_by_venue):
 # --- Salvage ------------------------------------------------------------------------------
 # Fallback times for a day assembled without the planner. Deliberately plain: this runs when
 # the model could not finish, so the aim is a usable shape, not a clever one.
+def km_between(a_lat, a_lon, b_lat, b_lon):
+    """Great-circle distance in km. Used to reject a lookup that landed in another region."""
+    r_lat1, r_lat2 = math.radians(a_lat), math.radians(b_lat)
+    d_lat, d_lon = math.radians(b_lat - a_lat), math.radians(b_lon - a_lon)
+    h = (math.sin(d_lat / 2) ** 2
+         + math.cos(r_lat1) * math.cos(r_lat2) * math.sin(d_lon / 2) ** 2)
+    return 2 * 6371.0 * math.asin(min(1.0, math.sqrt(h)))
+
+
 _SALVAGE_SLOTS = [("09:00", 120), ("11:30", 90), ("13:30", 60), ("15:00", 120),
                   ("17:30", 90), ("19:30", 90)]
 
@@ -248,19 +258,33 @@ def salvage_plan(profile, venues):
         return None
 
     days_count = max(1, int(profile.get("days") or 1))
-    per_day = max(1, -(-len(named) // days_count))       # ceiling division
+    dest = profile.get("destination") or "town"
+
+    # Round-robin, not consecutive chunks. Chunking gave every day `ceil(n/days)` venues and
+    # broke out of the loop on the first empty chunk, so eight venues over five days filled
+    # four days and DROPPED day 5 — a five-day trip delivered as a four-day itinerary, which
+    # the Plan Editor then refuses to repair because adding a day is not an edit it allows.
+    # Dealing round-robin spreads the shortfall across the days instead of off the end.
+    buckets = [[] for _ in range(days_count)]
+    for i, venue in enumerate(named[:days_count * len(_SALVAGE_SLOTS)]):
+        buckets[i % days_count].append(venue)
+
     days = []
-    for index in range(days_count):
-        chunk = named[index * per_day:(index + 1) * per_day]
-        if not chunk:
-            break
-        items = []
-        for slot, (time_str, minutes) in zip(chunk, _SALVAGE_SLOTS):
-            items.append({"time": time_str, "name": slot, "venue": slot,
-                          "duration_min": minutes, "cost_eur": 0,
-                          "note": "Times are a suggestion — check opening hours before you go."})
-        days.append({"day": index + 1,
-                     "title": f"Day {index + 1} in {profile.get('destination') or 'town'}",
+    for index, chunk in enumerate(buckets):
+        # cost_missing, not a price of zero. Salvage knows the names of places and nothing
+        # else; presenting that as free is a claim about money the run never checked.
+        items = [{"time": time_str, "name": venue, "venue": venue,
+                  "duration_min": minutes, "cost_eur": 0, "cost_missing": True,
+                  "note": "Times are a suggestion — check opening hours before you go."}
+                 for venue, (time_str, minutes) in zip(chunk, _SALVAGE_SLOTS)]
+        if not items:
+            # Fewer venues than days. An empty day renders as "(No items planned.)", which
+            # reads as a bug; say what the day is instead.
+            items = [{"time": "09:00", "name": f"Explore {dest} (self-guided)",
+                      "venue": dest, "duration_min": 240, "cost_eur": 0,
+                      "cost_missing": True,
+                      "note": "The planner ran out of time before filling this day."}]
+        days.append({"day": index + 1, "title": f"Day {index + 1} in {dest}",
                      "items": items})
     if not days:
         return None

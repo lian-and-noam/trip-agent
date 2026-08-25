@@ -1354,3 +1354,54 @@ def test_a_bare_follow_up_uses_the_stored_profile(patched_agent):
 
     assert out["branch"] == "question", f"routed to {out['branch']} instead of answering"
     assert "EUR20" in out["response"]
+
+
+def test_a_lookup_in_another_state_is_not_kept_as_a_venue(patched_agent):
+    """Geoapify answers a query it cannot match with the nearest thing it can, so a search
+    for the 9/11 Memorial returned the Oklahoma City National Memorial — and the salvage path
+    put it in a New York itinerary."""
+    from agent import agent as mod
+    nyc = {"lat": 40.7128, "lon": -74.0060}
+    assert mod._in_region(nyc, {"name": "9/11 Memorial", "lat": 40.7115, "lon": -74.0134})
+    assert not mod._in_region(nyc, {"name": "Oklahoma City National Memorial",
+                                    "lat": 35.4676, "lon": -97.5164})
+    # Unknown coordinates pass: this rejects what it can disprove, nothing else.
+    assert mod._in_region(nyc, {"name": "Somewhere"})
+    assert mod._in_region(None, {"name": "x", "lat": 35.4, "lon": -97.5})
+
+
+def test_an_unpriced_plan_does_not_render_as_free(patched_agent):
+    """A salvaged five-day New York trip rendered every item at EUR0 and closed with
+    "Total: EUR0 per person". Salvage knows place names and nothing else — presenting that
+    as free is a claim about money the run never checked."""
+    from agent import agent as mod, audit
+    prof = {"days": 2, "destination": "nyc", "group": "solo", "budget": "low"}
+    text = mod._format_fallback(prof, audit.salvage_plan(prof, ["MoMA", "High Line"]))
+    assert "€0" not in text
+    assert "price not checked" in text
+    assert "Costs were not worked out" in text
+
+
+def test_the_draft_budget_scales_with_the_trip(patched_agent):
+    """3000 tokens was sized for a 3-day plan. A 5-day one with full days is close to it, and
+    a draft truncated mid-object is unparseable — costing a repair retry and often the run."""
+    from unittest.mock import patch
+    from agent import agent as mod
+
+    seen = []
+
+    def fake_chat(msgs, temperature, max_tokens, **kw):
+        seen.append(max_tokens)
+        return {"thought": "done", "done": True, "draft_plan": {"days": [
+            {"day": 1, "title": "D1", "items": [{"time": "09:00", "name": "X", "venue": "X",
+                                                 "duration_min": 60, "cost_eur": 5}]}],
+            "total_cost_eur": 5}}
+
+    with patch.object(mod, "_chat_json", fake_chat):
+        mod._plan({"destination": "Rome", "days": 3, "group": "solo", "budget": "low"}, [])
+        three = seen[-1]
+        mod._plan({"destination": "nyc", "days": 7, "group": "solo", "budget": "low"}, [])
+        seven = seen[-1]
+
+    assert seven > three, "a longer trip needs more room to come back whole"
+    assert seven <= 6000, "but still bounded"
