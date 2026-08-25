@@ -17,3 +17,7 @@ __pycache__
 # Recorded LLM responses used to develop without spending budget. Local only —
 # they can contain full prompts and model output.
 .cassettes
+
+# Local artifacts from recording examples
+out*.json
+run.log
