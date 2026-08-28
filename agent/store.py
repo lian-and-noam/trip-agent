@@ -67,16 +67,16 @@ def _request(method, path, **kw):
 
 # ---- conversations -----------------------------------------------------------------
 def get_conversation(conversation_id):
-    """Return {profile, plan, title, device_id} for a conversation, or None."""
+    """Return {profile, plan, title} for a conversation, or None."""
     if not conversation_id:
         return None
     rows = _request("GET", "conversations",
                     params={"id": f"eq.{conversation_id}",
-                            "select": "id,device_id,profile,plan,title", "limit": 1})
+                            "select": "id,profile,plan,title", "limit": 1})
     return (rows or [None])[0] if isinstance(rows, list) else None
 
 
-def save_conversation(conversation_id, device_id=None, profile=None, plan=None, title=None):
+def save_conversation(conversation_id, profile=None, plan=None, title=None):
     """Upsert the current state of a conversation. Returns True on success."""
     if not conversation_id:
         return False
@@ -84,8 +84,7 @@ def save_conversation(conversation_id, device_id=None, profile=None, plan=None, 
     # PostgREST would pass a client-supplied "now()" through as a string literal, and
     # Postgres rejects 'now()' as timestamptz input, failing every write silently.
     row = {"id": conversation_id}
-    for k, v in (("device_id", device_id), ("profile", profile),
-                 ("plan", plan), ("title", title)):
+    for k, v in (("profile", profile), ("plan", plan), ("title", title)):
         if v is not None:
             row[k] = v
     out = _request("POST", "conversations", json=row,

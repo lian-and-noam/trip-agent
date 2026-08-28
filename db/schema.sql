@@ -18,7 +18,6 @@
 -- ===========================================================================
 create table if not exists public.conversations (
   id          uuid primary key,
-  device_id   uuid,
   title       text,
   profile     jsonb,
   plan        jsonb,
@@ -26,8 +25,8 @@ create table if not exists public.conversations (
   updated_at  timestamptz not null default now()
 );
 
-create index if not exists conversations_device_idx
-  on public.conversations (device_id, updated_at desc);
+-- device_id was removed: the conversation id is the only identifier, and a second one
+-- that nothing checked was storage pretending to be access control.
 
 -- ===========================================================================
   id                bigserial primary key,

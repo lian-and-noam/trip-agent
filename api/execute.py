@@ -1,8 +1,7 @@
 """POST /api/execute — main entry point.
 
 Body: {"prompt": "..."}                                  -> {"status", "error", "response", "steps"}
-      {"prompt": "...", "conversation_id": "...",        (optional, enables the revision path)
-       "device_id": "..."}
+      {"prompt": "...", "conversation_id": "..."}        (optional, enables the revision path)
 
 The response envelope is fixed by the project brief and never gains fields. Conversation
 state travels the other way: the client owns an anonymous conversation id, the server looks
@@ -77,8 +76,10 @@ class handler(BaseHTTPRequestHandler):
             if len(prompt) > MAX_PROMPT_CHARS:
                 return self._envelope("error", f"'prompt' too long (max {MAX_PROMPT_CHARS} characters).")
 
+            # The conversation id IS the capability: a v4 UUID minted by the client and
+            # known only to it. There is no second identifier to check it against, and
+            # adding one would be an authentication guard, which the brief forbids.
             conversation_id = _as_uuid(payload.get("conversation_id"))
-            device_id = _as_uuid(payload.get("device_id"))
 
             # Prior state is best-effort: if Supabase is unconfigured or slow, the agent
             # simply plans fresh instead of revising. It never blocks the turn.
@@ -92,7 +93,7 @@ class handler(BaseHTTPRequestHandler):
 
             state = out.get("state") or {}
             if conversation_id:
-                store.save_conversation(conversation_id, device_id=device_id,
+                store.save_conversation(conversation_id,
                                         profile=state.get("profile"), plan=state.get("plan"),
                                         title=_title_for(state.get("profile")))
             self._envelope("ok", None, response=out["response"], steps=out["steps"])

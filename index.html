@@ -657,7 +657,6 @@
     }
     return v;
   }
-  const deviceId = persistentId('trip.device');
   let conversationId = persistentId('trip.conversation');
 
   // ---- Transcript -------------------------------------------------------------------
@@ -767,7 +766,6 @@
         body: JSON.stringify({
           prompt: transcript(),
           conversation_id: conversationId,
-          device_id: deviceId,
         }),
       });
       const raw = await r.text();

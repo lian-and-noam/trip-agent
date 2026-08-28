@@ -1405,3 +1405,63 @@ def test_the_draft_budget_scales_with_the_trip(patched_agent):
 
     assert seven > three, "a longer trip needs more room to come back whole"
     assert seven <= 6000, "but still bounded"
+
+
+def test_a_formatter_that_describes_the_plan_instead_of_writing_it_is_rejected(patched_agent):
+    """From a real run: the formatter replied "Great — your 5-day, low-budget, solo NYC
+    itinerary is ready. Tell me which interests to emphasize" and that shipped as the entire
+    answer. It was non-empty, so the existing empty-reply guard let it through, and the
+    traveller was told their itinerary was ready without ever being shown it."""
+    from unittest.mock import patch
+    from agent import agent as mod
+
+    prof = {"destination": "nyc", "days": 2, "group": "solo", "budget": "low"}
+    plan = {"days": [{"day": 1, "title": "D1", "items": [
+        {"time": "09:00", "name": "Central Park walk", "venue": "Central Park",
+         "duration_min": 120, "cost_eur": 0},
+        {"time": "13:00", "name": "Lunch in Midtown", "venue": "Midtown",
+         "duration_min": 60, "cost_eur": 15}]}], "total_cost_eur": 15}
+
+    blurb = "Great — your 5-day itinerary is ready. Tell me what to change."
+    with patch.object(mod, "chat", lambda *a, **k: blurb):
+        text = mod._format(prof, plan, [], run_id="t")
+    assert blurb not in text, "a description of the plan is not the plan"
+    assert "Central Park walk" in text, "the deterministic renderer should have taken over"
+
+    real = ("# 2-day itinerary\n- **09:00** — Central Park walk\n"
+            "- **13:00** — Lunch in Midtown\n")
+    with patch.object(mod, "chat", lambda *a, **k: real):
+        assert "Central Park walk" in mod._format(prof, plan, [], run_id="t")
+
+
+def test_the_planner_is_told_when_research_time_is_nearly_gone(patched_agent):
+    """A planner cut off mid-research hands the forced finalize a half-finished picture, and
+    that is what produced a five-day New York skeleton. Telling it the clock is nearly out
+    lets it spend its last turn writing the plan it already has the facts for."""
+    from unittest.mock import patch
+    from agent import agent as mod
+
+    prof = {"destination": "nyc", "days": 5, "group": "solo", "budget": "low"}
+    seen, clock = [], {"t": 0.0}
+
+    def fake_chat(msgs, **kw):
+        seen.append(msgs[-1]["content"])
+        clock["t"] += 40                       # burn the budget as the loop runs
+        if "draft_plan now" in msgs[-1]["content"] or "Stop now" in msgs[-1]["content"]:
+            return {"thought": "ok", "done": True, "draft_plan": {"days": [
+                {"day": 1, "title": "D1", "items": [{"time": "09:00", "name": "X",
+                                                     "venue": "X", "duration_min": 60,
+                                                     "cost_eur": 5}]}], "total_cost_eur": 5}}
+        return {"thought": "look", "tool": "maps_tool", "tool_input": {"query": "x"}}
+
+    with patch.object(mod, "_chat_json", fake_chat), \
+         patch.object(mod, "run_tool", lambda *a, **k: {"ok": True, "results": []}), \
+         patch.object(mod.time, "monotonic", lambda: clock["t"]):
+        plan = mod._plan(prof, [], run_id="t", deadline=mod.MAX_RUN_SECONDS)
+
+    warned = [m for m in seen if "Time is nearly up" in m]
+    assert warned, "the planner was never told the clock was running out"
+    assert not plan.get("timed_out"), "it should have finalized rather than been aborted"
+    # The nudge must not fire on a run with plenty of time left.
+    early = [m for m in seen[:1] if "Time is nearly up" in m]
+    assert not early, "warned on the first turn, with the whole budget still available"

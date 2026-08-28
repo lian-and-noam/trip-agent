@@ -55,7 +55,7 @@ def test_conversation_round_trip_shape(monkeypatch):
             pass
 
         def json(self):
-            return [{"id": "x", "device_id": "d", "profile": {"days": 3},
+            return [{"id": "x", "profile": {"days": 3},
                      "plan": {"days": []}, "title": "t"}]
 
     def fake(method, url, **kw):

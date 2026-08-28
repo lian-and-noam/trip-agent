@@ -133,15 +133,15 @@ so it is passed by reference instead:
 ```json
 {
   "prompt": "User: 5 days in Rome…\nAgent: [delivered an itinerary]\nUser: make day 2 lighter",
-  "conversation_id": "8f14e45f-ceea-467a-9f8b-2c1d3e4a5b6c",
-  "device_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+  "conversation_id": "8f14e45f-ceea-467a-9f8b-2c1d3e4a5b6c"
 }
 ```
 
 `conversation_id` retrieves the stored profile and plan so a revision patches the existing
-itinerary rather than replanning the trip. `device_id` identifies an anonymous traveller
-across conversations. Both are optional: a request carrying only `prompt` works, it simply
-plans afresh each time.
+itinerary rather than replanning the trip. It is a v4 UUID the client mints and keeps, and
+knowing it is what grants access to that conversation — there is no second identifier,
+because a login is exactly what the brief rules out. It is optional: a request carrying only
+`prompt` works, it simply plans afresh each time.
 
 Errors return the same envelope with `"status": "error"`, a human-readable `error`, and the
 steps completed before the failure.

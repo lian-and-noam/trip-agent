@@ -66,6 +66,13 @@ MAX_OBS_CHARS = 1200      # trim tool observations fed back to the model to keep
 # whole tail of the run; the reflection cycles after it have their own deadline checks.
 PLAN_WRITE_RESERVE_SECONDS = int(os.environ.get("PLAN_WRITE_RESERVE_SECONDS", "60"))
 
+# When less than this is left, say so in the observation. The reserve above still stops
+# research on its own, but being cut off mid-research and choosing to stop are different
+# plans: the first hands the forced finalize a half-finished picture, the second lets the
+# planner spend its last turn writing the itinerary it already has the facts for. Costs
+# about twenty tokens, and only on the runs that are actually short of time.
+RESEARCH_LOW_WATER_SECONDS = int(os.environ.get("RESEARCH_LOW_WATER_SECONDS", "100"))
+
 # Wall-clock budget for one turn. Vercel terminates the function at vercel.json's
 # maxDuration (300s) — a termination no code here can catch, because the interpreter is
 # killed rather than raised in, so the traveller gets a 504 instead of the degraded reply
@@ -862,8 +869,15 @@ def _plan(prof, steps, feedback=None, run_id=None, deadline=None, draft=None,
 
         # Keep context lean: assistant turn plus the trimmed observation only.
         obs_json = json.dumps(observation, ensure_ascii=False)[:MAX_OBS_CHARS]
+        tail = "\nContinue."
+        if deadline is not None:
+            left = int(deadline - time.monotonic())
+            if left < RESEARCH_LOW_WATER_SECONDS:
+                tail = ("\nTime is nearly up: stop looking things up and return your "
+                        "draft_plan now, covering every day, using what you already know.")
+                obs.log("research_low_water", run_id=run_id, left=left)
         msgs.append({"role": "assistant", "content": json.dumps(turn, ensure_ascii=False) if turn is not None else "{}"})
-        msgs.append({"role": "user", "content": "Observation: " + obs_json + "\nContinue."})
+        msgs.append({"role": "user", "content": "Observation: " + obs_json + tail})
 
     # Safety net: force a finalize and always return a valid plan (never None). Attempted
     # even with the research budget spent — that is the normal way the loop ends, and this
@@ -1311,7 +1325,7 @@ def _format(prof, plan, steps, run_id=None, warnings=None, coords=None, deadline
             obs.log("format_failed", run_id=run_id, error=type(e).__name__)
             text = ""
 
-    if not text.strip():
+    if not _looks_like_itinerary(text, plan):
         text = _format_fallback(prof, plan, coords)
         _trace(steps, "Output Formatter", {"plan": linked},
                {"itinerary_markdown": text, "fallback": True})
@@ -1321,6 +1335,28 @@ def _format(prof, plan, steps, run_id=None, warnings=None, coords=None, deadline
     text = _space_bullets(text)
     _trace(steps, "Output Formatter", {"plan": linked}, {"itinerary_markdown": text})
     return text
+
+
+def _looks_like_itinerary(text, plan):
+    """True when the formatter actually rendered the plan.
+
+    An empty reply was already caught. This also catches a NON-empty one that describes the
+    itinerary instead of writing it — "Great, your 5-day itinerary is ready. Tell me what to
+    change" — which shipped as the whole answer, announcing a plan the traveller never saw.
+
+    The test is the plan's own content: a rendering of it names the places in it. Deliberately
+    lenient — a third of them, or three, whichever is smaller — so an unusual but real
+    itinerary is never thrown away for phrasing.
+    """
+    body = (text or "").strip()
+    if not body:
+        return False
+    names = [n for n in ((it.get("name") or "").strip()
+                         for day in plan.get("days", []) for it in day.get("items", [])) if n]
+    if not names:
+        return True                       # nothing to check it against; keep what we have
+    hits = sum(1 for n in names if n.lower() in body.lower())
+    return hits >= min(3, max(1, len(names) // 3))
 
 
 def _safe_geocode(name):
