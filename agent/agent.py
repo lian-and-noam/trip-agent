@@ -753,8 +753,14 @@ def _plan(prof, steps, feedback=None, run_id=None, deadline=None, draft=None,
     )
     user = "Traveller profile:\n" + json.dumps(schemas.compact_profile(prof), ensure_ascii=False)
     if prices:
+        # Inlined as prose, not as {"summary": ..., "sources": [...]}. Handed the JSON, the
+        # planner wrote our key names into traveller-facing notes — "~EUR18 (source summary)"
+        # — which is the plan citing a variable rather than a price.
+        lines = [prices.get("summary") or ""]
+        lines += [str(x) for x in (prices.get("sources") or [])]
         user += ("\n\nCurrent local prices, from a live search. Cost the itinerary from these "
-                 "rather than from memory:\n" + json.dumps(prices, ensure_ascii=False))
+                 "rather than from memory, and do not mention where they came from:\n"
+                 + "\n".join(x for x in lines if x))
     if forecast:
         # Handed over rather than left for the planner to fetch: it is the same data, minus
         # an LLM round trip spent deciding to ask for it.
@@ -1262,13 +1268,23 @@ def _format_fallback(prof, plan, coords=None):
                    for d in plan.get("days", []) for i in d.get("items", []))
     out.append("_Costs were not worked out for this itinerary._" if unpriced
                else f"**Total: €{plan.get('total_cost_eur', 0)} per person**")
-    return "\n".join(out)
+    return _escape_tildes("\n".join(out))
 
 
 # Markdown needs a blank line between list items for them to render as separate blocks. The
 # formatter is asked for one, but a model that runs the bullets together produces a wall of
 # text, so the spacing is guaranteed here instead of hoped for.
 _TOP_BULLET = re.compile(r"(?m)^(?=[-*] )")
+
+# A tilde is markdown, and planners write a lot of them: "~EUR14 ... alternative: taxi
+# (~EUR50)" draws a strikethrough from the first to the second and the reader sees the price
+# crossed out. Escaped rather than removed, because "~EUR14" means something the reader wants.
+_LONE_TILDE = re.compile(r"(?<!\\)~")
+
+
+def _escape_tildes(text):
+    """Escape tildes so approximate prices render as written instead of as strikethrough."""
+    return _LONE_TILDE.sub(r"\\~", text or "")
 
 
 def _space_bullets(text):
@@ -1341,7 +1357,7 @@ def _format(prof, plan, steps, run_id=None, warnings=None, coords=None, deadline
         obs.log("format_empty_fallback", run_id=run_id)
         return text
 
-    text = _space_bullets(text)
+    text = _escape_tildes(_space_bullets(text))
     _trace(steps, "Output Formatter", {"plan": linked}, {"itinerary_markdown": text})
     return text
 

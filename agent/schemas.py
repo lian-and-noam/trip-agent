@@ -320,9 +320,24 @@ def _decode_literal_escapes(text):
     return _LITERAL_ESCAPE.sub(sub, text)
 
 
+# Names of our own machinery, which the planner is told not to mention and mentions anyway:
+# "~EUR18 (source summary)" cites a field of the prices object, and "(maps_tool hours: ...)"
+# names the tool that fetched them. The traveller is reading an itinerary, not a trace. The
+# tool name is dropped and the surrounding parenthetical kept, because "(hours: 08:30-19:15)"
+# is worth having; a bare "(source summary)" carries nothing and goes entirely.
+_SOURCE_ASIDE = re.compile(r"\s*\(\s*(?:source summary|sources?|from (?:the )?sources?)\s*\)", re.I)
+_TOOL_NAME = re.compile(
+    r"\b(?:maps_tool|search_tool|reviews_tool|weather_tool|booking_tool|"
+    r"flight_search_tool|booking_confirm_tool|flight_book_tool|tool_input|observation)\b[:\s]*",
+    re.I)
+
+
 def clean_text(value):
-    """A display-safe string: no control characters, no lone surrogates, tidy whitespace."""
-    return " ".join(_BAD_CHARS.sub("", _decode_literal_escapes(_as_str(value))).split())
+    """A display-safe string: no control characters, no lone surrogates, no names of our own
+    internals, tidy whitespace."""
+    text = _BAD_CHARS.sub("", _decode_literal_escapes(_as_str(value)))
+    text = _TOOL_NAME.sub("", _SOURCE_ASIDE.sub("", text))
+    return " ".join(text.split())
 
 
 # A venue is fed to a map search, so it has to be an address-like name. Trailing notes such

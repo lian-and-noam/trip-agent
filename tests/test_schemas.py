@@ -232,3 +232,15 @@ def test_a_missing_cost_is_recorded_as_missing_not_as_free():
         assert "cost_missing" not in it          # a stated 0 is a price, not an omission
     # The total still sums cleanly with an unpriced item present.
     assert s.validate_draft_plan(day({}))["total_cost_eur"] == 0
+
+
+def test_internal_names_never_reach_the_traveller():
+    """From a real plan: notes cited our own field names and tool names. The planner prompt
+    forbids both and the model did it anyway, so it is enforced here instead."""
+    from agent import schemas
+    out = schemas.clean_text("Colosseum standard ticket ~EUR18 (source summary). Timed entry: "
+                             "book in advance (maps_tool hours: Mar 30-Sep 30 08:30-19:15).")
+    assert "source summary" not in out
+    assert "maps_tool" not in out
+    assert "hours: Mar 30-Sep 30 08:30-19:15" in out, "the hours themselves are worth keeping"
+    assert out.startswith("Colosseum standard ticket ~EUR18. Timed entry")
