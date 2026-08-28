@@ -1448,7 +1448,7 @@ def _salvage_response(state, steps):
             "four days are the most reliable.")
 
 
-def _with_caveats(response, warnings, notes=None):
+def _with_caveats(response, warnings, notes=None, resumable=False):
     """Prefix the user-visible banners.
 
     Two distinct things, deliberately shown separately: `warnings` are defects we could not
@@ -1461,7 +1461,14 @@ def _with_caveats(response, warnings, notes=None):
     head = ""
     if warn:
         head += ("> ⚠️ **Delivered with caveats** — this plan was not fully validated:\n"
-                 + "\n".join(f"> - {w}" for w in warn) + "\n\n")
+                 + "\n".join(f"> - {w}" for w in warn) + "\n")
+        # The defects are recorded on the plan, so the fix cycle can be re-entered — but a
+        # traveller has no way to know that from a list of problems. Saying so turns a dead
+        # end into one more message. Only shown when "continue" will actually act on them.
+        if resumable:
+            head += ('>\n> Reply **continue** and I will work through these and hand back '
+                     "the corrected itinerary.\n")
+        head += "\n"
     if note:
         head += ("> ℹ️ **Good to know before you go**:\n"
                  + "\n".join(f"> - {n}" for n in note) + "\n\n")
@@ -1495,7 +1502,8 @@ def _deliver(prof, plan, steps, run_id, deadline, warnings, notes=None, coords=N
         obs.log("format_fallback", run_id=run_id)
     else:
         response = _format(prof, plan, steps, run_id, warnings, coords, deadline)
-    return _with_caveats(response, warnings, notes)
+    return _with_caveats(response, warnings, notes,
+                         resumable=bool(plan.get("open_issues")))
 
 
 def _resume_fix(prof, plan, outstanding, steps, run_id, deadline):

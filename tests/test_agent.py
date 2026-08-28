@@ -1465,3 +1465,23 @@ def test_the_planner_is_told_when_research_time_is_nearly_gone(patched_agent):
     # The nudge must not fire on a run with plenty of time left.
     early = [m for m in seen[:1] if "Time is nearly up" in m]
     assert not early, "warned on the first turn, with the whole budget still available"
+
+
+def test_a_plan_with_open_issues_offers_to_continue(patched_agent):
+    """The defects are recorded on the plan so "continue" can re-enter the fix cycle, but a
+    traveller reading a list of problems has no way to know that. Without the offer the
+    caveats read as a dead end."""
+    from agent import agent as mod
+
+    plan = {"days": [{"day": 1, "title": "D1", "items": [
+        {"time": "09:00", "name": "Castle", "venue": "Castle",
+         "duration_min": 60, "cost_eur": 5}]}], "total_cost_eur": 5,
+        "open_issues": ["Day 1 is too packed."]}
+    prof = {"destination": "Rome", "days": 1, "group": "solo", "budget": "low"}
+
+    out = mod._deliver(prof, plan, [], "t", None, ["Day 1 is too packed."])
+    assert "Reply **continue**" in out
+
+    # No outstanding issues: nothing for "continue" to act on, so nothing is offered.
+    clean = dict(plan); clean.pop("open_issues")
+    assert "Reply **continue**" not in mod._deliver(prof, clean, [], "t", None, [])
