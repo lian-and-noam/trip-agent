@@ -1485,3 +1485,18 @@ def test_a_plan_with_open_issues_offers_to_continue(patched_agent):
     # No outstanding issues: nothing for "continue" to act on, so nothing is offered.
     clean = dict(plan); clean.pop("open_issues")
     assert "Reply **continue**" not in mod._deliver(prof, clean, [], "t", None, [])
+
+
+def test_the_reserve_leaves_the_finalize_a_usable_call(patched_agent):
+    """From a real trace: research used all six steps, then the forced finalize aborted with
+    "the final planning call did not complete" and the run shipped a salvaged skeleton with
+    every lookup already paid for. The reserve has to cover that call, not just exist."""
+    from agent import agent as mod
+    from agent import llm
+
+    # What the finalize actually gets: the wall, minus everything research is allowed to use.
+    left_for_finalize = mod.HARD_WALL_SECONDS - (mod.MAX_RUN_SECONDS - mod.PLAN_WRITE_RESERVE_SECONDS)
+    assert left_for_finalize >= 0.8 * llm._TIMEOUT_S, (
+        f"the finalize would start with only {left_for_finalize}s of wall")
+    # And the planner must be warned before research is cut off, not at the same moment.
+    assert mod.RESEARCH_LOW_WATER_SECONDS > mod.PLAN_WRITE_RESERVE_SECONDS

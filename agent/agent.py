@@ -64,14 +64,23 @@ MAX_OBS_CHARS = 1200      # trim tool observations fed back to the model to keep
 # Time held back from the research loop for the forced finalize that writes the itinerary.
 # Only one model call has to fit inside it, so it is sized to a slow turn rather than to the
 # whole tail of the run; the reflection cycles after it have their own deadline checks.
-PLAN_WRITE_RESERVE_SECONDS = int(os.environ.get("PLAN_WRITE_RESERVE_SECONDS", "60"))
+# 100, not 60. The reserve has to cover the FORCED FINALIZE, and that call is the one that
+# turns the whole run into an itinerary. At 60 it started with ~80s of wall left, and a
+# reasoning model writing a costed multi-day plan does not reliably finish in that — the
+# call timed out and the run aborted to a salvaged skeleton with every lookup already paid
+# for. Sized against llm._TIMEOUT_S (110) so the finalize gets close to a full call.
+#
+# This only bites runs that are ALREADY slow: a planner that finishes researching early
+# still uses every step it wants. Nothing is capped, the clock just stops research sooner
+# when research is what is running the clock out.
+PLAN_WRITE_RESERVE_SECONDS = int(os.environ.get("PLAN_WRITE_RESERVE_SECONDS", "100"))
 
 # When less than this is left, say so in the observation. The reserve above still stops
 # research on its own, but being cut off mid-research and choosing to stop are different
 # plans: the first hands the forced finalize a half-finished picture, the second lets the
 # planner spend its last turn writing the itinerary it already has the facts for. Costs
 # about twenty tokens, and only on the runs that are actually short of time.
-RESEARCH_LOW_WATER_SECONDS = int(os.environ.get("RESEARCH_LOW_WATER_SECONDS", "100"))
+RESEARCH_LOW_WATER_SECONDS = int(os.environ.get("RESEARCH_LOW_WATER_SECONDS", "140"))
 
 # Wall-clock budget for one turn. Vercel terminates the function at vercel.json's
 # maxDuration (300s) — a termination no code here can catch, because the interpreter is
