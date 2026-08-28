@@ -1500,3 +1500,43 @@ def test_the_reserve_leaves_the_finalize_a_usable_call(patched_agent):
         f"the finalize would start with only {left_for_finalize}s of wall")
     # And the planner must be warned before research is cut off, not at the same moment.
     assert mod.RESEARCH_LOW_WATER_SECONDS > mod.PLAN_WRITE_RESERVE_SECONDS
+
+
+def test_intake_holds_the_turn_while_awaiting_confirmation(patched_agent):
+    """From a real conversation: the traveller described a new trip, was shown the
+    confirmation card, and typed a typo. A plan from earlier in the conversation was still in
+    state, so the typo was classified as a question and answered against the itinerary being
+    replaced — "the entry X is not in the itinerary" — for a trip already moved on from."""
+    from unittest.mock import patch
+    from agent import agent as mod
+
+    profile = {"destination": "Rome", "days": 3, "group": "2 friends", "budget": "mid-range"}
+    plan = {"days": [{"day": 1, "title": "D1", "items": [
+        {"time": "09:00", "name": "Colosseum", "venue": "Colosseum",
+         "duration_min": 60, "cost_eur": 18}]}], "total_cost_eur": 18}
+
+    convo = ("User: Plan a 3-day trip to Rome\n"
+             "Agent: **Here's your trip so far**\n\n- **Destination:** Rome\n\n"
+             f"{mod.CONFIRM_MARKER} Reply **yes** to start planning.\n"
+             "User: טקד")
+    assert mod._awaiting_confirmation(convo)
+
+    decision = {"profile": profile, "missing": [], "confirmed": False,
+                "question": "", "intent": "question"}
+    with patch.object(mod, "_profile", lambda *a, **k: dict(decision)), \
+         patch.object(mod, "_answer_question",
+                      lambda *a, **k: "That is not in the itinerary."):
+        out = mod._run_turn(convo, [], state={"profile": profile, "plan": plan})
+
+    assert out["branch"] == "confirm", f"routed to {out['branch']} mid-confirmation"
+    assert "not in the itinerary" not in out["response"]
+    assert mod.CONFIRM_MARKER in out["response"], "it should ask again, not answer"
+
+
+def test_a_confirmed_conversation_still_reaches_qa(patched_agent):
+    """The guard must only hold the turn while a confirmation is actually outstanding."""
+    from agent import agent as mod
+    convo = ("User: Plan a 3-day trip to Rome\n"
+             f"Agent: {mod.CONFIRM_MARKER} Reply **yes**.\n"
+             "User: yes\nAgent: [delivered an itinerary]\nUser: what does day 1 cost?")
+    assert not mod._awaiting_confirmation(convo)

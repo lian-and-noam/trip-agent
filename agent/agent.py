@@ -313,6 +313,27 @@ def _is_affirmative(text):
     return t in _AFFIRMATIVES
 
 
+def _awaiting_confirmation(conversation):
+    """True when the LAST thing the agent said was the confirmation question.
+
+    `_asked_to_confirm` scans the whole transcript, so once a trip has ever been confirmed it
+    stays true forever. This is the narrower question — is the traveller answering that
+    prompt right now — and it is what decides whether intake still owns the turn.
+
+    Matched against the last Agent block rather than the last line, because the confirmation
+    is a multi-line card and the question sits at the bottom of it.
+    """
+    text = conversation or ""
+    i = text.rfind("Agent:")
+    if i < 0:
+        return False
+    block = text[i:]
+    end = block.find("\nUser:")
+    if end >= 0:
+        block = block[:end]
+    return CONFIRM_MARKER.lower() in block.lower()
+
+
 def _asked_to_confirm(conversation):
     """True if we already showed a trip summary and asked the user to confirm it."""
     return CONFIRM_MARKER.lower() in (conversation or "").lower()
@@ -1648,6 +1669,16 @@ def _run_turn(user_prompt, steps, state=None):
     if replacing:
         obs.log("intake_replace", run_id=run_id, changed=changed_fields)
         intent, confirmed = "replace", False
+
+    # While the traveller is answering the confirmation question, intake owns the turn. A
+    # stale plan from earlier in the conversation is still in state, so anything ambiguous —
+    # a typo, a half-formed thought — was being read as a question or an edit and answered
+    # against the itinerary being REPLACED: "the entry X is not in the itinerary", about a
+    # trip the traveller had already moved on from. Nothing is planned, edited or answered
+    # until the trip on the table is confirmed.
+    if not confirmed and _awaiting_confirmation(conversation):
+        obs.log("intake_holds_turn", run_id=run_id, intent=intent)
+        intent = "confirm"
 
     # ---- Branch F: carry on with the plan we already have. -----------------------------
     # "continue" states nothing about where, how long, for whom or at what budget, so it
